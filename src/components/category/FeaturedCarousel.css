@@ -55,6 +55,7 @@
 .featured-carousel__slide {
   flex: 0 0 70%;
   scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 .featured-carousel__media {

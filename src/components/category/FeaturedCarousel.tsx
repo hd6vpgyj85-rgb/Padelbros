@@ -7,17 +7,12 @@ import { shuffle } from "../../utils/array";
 import "./FeaturedCarousel.css";
 
 const CAROUSEL_SIZE = 8;
-const AUTOPLAY_DELAY = 5000;
-const INTERACTION_PAUSE = 4000;
 
 function FeaturedCarousel() {
   const { products } = useProducts();
   const items = useMemo(() => shuffle(products).slice(0, CAROUSEL_SIZE), [products]);
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeIndexRef = useRef(0);
-  const isPausedRef = useRef(false);
-  const resumeTimeoutRef = useRef<number | undefined>(undefined);
 
   const scrollToIndex = (index: number) => {
     const track = trackRef.current;
@@ -25,18 +20,6 @@ function FeaturedCarousel() {
     const slide = track.children[index] as HTMLElement | undefined;
     slide?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   };
-
-  const pauseAutoplay = () => {
-    isPausedRef.current = true;
-    window.clearTimeout(resumeTimeoutRef.current);
-    resumeTimeoutRef.current = window.setTimeout(() => {
-      isPausedRef.current = false;
-    }, INTERACTION_PAUSE);
-  };
-
-  useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -74,23 +57,6 @@ function FeaturedCarousel() {
     };
   }, []);
 
-  useEffect(() => {
-    if (items.length <= 1) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const timer = window.setInterval(() => {
-      if (isPausedRef.current) return;
-      const nextIndex = (activeIndexRef.current + 1) % items.length;
-      scrollToIndex(nextIndex);
-    }, AUTOPLAY_DELAY);
-
-    return () => window.clearInterval(timer);
-  }, [items.length]);
-
-  useEffect(() => {
-    return () => window.clearTimeout(resumeTimeoutRef.current);
-  }, []);
-
   const activeProduct = items[activeIndex];
 
   if (items.length === 0) return null;
@@ -109,23 +75,14 @@ function FeaturedCarousel() {
         <button
           type="button"
           className="featured-carousel__arrow featured-carousel__arrow--prev"
-          onClick={() => {
-            pauseAutoplay();
-            scrollToIndex(Math.max(activeIndex - 1, 0));
-          }}
+          onClick={() => scrollToIndex(Math.max(activeIndex - 1, 0))}
           aria-label="Producto anterior"
           disabled={activeIndex === 0}
         >
           <ArrowLeftIcon />
         </button>
 
-        <div
-          className="featured-carousel__track"
-          ref={trackRef}
-          onPointerDown={pauseAutoplay}
-          onTouchStart={pauseAutoplay}
-          onMouseEnter={pauseAutoplay}
-        >
+        <div className="featured-carousel__track" ref={trackRef}>
           {items.map((product, index) => (
             <div
               className={`featured-carousel__slide${
@@ -147,10 +104,7 @@ function FeaturedCarousel() {
         <button
           type="button"
           className="featured-carousel__arrow featured-carousel__arrow--next"
-          onClick={() => {
-            pauseAutoplay();
-            scrollToIndex(Math.min(activeIndex + 1, items.length - 1));
-          }}
+          onClick={() => scrollToIndex(Math.min(activeIndex + 1, items.length - 1))}
           aria-label="Siguiente producto"
           disabled={activeIndex === items.length - 1}
         >
@@ -166,10 +120,7 @@ function FeaturedCarousel() {
             className={`featured-carousel__dot${
               index === activeIndex ? " featured-carousel__dot--active" : ""
             }`}
-            onClick={() => {
-              pauseAutoplay();
-              scrollToIndex(index);
-            }}
+            onClick={() => scrollToIndex(index)}
             aria-label={`Ir al producto ${index + 1}`}
           />
         ))}
