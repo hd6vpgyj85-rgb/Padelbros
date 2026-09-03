@@ -1,0 +1,44 @@
+.visit-us {
+  background-color: var(--color-bg);
+  padding: 44px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.visit-us__text {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 480px;
+}
+
+.visit-us__details {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.visit-us__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.visit-us__value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .visit-us__details {
+    flex-direction: row;
+    gap: 60px;
+  }
+}
