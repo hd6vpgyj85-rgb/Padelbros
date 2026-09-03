@@ -52,6 +52,11 @@
   background-color: rgba(10, 10, 10, 0.08);
 }
 
+.cta-footer__actions .btn svg {
+  width: 16px;
+  height: 16px;
+}
+
 @media (min-width: 768px) {
   .cta-footer__title {
     font-size: 44px;

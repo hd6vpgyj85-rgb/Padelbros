@@ -1,5 +1,6 @@
 import PromoBar from "./components/layout/PromoBar";
 import Header from "./components/layout/Header";
+import BottomTabBar from "./components/layout/BottomTabBar";
 import Hero from "./components/home/Hero";
 import Features from "./components/home/Features";
 import TopProducts from "./components/home/TopProducts";
@@ -24,6 +25,7 @@ function App() {
         <VisitUs />
         <CtaFooter />
       </main>
+      <BottomTabBar />
     </>
   );
 }

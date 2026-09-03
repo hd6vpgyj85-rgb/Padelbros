@@ -36,6 +36,12 @@ body {
   width: 100%;
 }
 
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 64px;
+  }
+}
+
 img {
   max-width: 100%;
   display: block;

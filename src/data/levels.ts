@@ -8,12 +8,12 @@ export const levels: LevelInfo[] = [
   {
     number: "01",
     name: "Principiante",
-    description: "Inicia con una pala cómoda y ligera. Balanceada y perdonona.",
+    description: "Inicia con la pala correcta. Ligera, balanceada y perdona errores.",
   },
   {
     number: "02",
     name: "Intermedio",
-    description: "Sube tu juego. Mezcla de potencia, control y confort.",
+    description: "Sube tu juego. Más potencia, más control, mismo confort.",
   },
   {
     number: "03",

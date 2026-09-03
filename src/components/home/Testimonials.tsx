@@ -12,7 +12,7 @@ function Testimonials() {
     <section className="testimonials">
       <div className="container">
         <span className="eyebrow">La comunidad habla</span>
-        <h2 className="section-title">Nos recomiendan.</h2>
+        <h2 className="section-title">+500 jugadores nos recomiendan.</h2>
 
         <div className="testimonials__grid">
           {testimonials.map((testimonial) => (
