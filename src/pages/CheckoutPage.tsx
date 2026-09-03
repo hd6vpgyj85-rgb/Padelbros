@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
@@ -6,6 +6,7 @@ import { useOrders } from "../context/OrdersContext";
 import { useReviews } from "../context/ReviewsContext";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
+import { resizeImageToDataUrl } from "../utils/imageResize";
 import "./CheckoutPage.css";
 
 const levelLabels: Record<string, string> = {
@@ -114,10 +115,25 @@ function CheckoutPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [reviewImage, setReviewImage] = useState("");
+  const [reviewImageError, setReviewImageError] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
 
   const updateField = (field: keyof FormState, value: string | number) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleReviewImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageToDataUrl(file);
+      setReviewImage(dataUrl);
+      setReviewImageError("");
+    } catch {
+      setReviewImageError("No se pudo cargar la imagen. Intenta con otra foto.");
+    }
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -179,6 +195,7 @@ function CheckoutPage() {
         name: `${form.nombre} ${form.apellido}`.trim(),
         rating: form.calificacion,
         quote: form.experiencia.trim(),
+        image: reviewImage || undefined,
       });
     }
 
@@ -467,6 +484,19 @@ function CheckoutPage() {
               placeholder="Cuéntanos cómo fue tu compra en Padelbros..."
               rows={2}
             />
+          </label>
+
+          <label className="checkout-field">
+            <span>Foto (opcional)</span>
+            <label className="checkout-review-photo">
+              {reviewImage ? (
+                <img src={reviewImage} alt="Vista previa" />
+              ) : (
+                <span>+ Agregar foto</span>
+              )}
+              <input type="file" accept="image/*" onChange={handleReviewImageChange} hidden />
+            </label>
+            {reviewImageError && <p className="checkout-review-photo__error">{reviewImageError}</p>}
           </label>
         </section>
       </form>

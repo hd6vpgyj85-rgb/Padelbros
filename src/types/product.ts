@@ -15,5 +15,5 @@ export interface Product {
   vendor?: string;
   sizes?: string[];
   description?: string;
-  image?: string;
+  images?: string[];
 }

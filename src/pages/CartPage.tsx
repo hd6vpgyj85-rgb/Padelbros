@@ -36,7 +36,11 @@ function CartPage() {
               {lines.map(({ product, quantity }) => (
                 <li className="cart-item" key={product.id}>
                   <Link to={`/producto/${product.id}`} className="cart-item__media">
-                    <RacketPlaceholderIcon />
+                    {product.images?.[0] ? (
+                      <img src={product.images[0]} alt={product.name} className="cart-item__photo" />
+                    ) : (
+                      <RacketPlaceholderIcon />
+                    )}
                   </Link>
 
                   <div className="cart-item__body">

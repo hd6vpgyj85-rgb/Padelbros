@@ -27,8 +27,8 @@ function AdminProductsPage() {
             <Link to={`/admin/productos/${product.id}`} key={product.id} className="admin-product-card">
               <div className="admin-product-card__media">
                 <span className="admin-product-card__badge">VISIBLE</span>
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="admin-product-card__photo" />
+                {product.images?.[0] ? (
+                  <img src={product.images[0]} alt={product.name} className="admin-product-card__photo" />
                 ) : (
                   <RacketPlaceholderIcon className="admin-product-card__placeholder" />
                 )}

@@ -134,8 +134,8 @@ function FeaturedCarousel() {
               key={product.id}
             >
               <div className="featured-carousel__media">
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="featured-carousel__photo" />
+                {product.images?.[0] ? (
+                  <img src={product.images[0]} alt={product.name} className="featured-carousel__photo" />
                 ) : (
                   <RacketPlaceholderIcon className="featured-carousel__placeholder" />
                 )}

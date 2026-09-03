@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Accordion from "../components/product/Accordion";
+import ProductGallery from "../components/product/ProductGallery";
 import RelatedProducts from "../components/product/RelatedProducts";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductsContext";
 import { useAnalytics } from "../context/AnalyticsContext";
 import { categories } from "../data/categories";
-import {
-  CartIcon,
-  HeartIcon,
-  LayersIcon,
-  LeafIcon,
-  MinusIcon,
-  PlusIcon,
-  RacketPlaceholderIcon,
-  RibbonIcon,
-} from "../components/home/icons";
+import { CartIcon, HeartIcon, LayersIcon, LeafIcon, MinusIcon, PlusIcon, RibbonIcon } from "../components/home/icons";
 import { formatPrice } from "../utils/format";
 import { getProductDescription } from "../utils/productCopy";
 import "./ProductDetailPage.css";
@@ -62,12 +54,11 @@ function ProductDetailPage() {
     <div className="product-detail">
       <div className="container product-detail__layout">
         <div className="product-detail__media">
-          {isOutOfStock && <span className="product-detail__badge">Agotado</span>}
-          {product.image ? (
-            <img src={product.image} alt={product.name} className="product-detail__photo" />
-          ) : (
-            <RacketPlaceholderIcon className="product-detail__placeholder" />
-          )}
+          <ProductGallery
+            images={product.images ?? []}
+            productName={product.name}
+            badge={isOutOfStock ? <span className="product-detail__badge">Agotado</span> : undefined}
+          />
         </div>
 
         <div className="product-detail__info">

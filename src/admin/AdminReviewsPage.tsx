@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useReviews, type ReviewStatus } from "../context/ReviewsContext";
 import { TrashIcon } from "../components/home/icons";
+import ImageLightbox from "../components/common/ImageLightbox";
 import "./AdminReviewsPage.css";
 
 const levelLabels: Record<string, string> = {
@@ -25,6 +26,7 @@ function formatDate(iso: string): string {
 
 function AdminReviewsPage() {
   const { reviews, updateReviewStatus, deleteReview } = useReviews();
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const sortedReviews = useMemo(
     () => [...reviews].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]),
@@ -60,6 +62,17 @@ function AdminReviewsPage() {
                 {"★".repeat(review.rating)}
                 {"☆".repeat(5 - review.rating)}
               </div>
+
+              {review.image && (
+                <button
+                  type="button"
+                  className="admin-review-card__photo"
+                  onClick={() => setLightboxImage(review.image ?? null)}
+                  aria-label={`Ver foto de la reseña de ${review.name}`}
+                >
+                  <img src={review.image} alt="" />
+                </button>
+              )}
 
               <p className="admin-review-card__quote">“{review.quote}”</p>
 
@@ -99,6 +112,10 @@ function AdminReviewsPage() {
             </li>
           ))}
         </ul>
+      )}
+
+      {lightboxImage && (
+        <ImageLightbox images={[lightboxImage]} onClose={() => setLightboxImage(null)} />
       )}
     </div>
   );

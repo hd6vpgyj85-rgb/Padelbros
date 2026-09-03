@@ -21,8 +21,8 @@ function ProductCard({ product }: ProductCardProps) {
       <Link to={`/producto/${product.id}`} className="product-card__link">
         <div className="product-card__media">
           {product.onSale && <span className="product-card__badge">Promo</span>}
-          {product.image ? (
-            <img src={product.image} alt={product.name} className="product-card__photo" />
+          {product.images?.[0] ? (
+            <img src={product.images[0]} alt={product.name} className="product-card__photo" />
           ) : (
             <RacketPlaceholderIcon className="product-card__placeholder" />
           )}

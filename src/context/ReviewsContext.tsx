@@ -10,6 +10,7 @@ export interface Review {
   level?: PlayerLevel;
   rating: number;
   quote: string;
+  image?: string;
   status: ReviewStatus;
   createdAt: string;
 }
@@ -42,7 +43,7 @@ function readStoredReviews(): Review[] {
 
 interface ReviewsContextValue {
   reviews: Review[];
-  addReview: (review: { name: string; level?: PlayerLevel; rating: number; quote: string }) => void;
+  addReview: (review: { name: string; level?: PlayerLevel; rating: number; quote: string; image?: string }) => void;
   updateReviewStatus: (id: string, status: ReviewStatus) => void;
   deleteReview: (id: string) => void;
 }

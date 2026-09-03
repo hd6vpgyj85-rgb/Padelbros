@@ -24,8 +24,8 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
     <Link to={`/producto/${product.id}`} className={className}>
       <div className="product-grid-card__media">
         {isOutOfStock && <span className="product-grid-card__badge">Agotado</span>}
-        {product.image ? (
-          <img src={product.image} alt={product.name} className="product-grid-card__photo" />
+        {product.images?.[0] ? (
+          <img src={product.images[0]} alt={product.name} className="product-grid-card__photo" />
         ) : (
           <RacketPlaceholderIcon className="product-grid-card__placeholder" />
         )}

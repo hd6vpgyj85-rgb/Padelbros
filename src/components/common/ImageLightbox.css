@@ -1,0 +1,127 @@
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(10, 10, 10, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  animation: page-fade-in 0.2s ease both;
+}
+
+.image-lightbox__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: transparent;
+  color: #fff;
+}
+
+.image-lightbox__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.image-lightbox__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 640px;
+  flex: 1;
+  min-height: 0;
+}
+
+.image-lightbox__image {
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.image-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(10, 10, 10, 0.6);
+  color: #fff;
+}
+
+.image-lightbox__nav svg {
+  width: 18px;
+  height: 18px;
+}
+
+.image-lightbox__nav:disabled {
+  opacity: 0.3;
+}
+
+.image-lightbox__nav--prev {
+  left: 4px;
+}
+
+.image-lightbox__nav--next {
+  right: 4px;
+}
+
+.image-lightbox__thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px;
+}
+
+.image-lightbox__thumb {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0;
+  opacity: 0.6;
+}
+
+.image-lightbox__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-lightbox__thumb--active {
+  border-color: var(--color-accent);
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .image-lightbox__nav--prev {
+    left: -52px;
+  }
+
+  .image-lightbox__nav--next {
+    right: -52px;
+  }
+}

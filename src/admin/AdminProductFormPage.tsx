@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
 import type { PlayerLevel, ProductCategory } from "../types/product";
 import { resizeImageToDataUrl } from "../utils/imageResize";
-import { RacketPlaceholderIcon, TrashIcon } from "../components/home/icons";
+import { TrashIcon } from "../components/home/icons";
 import { CameraIcon } from "./icons";
 import "./AdminProductFormPage.css";
 
@@ -33,7 +33,7 @@ interface FormState {
   vendor: string;
   sizes: string;
   description: string;
-  image: string;
+  images: string[];
 }
 
 function emptyForm(): FormState {
@@ -49,7 +49,7 @@ function emptyForm(): FormState {
     vendor: "",
     sizes: "",
     description: "",
-    image: "",
+    images: [],
   };
 }
 
@@ -75,7 +75,7 @@ function AdminProductFormPage() {
       vendor: existingProduct.vendor ?? "",
       sizes: existingProduct.sizes?.join(", ") ?? "",
       description: existingProduct.description ?? "",
-      image: existingProduct.image ?? "",
+      images: existingProduct.images ?? [],
     };
   });
   const [imageError, setImageError] = useState("");
@@ -84,16 +84,22 @@ function AdminProductFormPage() {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleImagesChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = "";
+    if (files.length === 0) return;
+
     try {
-      const dataUrl = await resizeImageToDataUrl(file);
-      updateField("image", dataUrl);
+      const dataUrls = await Promise.all(files.map((file) => resizeImageToDataUrl(file)));
+      setForm((current) => ({ ...current, images: [...current.images, ...dataUrls] }));
       setImageError("");
     } catch {
-      setImageError("No se pudo cargar la imagen. Intenta con otra foto.");
+      setImageError("No se pudo cargar alguna imagen. Intenta con otra foto.");
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setForm((current) => ({ ...current, images: current.images.filter((_, i) => i !== index) }));
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -113,7 +119,7 @@ function AdminProductFormPage() {
         ? form.sizes.split(",").map((size) => size.trim()).filter(Boolean)
         : undefined,
       description: form.description.trim() || undefined,
-      image: form.image || undefined,
+      images: form.images.length > 0 ? form.images : undefined,
     };
 
     if (isEditing && existingProduct) {
@@ -142,20 +148,28 @@ function AdminProductFormPage() {
       <h1 className="admin-product-form__title">{isEditing ? "Editar producto" : "Nuevo producto"}</h1>
 
       <form onSubmit={handleSubmit}>
-        <label className="admin-product-form__image-picker">
-          {form.image ? (
-            <img src={form.image} alt="Vista previa" />
-          ) : (
-            <div className="admin-product-form__image-placeholder">
-              <RacketPlaceholderIcon />
+        <div className="admin-product-form__images">
+          {form.images.map((image, index) => (
+            <div className="admin-product-form__image-tile" key={image.slice(0, 32) + index}>
+              <img src={image} alt={`Foto ${index + 1}`} />
+              {index === 0 && <span className="admin-product-form__image-cover">Portada</span>}
+              <button
+                type="button"
+                className="admin-product-form__image-remove"
+                onClick={() => handleRemoveImage(index)}
+                aria-label={`Quitar foto ${index + 1}`}
+              >
+                <TrashIcon />
+              </button>
             </div>
-          )}
-          <span className="admin-product-form__image-btn">
+          ))}
+
+          <label className="admin-product-form__image-add">
             <CameraIcon />
-            {form.image ? "Cambiar foto" : "Agregar foto"}
-          </span>
-          <input type="file" accept="image/*" onChange={handleImageChange} hidden />
-        </label>
+            <span>Agregar fotos</span>
+            <input type="file" accept="image/*" multiple onChange={handleImagesChange} hidden />
+          </label>
+        </div>
         {imageError && <p className="admin-product-form__error">{imageError}</p>}
 
         <label className="admin-field">

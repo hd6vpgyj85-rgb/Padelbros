@@ -33,8 +33,8 @@ function RelatedProducts({ excludeId, count = 4, variant = "default" }: RelatedP
           <article className="related-product-card" key={product.id}>
             <Link to={`/producto/${product.id}`} className="related-product-card__media">
               {isOutOfStock && <span className="related-product-card__badge">Agotado</span>}
-              {product.image ? (
-                <img src={product.image} alt={product.name} className="related-product-card__photo" />
+              {product.images?.[0] ? (
+                <img src={product.images[0]} alt={product.name} className="related-product-card__photo" />
               ) : (
                 <RacketPlaceholderIcon className="related-product-card__placeholder" />
               )}
