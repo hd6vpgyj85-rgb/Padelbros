@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { CloseIcon, ArrowLeftIcon, ArrowRightIcon } from "../home/icons";
 import "./ImageLightbox.css";
 
@@ -28,7 +29,7 @@ function ImageLightbox({ images, initialIndex = 0, alt = "", onClose }: ImageLig
 
   if (images.length === 0) return null;
 
-  return (
+  return createPortal(
     <div className="image-lightbox" role="dialog" aria-modal="true" onClick={onClose}>
       <button type="button" className="image-lightbox__close" onClick={onClose} aria-label="Cerrar">
         <CloseIcon />
@@ -77,7 +78,8 @@ function ImageLightbox({ images, initialIndex = 0, alt = "", onClose }: ImageLig
           ))}
         </div>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }
 
