@@ -16,9 +16,9 @@ function Header() {
         </Link>
 
         <div className="header__actions">
-          <button className="header__icon-btn" type="button" aria-label="Buscar">
+          <Link className="header__icon-btn" to="/buscar" aria-label="Buscar">
             <SearchIcon />
-          </button>
+          </Link>
           <button
             className="header__icon-btn"
             type="button"

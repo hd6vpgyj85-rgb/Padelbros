@@ -1,44 +1,17 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.png";
 import { categories } from "../../data/categories";
-import { useCartCount } from "../../hooks/useCartCount";
-import {
-  CartIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  CloseIcon,
-  HamburgerIcon,
-  SearchIcon,
-  UserIcon,
-} from "../home/icons";
+import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from "../home/icons";
+import TopBar from "./TopBar";
 import "./CategoryHeader.css";
 
 function CategoryHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = useCartCount();
   const location = useLocation();
 
   return (
     <header className="category-header">
-      <div className="category-header__topbar container">
-        <Link to="/" className="category-header__logo" aria-label="Padelbros - inicio">
-          <img src={logo} alt="Padelbros" />
-        </Link>
-
-        <div className="category-header__actions">
-          <button className="category-header__icon-btn" type="button" aria-label="Buscar">
-            <SearchIcon />
-          </button>
-          <button className="category-header__icon-btn" type="button" aria-label="Mi cuenta">
-            <UserIcon />
-          </button>
-          <button className="category-header__icon-btn" type="button" aria-label="Carrito">
-            <CartIcon />
-            {cartCount > 0 && <span className="category-header__badge">{cartCount}</span>}
-          </button>
-        </div>
-      </div>
+      <TopBar />
 
       <button
         type="button"

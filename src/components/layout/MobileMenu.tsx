@@ -65,9 +65,9 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </Link>
 
         <div className="mobile-menu__actions">
-          <button className="mobile-menu__icon-btn" type="button" aria-label="Buscar">
+          <Link className="mobile-menu__icon-btn" to="/buscar" aria-label="Buscar" onClick={onClose}>
             <SearchIcon />
-          </button>
+          </Link>
           <button className="mobile-menu__icon-btn" type="button" aria-label="Mi cuenta">
             <UserIcon />
           </button>

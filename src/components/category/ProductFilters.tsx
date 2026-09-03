@@ -8,6 +8,7 @@ export interface ActiveFilter {
 export interface FilterGroup {
   type: string;
   options: string[];
+  labels?: Record<string, string>;
 }
 
 interface ProductFiltersProps {
@@ -22,8 +23,9 @@ const levelLabels: Record<string, string> = {
   avanzado: "Avanzado",
 };
 
-function formatOptionLabel(type: string, value: string): string {
-  if (type === "level") return levelLabels[value] ?? value;
+function formatOptionLabel(group: FilterGroup, value: string): string {
+  if (group.labels?.[value]) return group.labels[value];
+  if (group.type === "level") return levelLabels[value] ?? value;
   return value;
 }
 
@@ -57,7 +59,7 @@ function ProductFilters({ groups, activeFilter, onSelect }: ProductFiltersProps)
               }`}
               onClick={() => onSelect({ type: group.type, value: option })}
             >
-              {formatOptionLabel(group.type, option)}
+              {formatOptionLabel(group, option)}
             </button>
           ))}
         </div>

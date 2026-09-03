@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCartCount } from "../../hooks/useCartCount";
 import { CartIcon, SearchIcon, UserIcon } from "../home/icons";
 import "./BottomTabBar.css";
@@ -7,10 +8,10 @@ function BottomTabBar() {
 
   return (
     <nav className="bottom-tab-bar" aria-label="Navegación rápida">
-      <button className="bottom-tab-bar__item" type="button">
+      <Link className="bottom-tab-bar__item" to="/buscar">
         <SearchIcon />
         <span>Buscar</span>
-      </button>
+      </Link>
       <button className="bottom-tab-bar__item" type="button">
         <UserIcon />
         <span>Cuenta</span>

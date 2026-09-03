@@ -4,13 +4,22 @@ import "./ProductGridCard.css";
 
 interface ProductGridCardProps {
   product: Product;
+  variant?: "default" | "search";
 }
 
-function ProductGridCard({ product }: ProductGridCardProps) {
+function ProductGridCard({ product, variant = "default" }: ProductGridCardProps) {
   const isOutOfStock = product.stock === 0;
 
+  const className = [
+    "product-grid-card",
+    variant === "search" && "product-grid-card--search",
+    isOutOfStock && "product-grid-card--out-of-stock",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <article className={`product-grid-card${isOutOfStock ? " product-grid-card--out-of-stock" : ""}`}>
+    <article className={className}>
       <div className="product-grid-card__media">
         {isOutOfStock && <span className="product-grid-card__badge">Agotado</span>}
         <PlaceholderRacket />

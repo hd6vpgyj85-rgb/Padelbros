@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PromoBar from "./components/layout/PromoBar";
 import HomeLayout from "./components/layout/HomeLayout";
 import CategoryLayout from "./components/layout/CategoryLayout";
+import SearchLayout from "./components/layout/SearchLayout";
 import HomePage from "./pages/HomePage";
 import PalasPage from "./pages/PalasPage";
 import MochilasPage from "./pages/MochilasPage";
@@ -9,6 +10,7 @@ import TenisPage from "./pages/TenisPage";
 import AccesoriosPage from "./pages/AccesoriosPage";
 import RopaPage from "./pages/RopaPage";
 import OfertasPage from "./pages/OfertasPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -25,6 +27,9 @@ function App() {
           <Route path="/accesorios" element={<AccesoriosPage />} />
           <Route path="/ropa" element={<RopaPage />} />
           <Route path="/ofertas" element={<OfertasPage />} />
+        </Route>
+        <Route element={<SearchLayout />}>
+          <Route path="/buscar" element={<SearchPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

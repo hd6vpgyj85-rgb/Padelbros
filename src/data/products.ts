@@ -10,7 +10,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Nox",
     stock: 4,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "lok-mike-yanguas",
@@ -20,7 +20,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "LOK",
     stock: 6,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "lok-franco-dal-bianco-carbon-hype2",
@@ -30,7 +30,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "LOK",
     stock: 5,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "adidas-ale-galan-metalbone",
@@ -40,7 +40,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Adidas",
     stock: 3,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "bullpadel-vertex-04",
@@ -50,7 +50,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Bullpadel",
     stock: 2,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "bullpadel-vertex-04-pro-line-w-2025",
@@ -62,7 +62,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Bullpadel",
     stock: 3,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "bullpadel-vertex-comfort-04-pro-line-2025",
@@ -74,7 +74,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Bullpadel",
     stock: 0,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "starvie-basalto-05",
@@ -84,7 +84,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Starvie",
     stock: 6,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "joma-open-3",
@@ -94,7 +94,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Joma",
     stock: 8,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "siux-blackout-2",
@@ -104,7 +104,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Siux",
     stock: 5,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "head-evo-motion",
@@ -114,7 +114,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Head",
     stock: 7,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "wilson-defy",
@@ -124,7 +124,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Wilson",
     stock: 4,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "viva-loto-pro",
@@ -134,7 +134,7 @@ export const products: Product[] = [
     category: "palas",
     brand: "Viva",
     stock: 10,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "camiseta-siux-splash-v4",
@@ -144,7 +144,7 @@ export const products: Product[] = [
     brand: "Siux",
     stock: 15,
     sizes: ["S", "M", "L", "XL"],
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "camiseta-adidas-xtreme-pro",
@@ -154,7 +154,7 @@ export const products: Product[] = [
     brand: "Adidas",
     stock: 10,
     sizes: ["XS", "S", "M", "L", "XL"],
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "camiseta-lok-court-one-blanco",
@@ -164,7 +164,7 @@ export const products: Product[] = [
     brand: "LOK",
     stock: 8,
     sizes: ["XS", "S", "M", "L"],
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-siux-edge-verde",
@@ -173,7 +173,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Siux",
     stock: 12,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-adidas-control-negro-oro",
@@ -182,7 +182,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Adidas",
     stock: 0,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-adidas-protour",
@@ -191,7 +191,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Adidas",
     stock: 6,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-head-tour-team-monstercombi",
@@ -200,7 +200,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Head",
     stock: 5,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-nox-team",
@@ -209,7 +209,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Nox",
     stock: 8,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-bullpadel-vertex",
@@ -218,7 +218,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "Bullpadel",
     stock: 4,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "paletero-lok-pro",
@@ -227,7 +227,7 @@ export const products: Product[] = [
     category: "mochilas",
     brand: "LOK",
     stock: 7,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "grip-bullpadel-control",
@@ -236,7 +236,7 @@ export const products: Product[] = [
     category: "accesorios",
     brand: "Bullpadel",
     stock: 25,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "overgrip-floky-swiftgrip",
@@ -245,7 +245,7 @@ export const products: Product[] = [
     category: "accesorios",
     brand: "Floky",
     stock: 18,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "tubo-pelotas-nox-x3",
@@ -254,7 +254,7 @@ export const products: Product[] = [
     category: "accesorios",
     brand: "Nox",
     stock: 20,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "zapatillas-joma-master-2025",
@@ -263,7 +263,7 @@ export const products: Product[] = [
     category: "tenis",
     brand: "Joma",
     stock: 9,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "zapatillas-joma-master-amarillo",
@@ -272,7 +272,7 @@ export const products: Product[] = [
     category: "tenis",
     brand: "Joma",
     stock: 6,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "zapatillas-asics-gel-padel-pro",
@@ -281,7 +281,7 @@ export const products: Product[] = [
     category: "tenis",
     brand: "Asics",
     stock: 5,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
   {
     id: "zapatillas-bullpadel-comfort",
@@ -290,7 +290,7 @@ export const products: Product[] = [
     category: "tenis",
     brand: "Bullpadel",
     stock: 7,
-    vendor: "My Store",
+    vendor: "Padelbros",
   },
 ];
 

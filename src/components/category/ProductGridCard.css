@@ -84,3 +84,19 @@
   font-weight: 700;
   color: var(--color-accent);
 }
+
+.product-grid-card--search {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.product-grid-card--search .product-grid-card__vendor {
+  color: var(--color-text);
+}
+
+.product-grid-card--search .product-grid-card__name {
+  color: var(--color-accent);
+}
+
+.product-grid-card--search .product-grid-card__price {
+  color: var(--color-text);
+}
