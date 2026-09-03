@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import { categories } from "../../data/categories";
 import { useCartCount } from "../../hooks/useCartCount";
@@ -12,6 +12,23 @@ interface MobileMenuProps {
 
 function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const cartCount = useCartCount();
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    let frameId: number;
+
+    if (isOpen) {
+      setShouldRender(true);
+      frameId = requestAnimationFrame(() => {
+        frameId = requestAnimationFrame(() => setIsActive(true));
+      });
+    } else {
+      setIsActive(false);
+    }
+
+    return () => cancelAnimationFrame(frameId);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -29,10 +46,18 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   return (
-    <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú">
+    <div
+      className={`mobile-menu${isActive ? " mobile-menu--active" : ""}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menú"
+      onTransitionEnd={(event) => {
+        if (!isOpen && event.target === event.currentTarget) setShouldRender(false);
+      }}
+    >
       <div className="mobile-menu__topbar container">
         <a href="/" className="mobile-menu__logo" aria-label="Padelbros - inicio">
           <img src={logo} alt="Padelbros" />
@@ -62,8 +87,8 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       <nav className="mobile-menu__nav container">
         <ul className="mobile-menu__list">
-          {categories.map((category) => (
-            <li key={category.id}>
+          {categories.map((category, index) => (
+            <li key={category.id} style={{ transitionDelay: `${0.04 * index}s` }}>
               <button className="mobile-menu__link" type="button" onClick={onClose}>
                 {category.name}
               </button>

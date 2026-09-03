@@ -1,9 +1,24 @@
 .cta-footer {
-  background-color: var(--color-accent);
-  padding: 52px 0;
+  position: relative;
+  background-color: var(--color-accent-neon);
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.cta-footer::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255, 255, 255, 0.35),
+    transparent 55%
+  );
+  pointer-events: none;
 }
 
 .cta-footer__inner {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -11,31 +26,38 @@
 .cta-footer__title {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 32px;
-  line-height: 1.12;
+  font-size: 36px;
+  line-height: 1.1;
   text-transform: uppercase;
   color: #0a0a0a;
-  max-width: 480px;
+  max-width: 500px;
 }
 
 .cta-footer__text {
-  margin-top: 14px;
-  font-size: 15px;
+  margin-top: 16px;
+  font-size: 16px;
   font-weight: 600;
   color: #1c2400;
   max-width: 420px;
 }
 
 .cta-footer__actions {
-  margin-top: 26px;
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
+}
+
+.cta-footer__actions .btn {
+  height: 50px;
+  padding: 0 30px;
+  font-size: 15px;
 }
 
 .btn--dark {
   background-color: #0a0a0a;
-  color: var(--color-accent);
+  color: var(--color-accent-neon);
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.35);
 }
 
 .btn--dark:hover {
@@ -53,12 +75,26 @@
 }
 
 .cta-footer__actions .btn svg {
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
 }
 
 @media (min-width: 768px) {
+  .cta-footer {
+    padding: 80px 0;
+  }
+
   .cta-footer__title {
-    font-size: 44px;
+    font-size: 52px;
+  }
+
+  .cta-footer__text {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cta-footer__title {
+    font-size: 60px;
   }
 }

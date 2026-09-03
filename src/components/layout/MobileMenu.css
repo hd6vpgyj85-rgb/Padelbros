@@ -4,6 +4,14 @@
   z-index: 100;
   background-color: var(--color-bg);
   overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-14px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.mobile-menu--active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mobile-menu__topbar {
@@ -86,6 +94,14 @@
 
 .mobile-menu__list li {
   border-bottom: 1px solid var(--color-border);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mobile-menu--active .mobile-menu__list li {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mobile-menu__link {
@@ -99,6 +115,12 @@
   letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--color-text);
+  transition: color 0.15s ease;
+}
+
+.mobile-menu__link:hover,
+.mobile-menu__link:active {
+  color: var(--color-accent);
 }
 
 @media (min-width: 768px) {
