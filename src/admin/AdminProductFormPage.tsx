@@ -2,7 +2,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
 import type { PlayerLevel, ProductCategory } from "../types/product";
-import { resizeImageToDataUrl } from "../utils/imageResize";
+import { uploadImage } from "../utils/imageResize";
 import { TrashIcon } from "../components/home/icons";
 import { CameraIcon } from "./icons";
 import "./AdminProductFormPage.css";
@@ -57,7 +57,7 @@ function AdminProductFormPage() {
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id) && id !== "nuevo";
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, isLoading: isLoadingProducts, addProduct, updateProduct, deleteProduct } = useProducts();
 
   const existingProduct = isEditing ? products.find((product) => product.id === id) : undefined;
 
@@ -79,6 +79,9 @@ function AdminProductFormPage() {
     };
   });
   const [imageError, setImageError] = useState("");
+  const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const updateField = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -89,12 +92,15 @@ function AdminProductFormPage() {
     event.target.value = "";
     if (files.length === 0) return;
 
+    setIsUploadingImages(true);
     try {
-      const dataUrls = await Promise.all(files.map((file) => resizeImageToDataUrl(file)));
-      setForm((current) => ({ ...current, images: [...current.images, ...dataUrls] }));
+      const urls = await Promise.all(files.map((file) => uploadImage(file, "product-images")));
+      setForm((current) => ({ ...current, images: [...current.images, ...urls] }));
       setImageError("");
     } catch {
-      setImageError("No se pudo cargar alguna imagen. Intenta con otra foto.");
+      setImageError("No se pudo subir alguna imagen. Intenta con otra foto.");
+    } finally {
+      setIsUploadingImages(false);
     }
   };
 
@@ -102,7 +108,7 @@ function AdminProductFormPage() {
     setForm((current) => ({ ...current, images: current.images.filter((_, i) => i !== index) }));
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const payload = {
@@ -122,23 +128,33 @@ function AdminProductFormPage() {
       images: form.images.length > 0 ? form.images : undefined,
     };
 
-    if (isEditing && existingProduct) {
-      updateProduct(existingProduct.id, payload);
-    } else {
-      addProduct(payload);
+    setIsSubmitting(true);
+    setSubmitError("");
+    try {
+      if (isEditing && existingProduct) {
+        await updateProduct(existingProduct.id, payload);
+      } else {
+        await addProduct(payload);
+      }
+      navigate("/admin/productos");
+    } catch {
+      setSubmitError("No se pudo guardar el producto. Intenta de nuevo.");
+      setIsSubmitting(false);
     }
-
-    navigate("/admin/productos");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!existingProduct) return;
     if (!window.confirm(`¿Eliminar "${existingProduct.name}"? Esta acción no se puede deshacer.`)) return;
-    deleteProduct(existingProduct.id);
-    navigate("/admin/productos");
+    try {
+      await deleteProduct(existingProduct.id);
+      navigate("/admin/productos");
+    } catch {
+      setSubmitError("No se pudo eliminar el producto. Intenta de nuevo.");
+    }
   };
 
-  if (isEditing && !existingProduct) {
+  if (!isLoadingProducts && isEditing && !existingProduct) {
     return <Navigate to="/admin/productos" replace />;
   }
 
@@ -166,8 +182,15 @@ function AdminProductFormPage() {
 
           <label className="admin-product-form__image-add">
             <CameraIcon />
-            <span>Agregar fotos</span>
-            <input type="file" accept="image/*" multiple onChange={handleImagesChange} hidden />
+            <span>{isUploadingImages ? "Subiendo..." : "Agregar fotos"}</span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImagesChange}
+              disabled={isUploadingImages}
+              hidden
+            />
           </label>
         </div>
         {imageError && <p className="admin-product-form__error">{imageError}</p>}
@@ -292,8 +315,14 @@ function AdminProductFormPage() {
           />
         </label>
 
-        <button type="submit" className="btn btn--primary admin-product-form__submit">
-          {isEditing ? "Guardar cambios" : "Crear producto"}
+        {submitError && <p className="admin-product-form__error">{submitError}</p>}
+
+        <button
+          type="submit"
+          className="btn btn--primary admin-product-form__submit"
+          disabled={isSubmitting || isUploadingImages}
+        >
+          {isSubmitting ? "Guardando..." : isEditing ? "Guardar cambios" : "Crear producto"}
         </button>
 
         {isEditing && (

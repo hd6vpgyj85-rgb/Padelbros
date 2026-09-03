@@ -10,7 +10,11 @@ import AdminOrdersPage from "./AdminOrdersPage";
 import AdminReviewsPage from "./AdminReviewsPage";
 
 function AdminRoutes() {
-  const { isAuthenticated } = useAdminAuth();
+  const { isAuthenticated, isLoading } = useAdminAuth();
+
+  if (isLoading) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return <AdminLoginPage />;

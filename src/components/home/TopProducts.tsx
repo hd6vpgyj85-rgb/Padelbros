@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useProducts } from "../../context/ProductsContext";
-import { useOrders } from "../../context/OrdersContext";
 import { useAnalytics } from "../../context/AnalyticsContext";
 import { getPopularProducts } from "../../utils/catalog";
 import ProductCard from "./ProductCard";
@@ -10,18 +9,7 @@ const FEATURED_COUNT = 3;
 
 function TopProducts() {
   const { products } = useProducts();
-  const { orders } = useOrders();
-  const { views, cartAdds } = useAnalytics();
-
-  const purchases = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const order of orders) {
-      for (const item of order.items) {
-        counts[item.productId] = (counts[item.productId] ?? 0) + item.quantity;
-      }
-    }
-    return counts;
-  }, [orders]);
+  const { views, cartAdds, purchases } = useAnalytics();
 
   const popularProducts = useMemo(
     () => getPopularProducts(products, FEATURED_COUNT, { views, cartAdds, purchases }),

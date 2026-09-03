@@ -4,17 +4,17 @@ import "./AdminLoginPage.css";
 
 function AdminLoginPage() {
   const { login } = useAdminAuth();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const ok = login(password);
-    if (!ok) {
-      setError(true);
-      return;
-    }
-    setError(false);
+    setIsSubmitting(true);
+    const errorMessage = await login(email, password);
+    setIsSubmitting(false);
+    setError(errorMessage ?? "");
   };
 
   return (
@@ -24,23 +24,36 @@ function AdminLoginPage() {
         <h1 className="admin-login__title">Panel de administración</h1>
 
         <label className="admin-login__field">
-          <span>Contraseña</span>
+          <span>Correo</span>
           <input
-            type="password"
-            value={password}
+            type="email"
+            value={email}
             onChange={(event) => {
-              setPassword(event.target.value);
-              setError(false);
+              setEmail(event.target.value);
+              setError("");
             }}
             className={error ? "admin-login__input--error" : ""}
             autoFocus
           />
         </label>
 
-        {error && <p className="admin-login__error">Contraseña incorrecta.</p>}
+        <label className="admin-login__field">
+          <span>Contraseña</span>
+          <input
+            type="password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setError("");
+            }}
+            className={error ? "admin-login__input--error" : ""}
+          />
+        </label>
 
-        <button type="submit" className="btn btn--primary admin-login__submit">
-          Entrar
+        {error && <p className="admin-login__error">{error}</p>}
+
+        <button type="submit" className="btn btn--primary admin-login__submit" disabled={isSubmitting}>
+          {isSubmitting ? "Entrando..." : "Entrar"}
         </button>
       </form>
     </div>

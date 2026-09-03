@@ -1,52 +1,47 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-
-const SESSION_KEY = "padelbros_admin_session";
-const ADMIN_PASSWORD = "padelbros2024";
-
-function readSession(): boolean {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === "true";
-  } catch {
-    return false;
-  }
-}
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 interface AdminAuthContextValue {
   isAuthenticated: boolean;
-  login: (password: string) => boolean;
-  logout: () => void;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<string | null>;
+  logout: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextValue | undefined>(undefined);
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => readSession());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = (password: string): boolean => {
-    if (password !== ADMIN_PASSWORD) return false;
-    try {
-      sessionStorage.setItem(SESSION_KEY, "true");
-    } catch {
-      // Storage unavailable — the session simply won't persist across reloads.
-    }
-    setIsAuthenticated(true);
-    return true;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setIsAuthenticated(Boolean(data.session));
+      setIsLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(Boolean(session));
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<string | null> => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return "Correo o contraseña incorrectos.";
+    return null;
   };
 
-  const logout = () => {
-    try {
-      sessionStorage.removeItem(SESSION_KEY);
-    } catch {
-      // Storage unavailable — nothing to clear.
-    }
-    setIsAuthenticated(false);
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
-  return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AdminAuthContext.Provider>
-  );
+  const value: AdminAuthContextValue = { isAuthenticated, isLoading, login, logout };
+
+  return <AdminAuthContext.Provider value={value}>{children}</AdminAuthContext.Provider>;
 }
 
 export function useAdminAuth(): AdminAuthContextValue {

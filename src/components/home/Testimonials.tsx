@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { useReviews } from "../../context/ReviewsContext";
-import { resizeImageToDataUrl } from "../../utils/imageResize";
+import { uploadImage } from "../../utils/imageResize";
 import ImageLightbox from "../common/ImageLightbox";
 import "./Testimonials.css";
 
@@ -113,31 +113,43 @@ function Testimonials() {
   const [quote, setQuote] = useState("");
   const [reviewImage, setReviewImage] = useState("");
   const [imageError, setImageError] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleReviewImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
+    setIsUploadingImage(true);
     try {
-      const dataUrl = await resizeImageToDataUrl(file);
-      setReviewImage(dataUrl);
+      const url = await uploadImage(file, "review-images");
+      setReviewImage(url);
       setImageError("");
     } catch {
-      setImageError("No se pudo cargar la imagen. Intenta con otra foto.");
+      setImageError("No se pudo subir la imagen. Intenta con otra foto.");
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!name.trim() || !quote.trim() || rating === 0) return;
 
-    addReview({ name: name.trim(), rating, quote: quote.trim(), image: reviewImage || undefined });
-    setName("");
-    setRating(0);
-    setQuote("");
-    setReviewImage("");
-    setSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await addReview({ name: name.trim(), rating, quote: quote.trim(), image: reviewImage || undefined });
+      setName("");
+      setRating(0);
+      setQuote("");
+      setReviewImage("");
+      setSubmitted(true);
+    } catch {
+      setImageError("No se pudo enviar tu reseña. Intenta de nuevo.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -268,15 +280,21 @@ function Testimonials() {
                 {reviewImage ? (
                   <img src={reviewImage} alt="Vista previa" />
                 ) : (
-                  <span>+ Agregar foto (opcional)</span>
+                  <span>{isUploadingImage ? "Subiendo..." : "+ Agregar foto (opcional)"}</span>
                 )}
-                <input type="file" accept="image/*" onChange={handleReviewImageChange} hidden />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleReviewImageChange}
+                  disabled={isUploadingImage}
+                  hidden
+                />
               </label>
               {imageError && <p className="testimonials__error">{imageError}</p>}
 
               <div className="review-form__actions">
-                <button type="submit" className="btn btn--primary">
-                  Enviar reseña
+                <button type="submit" className="btn btn--primary" disabled={isSubmitting || isUploadingImage}>
+                  {isSubmitting ? "Enviando..." : "Enviar reseña"}
                 </button>
                 <button type="button" className="btn btn--outline" onClick={() => setIsFormOpen(false)}>
                   Cancelar

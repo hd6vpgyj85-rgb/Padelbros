@@ -6,7 +6,7 @@ import { useOrders } from "../context/OrdersContext";
 import { useReviews } from "../context/ReviewsContext";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
-import { resizeImageToDataUrl } from "../utils/imageResize";
+import { uploadImage } from "../utils/imageResize";
 import "./CheckoutPage.css";
 
 const levelLabels: Record<string, string> = {
@@ -117,6 +117,9 @@ function CheckoutPage() {
   const [submitted, setSubmitted] = useState(false);
   const [reviewImage, setReviewImage] = useState("");
   const [reviewImageError, setReviewImageError] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
 
   const updateField = (field: keyof FormState, value: string | number) => {
@@ -127,16 +130,19 @@ function CheckoutPage() {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
+    setIsUploadingImage(true);
     try {
-      const dataUrl = await resizeImageToDataUrl(file);
-      setReviewImage(dataUrl);
+      const url = await uploadImage(file, "review-images");
+      setReviewImage(url);
       setReviewImageError("");
     } catch {
-      setReviewImageError("No se pudo cargar la imagen. Intenta con otra foto.");
+      setReviewImageError("No se pudo subir la imagen. Intenta con otra foto.");
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const nextErrors: Partial<Record<keyof FormState, boolean>> = {};
@@ -162,46 +168,53 @@ function CheckoutPage() {
       totalPrice,
     );
 
-    addOrder({
-      customer: {
-        nombre: form.nombre,
-        apellido: form.apellido,
-        telefono: form.telefono,
-        correo: form.correo,
-      },
-      address: {
-        calle: form.calle,
-        colonia: form.colonia,
-        ciudad: form.ciudad,
-        estado: form.estado,
-        codigoPostal: form.codigoPostal,
-        pais: form.pais,
-        referencias: form.referencias || undefined,
-      },
-      paymentMethod: form.metodoPago,
-      notes: form.notas || undefined,
-      items: lines.map(({ product, quantity }) => ({
-        productId: product.id,
-        name: product.name,
-        level: product.level,
-        quantity,
-        price: product.price,
-      })),
-      total: totalPrice,
-    });
-
-    if (form.calificacion > 0 && form.experiencia.trim()) {
-      addReview({
-        name: `${form.nombre} ${form.apellido}`.trim(),
-        rating: form.calificacion,
-        quote: form.experiencia.trim(),
-        image: reviewImage || undefined,
+    setIsSubmitting(true);
+    setSubmitError("");
+    try {
+      await addOrder({
+        customer: {
+          nombre: form.nombre,
+          apellido: form.apellido,
+          telefono: form.telefono,
+          correo: form.correo,
+        },
+        address: {
+          calle: form.calle,
+          colonia: form.colonia,
+          ciudad: form.ciudad,
+          estado: form.estado,
+          codigoPostal: form.codigoPostal,
+          pais: form.pais,
+          referencias: form.referencias || undefined,
+        },
+        paymentMethod: form.metodoPago,
+        notes: form.notas || undefined,
+        items: lines.map(({ product, quantity }) => ({
+          productId: product.id,
+          name: product.name,
+          level: product.level,
+          quantity,
+          price: product.price,
+        })),
+        total: totalPrice,
       });
-    }
 
-    window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
-    clearCart();
-    setSubmitted(true);
+      if (form.calificacion > 0 && form.experiencia.trim()) {
+        await addReview({
+          name: `${form.nombre} ${form.apellido}`.trim(),
+          rating: form.calificacion,
+          quote: form.experiencia.trim(),
+          image: reviewImage || undefined,
+        });
+      }
+
+      window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
+      clearCart();
+      setSubmitted(true);
+    } catch {
+      setSubmitError("No se pudo enviar tu pedido. Intenta de nuevo.");
+      setIsSubmitting(false);
+    }
   };
 
   if (lines.length === 0 && !submitted) {
@@ -283,8 +296,10 @@ function CheckoutPage() {
           </div>
         </section>
 
-        <button type="submit" className="checkout-submit-btn">
-          Enviar pedido
+        {submitError && <p className="checkout-review-photo__error">{submitError}</p>}
+
+        <button type="submit" className="checkout-submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? "Enviando..." : "Enviar pedido"}
         </button>
 
         <ul className="checkout-trust-bullets">
@@ -492,9 +507,15 @@ function CheckoutPage() {
               {reviewImage ? (
                 <img src={reviewImage} alt="Vista previa" />
               ) : (
-                <span>+ Agregar foto</span>
+                <span>{isUploadingImage ? "Subiendo..." : "+ Agregar foto"}</span>
               )}
-              <input type="file" accept="image/*" onChange={handleReviewImageChange} hidden />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleReviewImageChange}
+                disabled={isUploadingImage}
+                hidden
+              />
             </label>
             {reviewImageError && <p className="checkout-review-photo__error">{reviewImageError}</p>}
           </label>

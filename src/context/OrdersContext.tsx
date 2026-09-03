@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 export type OrderStatus = "pendiente" | "en proceso" | "completado" | "cancelado";
 
@@ -35,57 +36,99 @@ export interface Order {
   total: number;
 }
 
-const STORAGE_KEY = "padelbros_orders";
+interface OrderRow {
+  id: string;
+  created_at: string;
+  status: OrderStatus;
+  customer: Order["customer"];
+  address: Order["address"];
+  payment_method: string;
+  notes: string | null;
+  items: OrderItem[];
+  total: number;
+}
 
-function readStoredOrders(): Order[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+function rowToOrder(row: OrderRow): Order {
+  return {
+    id: row.id,
+    createdAt: row.created_at,
+    status: row.status,
+    customer: row.customer,
+    address: row.address,
+    paymentMethod: row.payment_method,
+    notes: row.notes ?? undefined,
+    items: row.items,
+    total: Number(row.total),
+  };
 }
 
 interface OrdersContextValue {
   orders: Order[];
-  addOrder: (order: Omit<Order, "id" | "createdAt" | "status">) => void;
-  updateOrderStatus: (id: string, status: OrderStatus) => void;
+  isLoading: boolean;
+  addOrder: (order: Omit<Order, "id" | "createdAt" | "status">) => Promise<void>;
+  updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
 }
 
 const OrdersContext = createContext<OrdersContextValue | undefined>(undefined);
 
-interface OrdersProviderProps {
-  children: ReactNode;
-}
-
-export function OrdersProvider({ children }: OrdersProviderProps) {
-  const [orders, setOrders] = useState<Order[]>(() => readStoredOrders());
+export function OrdersProvider({ children }: { children: ReactNode }) {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
-    } catch {
-      // Storage unavailable — orders just won't persist across reloads.
-    }
-  }, [orders]);
+    let cancelled = false;
 
-  const addOrder = (order: Omit<Order, "id" | "createdAt" | "status">) => {
-    const newOrder: Order = {
-      ...order,
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      createdAt: new Date().toISOString(),
-      status: "pendiente",
+    const fetchOrders = async () => {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (cancelled) return;
+      if (error) {
+        console.error("No se pudieron cargar los pedidos", error);
+      } else {
+        setOrders((data as OrderRow[]).map(rowToOrder));
+      }
+      setIsLoading(false);
     };
-    setOrders((current) => [newOrder, ...current]);
+
+    fetchOrders();
+
+    // Los pedidos solo son visibles para el admin autenticado (ver RLS de la
+    // tabla). Al iniciar/cerrar sesión hay que volver a pedirlos.
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      fetchOrders();
+    });
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const addOrder = async (order: Omit<Order, "id" | "createdAt" | "status">) => {
+    const { error } = await supabase.from("orders").insert({
+      customer: order.customer,
+      address: order.address,
+      payment_method: order.paymentMethod,
+      notes: order.notes ?? null,
+      items: order.items,
+      total: order.total,
+    });
+
+    if (error) throw error;
   };
 
-  const updateOrderStatus = (id: string, status: OrderStatus) => {
+  const updateOrderStatus = async (id: string, status: OrderStatus) => {
+    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+    if (error) throw error;
     setOrders((current) => current.map((order) => (order.id === id ? { ...order, status } : order)));
   };
 
-  const value: OrdersContextValue = { orders, addOrder, updateOrderStatus };
+  const value: OrdersContextValue = { orders, isLoading, addOrder, updateOrderStatus };
 
   return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>;
 }

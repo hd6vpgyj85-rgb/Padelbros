@@ -28,7 +28,7 @@ const trustItems = [
 
 function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { products } = useProducts();
+  const { products, isLoading } = useProducts();
   const product = products.find((candidate) => candidate.id === id);
   const { addItem } = useCart();
   const { trackView } = useAnalytics();
@@ -39,6 +39,7 @@ function ProductDetailPage() {
     if (id) trackView(id);
   }, [id]);
 
+  if (isLoading) return null;
   if (!product) return <Navigate to="/" replace />;
 
   const isOutOfStock = product.stock === 0;
