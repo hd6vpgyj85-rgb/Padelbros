@@ -68,9 +68,14 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <Link className="mobile-menu__icon-btn" to="/buscar" aria-label="Buscar" onClick={onClose}>
             <SearchIcon />
           </Link>
-          <button className="mobile-menu__icon-btn" type="button" aria-label="Mi cuenta">
+          <Link
+            className="mobile-menu__icon-btn"
+            to="/admin"
+            aria-label="Panel de administración"
+            onClick={onClose}
+          >
             <UserIcon />
-          </button>
+          </Link>
           <Link
             className="mobile-menu__icon-btn mobile-menu__cart"
             to="/carrito"

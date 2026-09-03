@@ -17,9 +17,9 @@ function TopBar() {
         <Link className="top-bar__icon-btn" to="/buscar" aria-label="Buscar">
           <SearchIcon />
         </Link>
-        <button className="top-bar__icon-btn" type="button" aria-label="Mi cuenta">
+        <Link className="top-bar__icon-btn" to="/admin" aria-label="Panel de administración">
           <UserIcon />
-        </button>
+        </Link>
         <Link className="top-bar__icon-btn" to="/carrito" aria-label="Carrito">
           <CartIcon />
           {cartCount > 0 && <span className="top-bar__badge">{cartCount}</span>}
