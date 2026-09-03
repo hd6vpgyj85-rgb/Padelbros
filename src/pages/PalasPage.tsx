@@ -6,7 +6,7 @@ import ProductFilters, { type ActiveFilter } from "../components/category/Produc
 import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductsContext";
 import {
   applyProductFilter,
   getAvailableBrands,
@@ -15,9 +15,10 @@ import {
 } from "../utils/catalog";
 
 function PalasPage() {
+  const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), []);
+  const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), [products]);
   const availableBrands = useMemo(() => getAvailableBrands(palasProducts), [palasProducts]);
   const availableLevels = useMemo(() => getAvailableLevels(palasProducts), [palasProducts]);
   const filteredProducts = useMemo(

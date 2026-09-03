@@ -6,13 +6,14 @@ import ProductFilters, { type ActiveFilter } from "../components/category/Produc
 import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductsContext";
 import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
 
 function MochilasPage() {
+  const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const mochilasProducts = useMemo(() => getProductsByCategory(products, "mochilas"), []);
+  const mochilasProducts = useMemo(() => getProductsByCategory(products, "mochilas"), [products]);
   const availableBrands = useMemo(() => getAvailableBrands(mochilasProducts), [mochilasProducts]);
   const filteredProducts = useMemo(
     () => applyProductFilter(mochilasProducts, activeFilter),

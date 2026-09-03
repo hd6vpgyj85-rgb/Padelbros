@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { products } from "../data/products";
+import { useProducts } from "./ProductsContext";
 import type { Product } from "../types/product";
 
 interface CartItem {
@@ -46,6 +46,7 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
+  const { products } = useProducts();
   const [items, setItems] = useState<CartItem[]>(() => readStoredCart());
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export function CartProvider({ children }: CartProviderProps) {
           return product ? { product, quantity: item.quantity } : null;
         })
         .filter((line): line is CartLine => Boolean(line)),
-    [items],
+    [items, products],
   );
 
   const totalItems = lines.reduce((sum, line) => sum + line.quantity, 0);

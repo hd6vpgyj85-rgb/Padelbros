@@ -1,8 +1,14 @@
-import { featuredProducts } from "../../data/products";
+import { useMemo } from "react";
+import { useProducts } from "../../context/ProductsContext";
+import { featuredIds } from "../../data/products";
+import { getFeaturedProducts } from "../../utils/catalog";
 import ProductCard from "./ProductCard";
 import "./TopProducts.css";
 
 function TopProducts() {
+  const { products } = useProducts();
+  const featuredProducts = useMemo(() => getFeaturedProducts(products, featuredIds), [products]);
+
   return (
     <section className="top-products" id="top-palas">
       <div className="container">

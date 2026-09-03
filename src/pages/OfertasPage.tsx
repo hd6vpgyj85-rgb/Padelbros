@@ -6,13 +6,14 @@ import ProductFilters, { type ActiveFilter } from "../components/category/Produc
 import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductsContext";
 import { applyProductFilter, getAvailableBrands, getOnSaleProducts } from "../utils/catalog";
 
 function OfertasPage() {
+  const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const onSaleProducts = useMemo(() => getOnSaleProducts(products), []);
+  const onSaleProducts = useMemo(() => getOnSaleProducts(products), [products]);
   const availableBrands = useMemo(() => getAvailableBrands(onSaleProducts), [onSaleProducts]);
   const filteredProducts = useMemo(
     () => applyProductFilter(onSaleProducts, activeFilter),

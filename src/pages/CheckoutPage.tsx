@@ -2,6 +2,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
+import { useOrders } from "../context/OrdersContext";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
 import "./CheckoutPage.css";
@@ -107,6 +108,7 @@ function buildWhatsAppMessage(form: FormState, lines: { name: string; quantity: 
 
 function CheckoutPage() {
   const { lines, totalPrice, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -141,6 +143,34 @@ function CheckoutPage() {
       })),
       totalPrice,
     );
+
+    addOrder({
+      customer: {
+        nombre: form.nombre,
+        apellido: form.apellido,
+        telefono: form.telefono,
+        correo: form.correo,
+      },
+      address: {
+        calle: form.calle,
+        colonia: form.colonia,
+        ciudad: form.ciudad,
+        estado: form.estado,
+        codigoPostal: form.codigoPostal,
+        pais: form.pais,
+        referencias: form.referencias || undefined,
+      },
+      paymentMethod: form.metodoPago,
+      notes: form.notas || undefined,
+      items: lines.map(({ product, quantity }) => ({
+        productId: product.id,
+        name: product.name,
+        level: product.level,
+        quantity,
+        price: product.price,
+      })),
+      total: totalPrice,
+    });
 
     window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
     clearCart();

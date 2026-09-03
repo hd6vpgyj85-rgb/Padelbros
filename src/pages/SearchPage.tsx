@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import SearchBar from "../components/search/SearchBar";
 import ProductFilters, { type ActiveFilter } from "../components/category/ProductFilters";
 import ProductGrid from "../components/category/ProductGrid";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductsContext";
 import { shuffle } from "../utils/array";
 import {
   PRICE_BUCKETS,
@@ -16,10 +16,11 @@ import "./SearchPage.css";
 const priceLabels = Object.fromEntries(PRICE_BUCKETS.map((bucket) => [bucket.value, bucket.label]));
 
 function SearchPage() {
+  const { products } = useProducts();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const randomPool = useMemo(() => shuffle(products), []);
+  const randomPool = useMemo(() => shuffle(products), [products]);
   const searchResults = useMemo(() => searchProducts(randomPool, query), [randomPool, query]);
 
   const availableBrands = useMemo(() => getAvailableBrands(searchResults), [searchResults]);

@@ -4,8 +4,8 @@ import Accordion from "../components/product/Accordion";
 import RelatedProducts from "../components/product/RelatedProducts";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
+import { useProducts } from "../context/ProductsContext";
 import { categories } from "../data/categories";
-import { products } from "../data/products";
 import {
   CartIcon,
   HeartIcon,
@@ -35,6 +35,7 @@ const trustItems = [
 
 function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { products } = useProducts();
   const product = products.find((candidate) => candidate.id === id);
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -56,7 +57,11 @@ function ProductDetailPage() {
       <div className="container product-detail__layout">
         <div className="product-detail__media">
           {isOutOfStock && <span className="product-detail__badge">Agotado</span>}
-          <RacketPlaceholderIcon className="product-detail__placeholder" />
+          {product.image ? (
+            <img src={product.image} alt={product.name} className="product-detail__photo" />
+          ) : (
+            <RacketPlaceholderIcon className="product-detail__placeholder" />
+          )}
         </div>
 
         <div className="product-detail__info">

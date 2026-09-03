@@ -1,0 +1,164 @@
+.admin-product-form {
+  padding-top: 22px;
+  padding-bottom: 24px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-product-form__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.admin-product-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+}
+
+.admin-product-form__image-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: var(--color-surface-alt);
+  border: 1px dashed var(--color-border);
+  cursor: pointer;
+}
+
+.admin-product-form__image-picker img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-product-form__image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #3a3a38;
+}
+
+.admin-product-form__image-placeholder svg {
+  width: 46%;
+  height: 46%;
+}
+
+.admin-product-form__image-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  border-radius: 999px;
+  background-color: rgba(10, 10, 10, 0.72);
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.admin-product-form__image-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.admin-product-form__error {
+  color: #e5484d;
+  font-size: 13px;
+  margin: -6px 0 0;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  padding: 0 14px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.admin-field textarea {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.admin-field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-field--checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+}
+
+.admin-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-product-form__submit {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.admin-product-form__delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid #e5484d;
+  background-color: transparent;
+  color: #e5484d;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-product-form__delete svg {
+  width: 16px;
+  height: 16px;
+}

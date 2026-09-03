@@ -1,0 +1,105 @@
+.admin-orders {
+  padding-top: 22px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-orders__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.admin-orders__empty {
+  color: var(--color-text-muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.admin-orders__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-order-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-order-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.admin-order-card__date {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.admin-order-card__status {
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 0 10px;
+}
+
+.admin-order-card__status--pendiente {
+  border-color: #e8b339;
+  color: #e8b339;
+}
+
+.admin-order-card__status--en-proceso {
+  border-color: #4a9de0;
+  color: #4a9de0;
+}
+
+.admin-order-card__status--completado {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-order-card__status--cancelado {
+  border-color: #e5484d;
+  color: #e5484d;
+}
+
+.admin-order-card__customer {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.admin-order-card__contact {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.admin-order-card__items {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-order-card__total {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--color-accent);
+}

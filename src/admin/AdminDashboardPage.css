@@ -1,0 +1,73 @@
+.admin-dashboard {
+  padding-top: 22px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-dashboard__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.admin-dashboard__stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.admin-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.admin-stat-card:active {
+  transform: scale(0.98);
+}
+
+.admin-stat-card:hover {
+  border-color: var(--color-accent);
+}
+
+.admin-stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+.admin-stat-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.admin-stat-card__value {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 32px;
+  color: var(--color-text);
+}
+
+.admin-stat-card__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .admin-dashboard__stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

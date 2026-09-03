@@ -1,6 +1,6 @@
 import type { Product } from "../types/product";
 
-export const products: Product[] = [
+export const defaultProducts: Product[] = [
   {
     id: "nox-agustin-tapia-at10-genius-attack",
     name: "Nox Agustín Tapia AT10 Genius Attack 18K Alum 2026",
@@ -294,12 +294,8 @@ export const products: Product[] = [
   },
 ];
 
-const featuredIds = [
+export const featuredIds = [
   "nox-agustin-tapia-at10-genius-attack",
   "camiseta-siux-splash-v4",
   "lok-mike-yanguas",
 ];
-
-export const featuredProducts: Product[] = featuredIds
-  .map((id) => products.find((product) => product.id === id))
-  .filter((product): product is Product => Boolean(product));

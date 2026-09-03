@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon, ArrowRightIcon, RacketPlaceholderIcon } from "../home/icons";
-import { products } from "../../data/products";
+import { useProducts } from "../../context/ProductsContext";
 import { formatPrice } from "../../utils/format";
 import { shuffle } from "../../utils/array";
 import "./FeaturedCarousel.css";
@@ -11,7 +11,8 @@ const AUTOPLAY_DELAY = 5000;
 const INTERACTION_PAUSE = 4000;
 
 function FeaturedCarousel() {
-  const items = useMemo(() => shuffle(products).slice(0, CAROUSEL_SIZE), []);
+  const { products } = useProducts();
+  const items = useMemo(() => shuffle(products).slice(0, CAROUSEL_SIZE), [products]);
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
@@ -133,7 +134,11 @@ function FeaturedCarousel() {
               key={product.id}
             >
               <div className="featured-carousel__media">
-                <RacketPlaceholderIcon className="featured-carousel__placeholder" />
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="featured-carousel__photo" />
+                ) : (
+                  <RacketPlaceholderIcon className="featured-carousel__placeholder" />
+                )}
               </div>
             </div>
           ))}

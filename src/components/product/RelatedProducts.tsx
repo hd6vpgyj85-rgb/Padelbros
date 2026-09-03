@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { products } from "../../data/products";
+import { useProducts } from "../../context/ProductsContext";
 import { RacketPlaceholderIcon } from "../home/icons";
 import { shuffle } from "../../utils/array";
 import { formatPrice } from "../../utils/format";
@@ -15,11 +15,12 @@ interface RelatedProductsProps {
 
 function RelatedProducts({ excludeId, count = 4, variant = "default" }: RelatedProductsProps) {
   const { addItem } = useCart();
+  const { products } = useProducts();
 
   const items = useMemo(() => {
     const pool = excludeId ? products.filter((product) => product.id !== excludeId) : products;
     return shuffle(pool).slice(0, count);
-  }, [excludeId, count]);
+  }, [excludeId, count, products]);
 
   if (items.length === 0) return null;
 
@@ -32,7 +33,11 @@ function RelatedProducts({ excludeId, count = 4, variant = "default" }: RelatedP
           <article className="related-product-card" key={product.id}>
             <Link to={`/producto/${product.id}`} className="related-product-card__media">
               {isOutOfStock && <span className="related-product-card__badge">Agotado</span>}
-              <RacketPlaceholderIcon className="related-product-card__placeholder" />
+              {product.image ? (
+                <img src={product.image} alt={product.name} className="related-product-card__photo" />
+              ) : (
+                <RacketPlaceholderIcon className="related-product-card__placeholder" />
+              )}
             </Link>
 
             <Link to={`/producto/${product.id}`} className="related-product-card__name">

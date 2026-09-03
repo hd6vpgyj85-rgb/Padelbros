@@ -72,6 +72,12 @@ export function applyProductFilter(products: Product[], filter: ActiveFilter | n
   return products;
 }
 
+export function getFeaturedProducts(products: Product[], featuredIds: string[]): Product[] {
+  return featuredIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter((product): product is Product => Boolean(product));
+}
+
 export function searchProducts(products: Product[], query: string): Product[] {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return products;
