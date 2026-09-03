@@ -7,7 +7,12 @@ import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { products } from "../data/products";
-import { getAvailableBrands, getAvailableLevels, getProductsByCategory } from "../utils/catalog";
+import {
+  applyProductFilter,
+  getAvailableBrands,
+  getAvailableLevels,
+  getProductsByCategory,
+} from "../utils/catalog";
 
 function PalasPage() {
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
@@ -15,14 +20,10 @@ function PalasPage() {
   const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), []);
   const availableBrands = useMemo(() => getAvailableBrands(palasProducts), [palasProducts]);
   const availableLevels = useMemo(() => getAvailableLevels(palasProducts), [palasProducts]);
-
-  const filteredProducts = useMemo(() => {
-    if (!activeFilter) return palasProducts;
-    if (activeFilter.type === "brand") {
-      return palasProducts.filter((product) => product.brand === activeFilter.value);
-    }
-    return palasProducts.filter((product) => product.level === activeFilter.value);
-  }, [palasProducts, activeFilter]);
+  const filteredProducts = useMemo(
+    () => applyProductFilter(palasProducts, activeFilter),
+    [palasProducts, activeFilter],
+  );
 
   return (
     <>
@@ -35,8 +36,10 @@ function PalasPage() {
       <CategoryHero title="Palas" subtitle="Descubre nuestra colección completa de palas de padel." />
 
       <ProductFilters
-        brands={availableBrands}
-        levels={availableLevels}
+        groups={[
+          { type: "brand", options: availableBrands },
+          { type: "level", options: availableLevels },
+        ]}
         activeFilter={activeFilter}
         onSelect={setActiveFilter}
       />

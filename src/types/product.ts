@@ -1,6 +1,6 @@
 export type PlayerLevel = "principiante" | "intermedio" | "avanzado";
 
-export type ProductCategory = "palas" | "mochilas" | "tennis" | "accesorios" | "ropa";
+export type ProductCategory = "palas" | "mochilas" | "tenis" | "accesorios" | "ropa";
 
 export interface Product {
   id: string;
@@ -13,4 +13,5 @@ export interface Product {
   brand: string;
   stock: number;
   vendor?: string;
+  sizes?: string[];
 }

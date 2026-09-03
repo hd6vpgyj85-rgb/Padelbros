@@ -9,25 +9,25 @@ import CategoryFooter from "../components/category/CategoryFooter";
 import { products } from "../data/products";
 import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
 
-function MochilasPage() {
+function TenisPage() {
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const mochilasProducts = useMemo(() => getProductsByCategory(products, "mochilas"), []);
-  const availableBrands = useMemo(() => getAvailableBrands(mochilasProducts), [mochilasProducts]);
+  const tenisProducts = useMemo(() => getProductsByCategory(products, "tenis"), []);
+  const availableBrands = useMemo(() => getAvailableBrands(tenisProducts), [tenisProducts]);
   const filteredProducts = useMemo(
-    () => applyProductFilter(mochilasProducts, activeFilter),
-    [mochilasProducts, activeFilter],
+    () => applyProductFilter(tenisProducts, activeFilter),
+    [tenisProducts, activeFilter],
   );
 
   return (
     <>
       <CategoryPhotoBanner
         image={heroPlayer}
-        categoryName="Mochilas"
-        tagline="Carga tus palas con estilo."
+        categoryName="Tenis"
+        tagline="El juego empieza en tus pies."
       />
 
-      <CategoryHero title="Mochilas" subtitle="Descubre nuestra colección completa de mochilas y paleteros." />
+      <CategoryHero title="Tenis" subtitle="Descubre nuestra colección completa de tenis." />
 
       <ProductFilters
         groups={[{ type: "brand", options: availableBrands }]}
@@ -44,4 +44,4 @@ function MochilasPage() {
   );
 }
 
-export default MochilasPage;
+export default TenisPage;

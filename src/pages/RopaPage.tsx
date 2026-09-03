@@ -7,30 +7,30 @@ import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { products } from "../data/products";
-import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
+import { applyProductFilter, getAvailableSizes, getProductsByCategory } from "../utils/catalog";
 
-function MochilasPage() {
+function RopaPage() {
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const mochilasProducts = useMemo(() => getProductsByCategory(products, "mochilas"), []);
-  const availableBrands = useMemo(() => getAvailableBrands(mochilasProducts), [mochilasProducts]);
+  const ropaProducts = useMemo(() => getProductsByCategory(products, "ropa"), []);
+  const availableSizes = useMemo(() => getAvailableSizes(ropaProducts), [ropaProducts]);
   const filteredProducts = useMemo(
-    () => applyProductFilter(mochilasProducts, activeFilter),
-    [mochilasProducts, activeFilter],
+    () => applyProductFilter(ropaProducts, activeFilter),
+    [ropaProducts, activeFilter],
   );
 
   return (
     <>
       <CategoryPhotoBanner
         image={heroPlayer}
-        categoryName="Mochilas"
-        tagline="Carga tus palas con estilo."
+        categoryName="Ropa de Padel"
+        tagline="Viste con las mejores marcas."
       />
 
-      <CategoryHero title="Mochilas" subtitle="Descubre nuestra colección completa de mochilas y paleteros." />
+      <CategoryHero title="Ropa" subtitle="Descubre nuestra colección completa de ropa." />
 
       <ProductFilters
-        groups={[{ type: "brand", options: availableBrands }]}
+        groups={[{ type: "size", options: availableSizes }]}
         activeFilter={activeFilter}
         onSelect={setActiveFilter}
       />
@@ -44,4 +44,4 @@ function MochilasPage() {
   );
 }
 
-export default MochilasPage;
+export default RopaPage;

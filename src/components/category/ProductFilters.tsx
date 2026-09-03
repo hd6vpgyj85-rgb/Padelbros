@@ -1,70 +1,67 @@
-import type { PlayerLevel } from "../../types/product";
 import "./ProductFilters.css";
 
 export interface ActiveFilter {
-  type: "brand" | "level";
+  type: string;
   value: string;
 }
 
+export interface FilterGroup {
+  type: string;
+  options: string[];
+}
+
 interface ProductFiltersProps {
-  brands: string[];
-  levels: PlayerLevel[];
+  groups: FilterGroup[];
   activeFilter: ActiveFilter | null;
   onSelect: (filter: ActiveFilter | null) => void;
 }
 
-const levelLabels: Record<PlayerLevel, string> = {
+const levelLabels: Record<string, string> = {
   principiante: "Principiante",
   intermedio: "Intermedio",
   avanzado: "Avanzado",
 };
 
-function ProductFilters({ brands, levels, activeFilter, onSelect }: ProductFiltersProps) {
+function formatOptionLabel(type: string, value: string): string {
+  if (type === "level") return levelLabels[value] ?? value;
+  return value;
+}
+
+function ProductFilters({ groups, activeFilter, onSelect }: ProductFiltersProps) {
+  const visibleGroups = groups.filter((group) => group.options.length > 0);
+
+  if (visibleGroups.length === 0) return null;
+
   return (
     <div className="product-filters container">
-      <div className="product-filters__row">
-        <button
-          type="button"
-          className={`filter-pill${activeFilter === null ? " filter-pill--active" : ""}`}
-          onClick={() => onSelect(null)}
-        >
-          Todas
-        </button>
-
-        {brands.map((brand) => (
-          <button
-            key={brand}
-            type="button"
-            className={`filter-pill${
-              activeFilter?.type === "brand" && activeFilter.value === brand
-                ? " filter-pill--active"
-                : ""
-            }`}
-            onClick={() => onSelect({ type: "brand", value: brand })}
-          >
-            {brand}
-          </button>
-        ))}
-      </div>
-
-      {levels.length > 0 && (
-        <div className="product-filters__row">
-          {levels.map((level) => (
+      {visibleGroups.map((group, groupIndex) => (
+        <div className="product-filters__row" key={group.type}>
+          {groupIndex === 0 && (
             <button
-              key={level}
+              type="button"
+              className={`filter-pill${activeFilter === null ? " filter-pill--active" : ""}`}
+              onClick={() => onSelect(null)}
+            >
+              Todas
+            </button>
+          )}
+
+          {group.options.map((option) => (
+            <button
+              key={option}
               type="button"
               className={`filter-pill${
-                activeFilter?.type === "level" && activeFilter.value === level
+                activeFilter?.type === group.type && activeFilter.value === option
                   ? " filter-pill--active"
                   : ""
               }`}
-              onClick={() => onSelect({ type: "level", value: level })}
+              onClick={() => onSelect({ type: group.type, value: option })}
             >
-              {levelLabels[level]}
+              {formatOptionLabel(group.type, option)}
             </button>
           ))}
         </div>
-      )}
+      ))}
     </div>
   );
 }
