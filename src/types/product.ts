@@ -2,6 +2,8 @@ export type PlayerLevel = "principiante" | "intermedio" | "avanzado";
 
 export type ProductCategory = "palas" | "mochilas" | "tenis" | "accesorios" | "ropa";
 
+export type ImageFit = "cover" | "contain";
+
 export interface Product {
   id: string;
   name: string;
@@ -16,4 +18,5 @@ export interface Product {
   sizes?: string[];
   description?: string;
   images?: string[];
+  homeImageFit?: ImageFit;
 }

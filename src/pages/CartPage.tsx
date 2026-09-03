@@ -69,10 +69,15 @@ function CartPage() {
                           type="button"
                           onClick={() => updateQuantity(product.id, quantity + 1)}
                           aria-label="Sumar cantidad"
+                          disabled={quantity >= product.stock}
                         >
                           <PlusIcon />
                         </button>
                       </div>
+
+                      {quantity >= product.stock && (
+                        <span className="cart-item__stock-note">Solo quedan {product.stock}</span>
+                      )}
 
                       <button
                         type="button"

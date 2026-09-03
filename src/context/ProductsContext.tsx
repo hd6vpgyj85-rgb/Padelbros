@@ -16,6 +16,7 @@ interface ProductRow {
   sizes: string[] | null;
   description: string | null;
   images: string[] | null;
+  home_image_fit: Product["homeImageFit"] | null;
 }
 
 function rowToProduct(row: ProductRow): Product {
@@ -33,6 +34,7 @@ function rowToProduct(row: ProductRow): Product {
     sizes: row.sizes ?? undefined,
     description: row.description ?? undefined,
     images: row.images ?? undefined,
+    homeImageFit: row.home_image_fit ?? undefined,
   };
 }
 
@@ -49,6 +51,7 @@ const FIELD_MAP: Record<keyof Omit<Product, "id">, string> = {
   sizes: "sizes",
   description: "description",
   images: "images",
+  homeImageFit: "home_image_fit",
 };
 
 function productToRow(product: Partial<Omit<Product, "id">>): Record<string, unknown> {

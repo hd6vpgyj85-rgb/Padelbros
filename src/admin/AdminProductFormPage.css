@@ -95,6 +95,52 @@
   cursor: pointer;
 }
 
+.admin-image-fit {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-image-fit__preview {
+  flex-shrink: 0;
+  width: 96px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+
+.admin-image-fit__preview img {
+  width: 100%;
+  height: 100%;
+}
+
+.admin-image-fit__options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.admin-image-fit__option {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.admin-image-fit__option--active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: rgba(126, 211, 33, 0.08);
+}
+
 .admin-product-form__image-add svg {
   width: 22px;
   height: 22px;

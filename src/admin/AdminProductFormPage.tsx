@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
-import type { PlayerLevel, ProductCategory } from "../types/product";
+import type { ImageFit, PlayerLevel, Product, ProductCategory } from "../types/product";
 import { uploadImage } from "../utils/imageResize";
 import { TrashIcon } from "../components/home/icons";
 import { CameraIcon } from "./icons";
@@ -34,6 +34,7 @@ interface FormState {
   sizes: string;
   description: string;
   images: string[];
+  homeImageFit: ImageFit;
 }
 
 function emptyForm(): FormState {
@@ -50,16 +51,37 @@ function emptyForm(): FormState {
     sizes: "",
     description: "",
     images: [],
+    homeImageFit: "cover",
   };
 }
 
 function AdminProductFormPage() {
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id) && id !== "nuevo";
-  const navigate = useNavigate();
-  const { products, isLoading: isLoadingProducts, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, isLoading: isLoadingProducts } = useProducts();
+
+  // Products load asynchronously, so don't mount the form (and its
+  // useState-initialized-once field values) until we actually know
+  // whether an existing product is there to pre-fill it with.
+  if (isLoadingProducts) return null;
 
   const existingProduct = isEditing ? products.find((product) => product.id === id) : undefined;
+
+  if (isEditing && !existingProduct) {
+    return <Navigate to="/admin/productos" replace />;
+  }
+
+  return <AdminProductForm key={existingProduct?.id ?? "new"} isEditing={isEditing} existingProduct={existingProduct} />;
+}
+
+interface AdminProductFormProps {
+  isEditing: boolean;
+  existingProduct?: Product;
+}
+
+function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps) {
+  const navigate = useNavigate();
+  const { addProduct, updateProduct, deleteProduct } = useProducts();
 
   const [form, setForm] = useState<FormState>(() => {
     if (!existingProduct) return emptyForm();
@@ -76,6 +98,7 @@ function AdminProductFormPage() {
       sizes: existingProduct.sizes?.join(", ") ?? "",
       description: existingProduct.description ?? "",
       images: existingProduct.images ?? [],
+      homeImageFit: existingProduct.homeImageFit ?? "cover",
     };
   });
   const [imageError, setImageError] = useState("");
@@ -126,6 +149,7 @@ function AdminProductFormPage() {
         : undefined,
       description: form.description.trim() || undefined,
       images: form.images.length > 0 ? form.images : undefined,
+      homeImageFit: form.homeImageFit,
     };
 
     setIsSubmitting(true);
@@ -153,10 +177,6 @@ function AdminProductFormPage() {
       setSubmitError("No se pudo eliminar el producto. Intenta de nuevo.");
     }
   };
-
-  if (!isLoadingProducts && isEditing && !existingProduct) {
-    return <Navigate to="/admin/productos" replace />;
-  }
 
   return (
     <div className="admin-product-form container">
@@ -194,6 +214,33 @@ function AdminProductFormPage() {
           </label>
         </div>
         {imageError && <p className="admin-product-form__error">{imageError}</p>}
+
+        {form.images.length > 0 && (
+          <div className="admin-field">
+            <span>Ajuste de la foto de portada en Inicio</span>
+            <div className="admin-image-fit">
+              <div className="admin-image-fit__preview">
+                <img src={form.images[0]} alt="Vista previa en Inicio" style={{ objectFit: form.homeImageFit }} />
+              </div>
+              <div className="admin-image-fit__options">
+                <button
+                  type="button"
+                  className={`admin-image-fit__option${form.homeImageFit === "cover" ? " admin-image-fit__option--active" : ""}`}
+                  onClick={() => updateField("homeImageFit", "cover")}
+                >
+                  Llenar (recorta)
+                </button>
+                <button
+                  type="button"
+                  className={`admin-image-fit__option${form.homeImageFit === "contain" ? " admin-image-fit__option--active" : ""}`}
+                  onClick={() => updateField("homeImageFit", "contain")}
+                >
+                  Ver completa
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <label className="admin-field">
           <span>Nombre *</span>

@@ -83,10 +83,18 @@ function ProductDetailPage() {
                 <MinusIcon />
               </button>
               <span>{quantity}</span>
-              <button type="button" onClick={() => setQuantity((value) => value + 1)} aria-label="Sumar cantidad">
+              <button
+                type="button"
+                onClick={() => setQuantity((value) => Math.min(product.stock, value + 1))}
+                aria-label="Sumar cantidad"
+                disabled={quantity >= product.stock}
+              >
                 <PlusIcon />
               </button>
             </div>
+            {!isOutOfStock && quantity >= product.stock && (
+              <span className="product-detail__stock-note">Solo quedan {product.stock} disponibles</span>
+            )}
 
             <button
               type="button"

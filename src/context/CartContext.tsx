@@ -60,22 +60,26 @@ export function CartProvider({ children }: CartProviderProps) {
   }, [items]);
 
   const addItem = (productId: string, quantity = 1) => {
+    const product = products.find((candidate) => candidate.id === productId);
+    if (!product || product.stock <= 0) return;
+
     trackCartAdd(productId);
     setItems((current) => {
       const existing = current.find((item) => item.productId === productId);
+      const nextQuantity = Math.min((existing?.quantity ?? 0) + quantity, product.stock);
       if (existing) {
-        return current.map((item) =>
-          item.productId === productId ? { ...item, quantity: item.quantity + quantity } : item,
-        );
+        return current.map((item) => (item.productId === productId ? { ...item, quantity: nextQuantity } : item));
       }
-      return [...current, { productId, quantity }];
+      return [...current, { productId, quantity: nextQuantity }];
     });
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
     setItems((current) => {
       if (quantity <= 0) return current.filter((item) => item.productId !== productId);
-      return current.map((item) => (item.productId === productId ? { ...item, quantity } : item));
+      const product = products.find((candidate) => candidate.id === productId);
+      const clampedQuantity = product ? Math.min(quantity, product.stock) : quantity;
+      return current.map((item) => (item.productId === productId ? { ...item, quantity: clampedQuantity } : item));
     });
   };
 

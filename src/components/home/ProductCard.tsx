@@ -22,7 +22,12 @@ function ProductCard({ product }: ProductCardProps) {
         <div className="product-card__media">
           {product.onSale && <span className="product-card__badge">Promo</span>}
           {product.images?.[0] ? (
-            <img src={product.images[0]} alt={product.name} className="product-card__photo" />
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="product-card__photo"
+              style={{ objectFit: product.homeImageFit ?? "cover" }}
+            />
           ) : (
             <RacketPlaceholderIcon className="product-card__placeholder" />
           )}
