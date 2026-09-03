@@ -8,6 +8,8 @@ import AdminProductFormPage from "./AdminProductFormPage";
 import AdminCategoriesPage from "./AdminCategoriesPage";
 import AdminOrdersPage from "./AdminOrdersPage";
 import AdminReviewsPage from "./AdminReviewsPage";
+import AdminCouponsPage from "./AdminCouponsPage";
+import AdminCouponFormPage from "./AdminCouponFormPage";
 
 function AdminRoutes() {
   const { isAuthenticated, isLoading } = useAdminAuth();
@@ -30,6 +32,8 @@ function AdminRoutes() {
         <Route path="categorias" element={<AdminCategoriesPage />} />
         <Route path="pedidos" element={<AdminOrdersPage />} />
         <Route path="resenas" element={<AdminReviewsPage />} />
+        <Route path="cupones" element={<AdminCouponsPage />} />
+        <Route path="cupones/nuevo" element={<AdminCouponFormPage />} />
       </Route>
     </Routes>
   );

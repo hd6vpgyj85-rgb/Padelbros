@@ -4,6 +4,8 @@ import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useOrders } from "../context/OrdersContext";
 import { useReviews } from "../context/ReviewsContext";
+import { useCoupons, type RedeemedCoupon } from "../context/CouponsContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
 import { uploadImage } from "../utils/imageResize";
@@ -73,7 +75,14 @@ const requiredFields: Array<keyof FormState> = [
   "metodoPago",
 ];
 
-function buildWhatsAppMessage(form: FormState, lines: { name: string; quantity: number; price: number; level?: string }[], totalPrice: number) {
+function buildWhatsAppMessage(
+  form: FormState,
+  lines: { name: string; quantity: number; price: number; level?: string }[],
+  subtotal: number,
+  appliedCoupon: RedeemedCoupon | null,
+  discountAmount: number,
+  finalTotal: number,
+) {
   const productLines = lines
     .map((line) => `• ${line.name} x${line.quantity} — ${formatPrice(line.price * line.quantity)}`)
     .join("\n");
@@ -84,8 +93,9 @@ function buildWhatsAppMessage(form: FormState, lines: { name: string; quantity: 
     "*Productos:*",
     productLines,
     "",
-    `*Total estimado:* ${formatPrice(totalPrice)}`,
-    form.cupon ? `*Cupón:* ${form.cupon}` : null,
+    `*Subtotal:* ${formatPrice(subtotal)}`,
+    appliedCoupon ? `*Cupón:* ${appliedCoupon.code} (-${formatPrice(discountAmount)})` : null,
+    `*Total estimado:* ${formatPrice(finalTotal)}`,
     "",
     "*Datos del cliente:*",
     `Nombre: ${form.nombre} ${form.apellido}`,
@@ -109,9 +119,11 @@ function buildWhatsAppMessage(form: FormState, lines: { name: string; quantity: 
 }
 
 function CheckoutPage() {
+  useDocumentTitle("Checkout | Padelbros");
   const { lines, totalPrice, clearCart } = useCart();
   const { addOrder } = useOrders();
   const { addReview } = useReviews();
+  const { redeemCoupon } = useCoupons();
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -120,10 +132,40 @@ function CheckoutPage() {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<RedeemedCoupon | null>(null);
+  const [couponError, setCouponError] = useState("");
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
+
+  const discountAmount = appliedCoupon
+    ? appliedCoupon.discountType === "percentage"
+      ? totalPrice * (appliedCoupon.discountValue / 100)
+      : Math.min(appliedCoupon.discountValue, totalPrice)
+    : 0;
+  const finalTotal = Math.max(0, totalPrice - discountAmount);
 
   const updateField = (field: keyof FormState, value: string | number) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleApplyCoupon = async () => {
+    if (!form.cupon.trim() || appliedCoupon) return;
+    setIsApplyingCoupon(true);
+    setCouponError("");
+    try {
+      const redeemed = await redeemCoupon(form.cupon);
+      setAppliedCoupon(redeemed);
+    } catch (error) {
+      setCouponError(error instanceof Error ? error.message : "No se pudo aplicar el cupón.");
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponError("");
+    updateField("cupon", "");
   };
 
   const handleReviewImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -166,6 +208,9 @@ function CheckoutPage() {
         level: product.level,
       })),
       totalPrice,
+      appliedCoupon,
+      discountAmount,
+      finalTotal,
     );
 
     setIsSubmitting(true);
@@ -196,7 +241,7 @@ function CheckoutPage() {
           quantity,
           price: product.price,
         })),
-        total: totalPrice,
+        total: finalTotal,
       });
 
       if (form.calificacion > 0 && form.experiencia.trim()) {
@@ -275,25 +320,51 @@ function CheckoutPage() {
             <span>Envío</span>
             <span>Por acordar</span>
           </div>
+          {appliedCoupon && (
+            <div className="checkout-summary-row checkout-summary-row--discount">
+              <span>Descuento ({appliedCoupon.code})</span>
+              <span>-{formatPrice(discountAmount)}</span>
+            </div>
+          )}
           <div className="checkout-summary-row checkout-summary-row--total">
             <span>Total</span>
-            <span>{formatPrice(totalPrice)}</span>
+            <span>{formatPrice(finalTotal)}</span>
           </div>
         </section>
 
         <section className="checkout-section">
           <span className="checkout-section__title">Cupón de descuento</span>
-          <div className="checkout-coupon">
-            <input
-              type="text"
-              placeholder="Tu código de cupón"
-              value={form.cupon}
-              onChange={(event) => updateField("cupon", event.target.value)}
-            />
-            <button type="button" className="checkout-coupon__apply">
-              Aplicar
-            </button>
-          </div>
+          {appliedCoupon ? (
+            <div className="checkout-coupon checkout-coupon--applied">
+              <span>
+                Cupón <strong>{appliedCoupon.code}</strong> aplicado
+              </span>
+              <button type="button" className="checkout-coupon__remove" onClick={handleRemoveCoupon}>
+                Quitar
+              </button>
+            </div>
+          ) : (
+            <div className="checkout-coupon">
+              <input
+                type="text"
+                placeholder="Tu código de cupón"
+                value={form.cupon}
+                onChange={(event) => {
+                  updateField("cupon", event.target.value);
+                  setCouponError("");
+                }}
+              />
+              <button
+                type="button"
+                className="checkout-coupon__apply"
+                onClick={handleApplyCoupon}
+                disabled={isApplyingCoupon || !form.cupon.trim()}
+              >
+                {isApplyingCoupon ? "..." : "Aplicar"}
+              </button>
+            </div>
+          )}
+          {couponError && <p className="checkout-review-photo__error">{couponError}</p>}
         </section>
 
         {submitError && <p className="checkout-review-photo__error">{submitError}</p>}

@@ -1,0 +1,113 @@
+.admin-coupons {
+  padding-top: 22px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-coupons__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-coupons__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.admin-coupons__new {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.admin-coupons__empty {
+  color: var(--color-text-muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.admin-coupons__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-coupon-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-coupon-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-coupon-card__code {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+.admin-coupon-card__status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.admin-coupon-card__status--active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-coupon-card__discount {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.admin-coupon-card__usage {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.admin-coupon-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.admin-coupon-card__btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.admin-coupon-card__btn--delete {
+  border-color: #e5484d;
+  color: #e5484d;
+}

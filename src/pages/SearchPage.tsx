@@ -3,6 +3,7 @@ import SearchBar from "../components/search/SearchBar";
 import ProductFilters, { type ActiveFilter } from "../components/category/ProductFilters";
 import ProductGrid from "../components/category/ProductGrid";
 import { useProducts } from "../context/ProductsContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { shuffle } from "../utils/array";
 import {
   PRICE_BUCKETS,
@@ -16,6 +17,7 @@ import "./SearchPage.css";
 const priceLabels = Object.fromEntries(PRICE_BUCKETS.map((bucket) => [bucket.value, bucket.label]));
 
 function SearchPage() {
+  useDocumentTitle("Buscar productos | Padelbros");
   const { products } = useProducts();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);

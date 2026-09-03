@@ -7,6 +7,7 @@ import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductsContext";
 import { useAnalytics } from "../context/AnalyticsContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { categories } from "../data/categories";
 import { CartIcon, HeartIcon, LayersIcon, LeafIcon, MinusIcon, PlusIcon, RibbonIcon } from "../components/home/icons";
 import { formatPrice } from "../utils/format";
@@ -34,6 +35,8 @@ function ProductDetailPage() {
   const { trackView } = useAnalytics();
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
+
+  useDocumentTitle(product ? `${product.name} | Padelbros` : "Padelbros");
 
   useEffect(() => {
     if (id) trackView(id);

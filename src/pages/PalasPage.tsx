@@ -7,6 +7,7 @@ import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useProducts } from "../context/ProductsContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import {
   applyProductFilter,
   getAvailableBrands,
@@ -15,6 +16,7 @@ import {
 } from "../utils/catalog";
 
 function PalasPage() {
+  useDocumentTitle("Palas de padel | Padelbros");
   const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 

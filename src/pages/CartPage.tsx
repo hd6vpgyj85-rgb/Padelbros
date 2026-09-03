@@ -4,6 +4,7 @@ import RelatedProducts from "../components/product/RelatedProducts";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { MinusIcon, PlusIcon, RacketPlaceholderIcon, TrashIcon } from "../components/home/icons";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { formatPrice } from "../utils/format";
 import "./CartPage.css";
 
@@ -14,6 +15,7 @@ const levelLabels: Record<string, string> = {
 };
 
 function CartPage() {
+  useDocumentTitle("Carrito | Padelbros");
   const { lines, totalItems, totalPrice, updateQuantity, removeItem } = useCart();
 
   return (

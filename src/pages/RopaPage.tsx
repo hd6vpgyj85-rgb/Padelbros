@@ -7,9 +7,11 @@ import ProductGrid from "../components/category/ProductGrid";
 import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useProducts } from "../context/ProductsContext";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { applyProductFilter, getAvailableSizes, getProductsByCategory } from "../utils/catalog";
 
 function RopaPage() {
+  useDocumentTitle("Ropa de padel | Padelbros");
   const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 

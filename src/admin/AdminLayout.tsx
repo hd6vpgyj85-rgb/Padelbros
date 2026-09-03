@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAdminAuth } from "./AdminAuthContext";
-import { BoxIcon, GridIcon, LogoutIcon } from "./icons";
+import { BoxIcon, GridIcon, LogoutIcon, TicketIcon } from "./icons";
 import { CartIcon, LayersIcon, StarBadgeIcon } from "../components/home/icons";
 import "./AdminLayout.css";
 
@@ -10,6 +10,7 @@ const tabs = [
   { to: "/admin/categorias", label: "Categorías", icon: LayersIcon, end: false },
   { to: "/admin/pedidos", label: "Pedidos", icon: CartIcon, end: false },
   { to: "/admin/resenas", label: "Reseñas", icon: StarBadgeIcon, end: false },
+  { to: "/admin/cupones", label: "Cupones", icon: TicketIcon, end: false },
 ];
 
 function AdminLayout() {
