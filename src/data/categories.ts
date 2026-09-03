@@ -6,7 +6,7 @@ export interface Category {
 
 export const categories: Category[] = [
   { id: "palas", name: "Palas", path: "/palas" },
-  { id: "mochilas", name: "Mochilas" },
+  { id: "mochilas", name: "Mochilas", path: "/mochilas" },
   { id: "tennis", name: "Tennis" },
   { id: "accesorios", name: "Accesorios" },
   { id: "ropa", name: "Ropa" },

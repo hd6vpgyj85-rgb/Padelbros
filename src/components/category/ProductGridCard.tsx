@@ -7,9 +7,12 @@ interface ProductGridCardProps {
 }
 
 function ProductGridCard({ product }: ProductGridCardProps) {
+  const isOutOfStock = product.stock === 0;
+
   return (
-    <article className="product-grid-card">
+    <article className={`product-grid-card${isOutOfStock ? " product-grid-card--out-of-stock" : ""}`}>
       <div className="product-grid-card__media">
+        {isOutOfStock && <span className="product-grid-card__badge">Agotado</span>}
         <PlaceholderRacket />
       </div>
       <div className="product-grid-card__body">

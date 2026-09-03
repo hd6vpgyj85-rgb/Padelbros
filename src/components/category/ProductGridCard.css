@@ -17,12 +17,33 @@
   }
 }
 
+.product-grid-card--out-of-stock {
+  opacity: 0.6;
+}
+
 .product-grid-card__media {
+  position: relative;
   aspect-ratio: 1 / 1;
   background-color: var(--color-surface-alt);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.product-grid-card__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  background-color: #2a2a2a;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
 }
 
 .product-grid-card__placeholder {

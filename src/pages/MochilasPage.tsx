@@ -9,30 +9,30 @@ import CategoryFooter from "../components/category/CategoryFooter";
 import { products } from "../data/products";
 import { getAvailableBrands, getAvailableLevels, getProductsByCategory } from "../utils/catalog";
 
-function PalasPage() {
+function MochilasPage() {
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
-  const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), []);
-  const availableBrands = useMemo(() => getAvailableBrands(palasProducts), [palasProducts]);
-  const availableLevels = useMemo(() => getAvailableLevels(palasProducts), [palasProducts]);
+  const mochilasProducts = useMemo(() => getProductsByCategory(products, "mochilas"), []);
+  const availableBrands = useMemo(() => getAvailableBrands(mochilasProducts), [mochilasProducts]);
+  const availableLevels = useMemo(() => getAvailableLevels(mochilasProducts), [mochilasProducts]);
 
   const filteredProducts = useMemo(() => {
-    if (!activeFilter) return palasProducts;
+    if (!activeFilter) return mochilasProducts;
     if (activeFilter.type === "brand") {
-      return palasProducts.filter((product) => product.brand === activeFilter.value);
+      return mochilasProducts.filter((product) => product.brand === activeFilter.value);
     }
-    return palasProducts.filter((product) => product.level === activeFilter.value);
-  }, [palasProducts, activeFilter]);
+    return mochilasProducts.filter((product) => product.level === activeFilter.value);
+  }, [mochilasProducts, activeFilter]);
 
   return (
     <>
       <CategoryPhotoBanner
         image={heroPlayer}
-        categoryName="Palas"
-        tagline="Encuentra la pala ideal para tu juego."
+        categoryName="Mochilas"
+        tagline="Carga tus palas con estilo."
       />
 
-      <CategoryHero title="Palas" subtitle="Descubre nuestra colección completa de palas de padel." />
+      <CategoryHero title="Mochilas" subtitle="Descubre nuestra colección completa de mochilas y paleteros." />
 
       <ProductFilters
         brands={availableBrands}
@@ -50,4 +50,4 @@ function PalasPage() {
   );
 }
 
-export default PalasPage;
+export default MochilasPage;
