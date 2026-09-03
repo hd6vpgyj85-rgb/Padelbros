@@ -1,6 +1,7 @@
 .checkout-page {
   padding-top: 24px;
   padding-bottom: 24px;
+  animation: page-fade-in 0.4s ease both;
 }
 
 .checkout-page__empty {

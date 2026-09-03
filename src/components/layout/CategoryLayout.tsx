@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import CategoryHeader from "./CategoryHeader";
-import BottomTabBar from "./BottomTabBar";
 
 function CategoryLayout() {
   return (
@@ -9,7 +8,6 @@ function CategoryLayout() {
       <main>
         <Outlet />
       </main>
-      <BottomTabBar />
     </>
   );
 }

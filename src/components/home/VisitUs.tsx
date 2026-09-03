@@ -1,18 +1,24 @@
+import { useScrollReveal } from "../../hooks/useScrollReveal";
 import visitPlayer from "../../assets/visit-player.jpg";
 import { storeInfo } from "../../data/store";
 import "./VisitUs.css";
 
 function VisitUs() {
+  const { ref, isVisible } = useScrollReveal<HTMLElement>();
+
   return (
-    <section className="visit-us">
+    <section className="visit-us" ref={ref}>
       <div className="container visit-us__grid">
         <img
-          className="visit-us__image"
+          className={`visit-us__image reveal${isVisible ? " reveal--visible" : ""}`}
           src={visitPlayer}
           alt="Jugador de padel descansando en la cancha con una Red Bull"
         />
 
-        <div className="visit-us__content">
+        <div
+          className={`visit-us__content reveal${isVisible ? " reveal--visible" : ""}`}
+          style={{ transitionDelay: "0.15s" }}
+        >
           <span className="eyebrow">Visítanos</span>
           <h2 className="section-title">Vive la experiencia Padelbros.</h2>
 

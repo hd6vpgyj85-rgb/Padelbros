@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
-import PromoBar from "./components/layout/PromoBar";
 import HomeLayout from "./components/layout/HomeLayout";
 import CategoryLayout from "./components/layout/CategoryLayout";
 import SearchLayout from "./components/layout/SearchLayout";
@@ -20,7 +19,6 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <PromoBar />
         <Routes>
           <Route element={<HomeLayout />}>
             <Route path="/" element={<HomePage />} />

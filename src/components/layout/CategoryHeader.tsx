@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { categories } from "../../data/categories";
+import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
 import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from "../home/icons";
 import TopBar from "./TopBar";
 import "./CategoryHeader.css";
@@ -8,9 +9,14 @@ import "./CategoryHeader.css";
 function CategoryHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const isVisible = useHeaderVisibility();
 
   return (
-    <header className="category-header">
+    <header
+      className={`category-header site-header site-header--neon${
+        isVisible ? "" : " site-header--hidden"
+      }`}
+    >
       <TopBar />
 
       <button

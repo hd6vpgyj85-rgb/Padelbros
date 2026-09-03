@@ -1,5 +1,6 @@
 .product-detail {
   padding-top: 24px;
+  animation: page-fade-in 0.4s ease both;
 }
 
 .product-detail__layout {

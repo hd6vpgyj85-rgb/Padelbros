@@ -1,3 +1,4 @@
+import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { testimonials } from "../../data/testimonials";
 import "./Testimonials.css";
 
@@ -8,15 +9,21 @@ const levelLabels: Record<string, string> = {
 };
 
 function Testimonials() {
+  const { ref, isVisible } = useScrollReveal<HTMLElement>();
+
   return (
-    <section className="testimonials">
+    <section className="testimonials" ref={ref}>
       <div className="container">
         <span className="eyebrow">La comunidad habla</span>
         <h2 className="section-title">+500 jugadores nos recomiendan.</h2>
 
         <div className="testimonials__grid">
-          {testimonials.map((testimonial) => (
-            <article className="testimonial-card" key={testimonial.id}>
+          {testimonials.map((testimonial, index) => (
+            <article
+              className={`testimonial-card reveal${isVisible ? " reveal--visible" : ""}`}
+              key={testimonial.id}
+              style={{ transitionDelay: `${index * 0.1}s` }}
+            >
               <div className="testimonial-card__stars" aria-hidden="true">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <StarIcon key={i} />

@@ -1,6 +1,5 @@
 .category-header {
   background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
 }
 
 .category-header__menu-toggle {

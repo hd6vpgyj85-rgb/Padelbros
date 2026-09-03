@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-import BottomTabBar from "./BottomTabBar";
 
 function HomeLayout() {
   return (
@@ -9,7 +8,6 @@ function HomeLayout() {
       <main>
         <Outlet />
       </main>
-      <BottomTabBar />
     </>
   );
 }

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
 import { HamburgerIcon, SearchIcon } from "../home/icons";
 import MobileMenu from "./MobileMenu";
 import "./Header.css";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isVisible = useHeaderVisibility();
 
   return (
-    <header className="header">
+    <header className={`header site-header${isVisible ? "" : " site-header--hidden"}`}>
       <div className="header__inner container">
         <Link to="/" className="header__logo" aria-label="Padelbros - inicio">
           <img src={logo} alt="Padelbros" />
