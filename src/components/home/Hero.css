@@ -30,55 +30,110 @@
   position: relative;
   z-index: 1;
   padding-top: 40px;
-  padding-bottom: 36px;
+  padding-bottom: 40px;
+  animation: hero-fade-up 0.6s ease both;
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.hero__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
 }
 
 .hero__title {
-  font-family: var(--font-display);
-  font-weight: 900;
+  margin-top: 22px;
+  font-family: var(--font-body);
+  font-weight: 300;
   text-transform: uppercase;
-  font-size: 40px;
-  line-height: 1.05;
+  font-size: 46px;
+  line-height: 1.08;
   letter-spacing: -0.01em;
   color: var(--color-text);
-  max-width: 420px;
+  max-width: 460px;
 }
 
 .hero__title-accent {
   color: var(--color-accent);
 }
 
+.hero__actions {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hero__cta,
+.hero__secondary-cta {
+  text-transform: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 .hero__cta {
-  margin-top: 22px;
+  gap: 10px;
+}
+
+.hero__cta svg {
+  width: 16px;
+  height: 16px;
 }
 
 .hero__rating {
-  margin-top: 22px;
+  margin-top: 26px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .hero__stars {
   display: flex;
-  gap: 2px;
+  gap: 3px;
   color: var(--color-accent);
 }
 
 .hero__stars svg {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
 }
 
 .hero__rating-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-muted);
+  max-width: 220px;
 }
 
 @media (min-width: 480px) {
   .hero__title {
-    font-size: 46px;
+    font-size: 54px;
   }
 }
 
@@ -88,19 +143,28 @@
   }
 
   .hero__title {
-    font-size: 60px;
-    max-width: 560px;
+    font-size: 74px;
+    max-width: 680px;
   }
 
   .hero__content {
     padding-top: 60px;
     padding-bottom: 60px;
   }
+
+  .hero__actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .hero__rating-text {
+    max-width: none;
+  }
 }
 
 @media (min-width: 1024px) {
   .hero__title {
-    font-size: 72px;
-    max-width: 640px;
+    font-size: 88px;
+    max-width: 800px;
   }
 }

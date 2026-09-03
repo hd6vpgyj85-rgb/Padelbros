@@ -12,7 +12,7 @@ function LevelsSection() {
   };
 
   return (
-    <section className="levels">
+    <section className="levels" id="elige-tu-nivel">
       <div className="container">
         <span className="eyebrow">Elige tu nivel</span>
         <h2 className="section-title">Cada jugador merece su pala.</h2>

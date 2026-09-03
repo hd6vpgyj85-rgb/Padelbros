@@ -1,4 +1,5 @@
 import heroPlayer from "../../assets/hero-player.jpg";
+import { ArrowRightIcon } from "./icons";
 import "./Hero.css";
 
 function Hero() {
@@ -8,14 +9,26 @@ function Hero() {
       <div className="hero__overlay" aria-hidden="true" />
 
       <div className="hero__content container">
+        <span className="hero__badge">
+          <span className="hero__badge-dot" aria-hidden="true" />
+          Especialistas en padel
+        </span>
+
         <h1 className="hero__title">
-          La tienda de <span className="hero__title-accent">padel</span> en Cd
-          Juárez.
+          La tienda de padel en{" "}
+          <span className="hero__title-accent">Cd Juárez.</span>
         </h1>
 
-        <a className="btn btn--primary hero__cta" href="#top-palas">
-          Ver más
-        </a>
+        <div className="hero__actions">
+          <a className="btn btn--primary hero__cta" href="#top-palas">
+            Ver palas
+            <ArrowRightIcon />
+          </a>
+
+          <a className="btn btn--outline hero__secondary-cta" href="#elige-tu-nivel">
+            Te ayudamos a elegir tu pala
+          </a>
+        </div>
 
         <div className="hero__rating">
           <div className="hero__stars" aria-hidden="true">
@@ -24,7 +37,7 @@ function Hero() {
             ))}
           </div>
           <p className="hero__rating-text">
-            +500 jugadores confían en Padelbros
+            +500 jugadores asesorados en Juárez
           </p>
         </div>
       </div>
