@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { categories } from "../../data/categories";
+import { useCollapsibleHeight } from "../../hooks/useCollapsibleHeight";
 import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
 import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from "../home/icons";
 import TopBar from "./TopBar";
@@ -10,6 +11,9 @@ function CategoryHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isVisible = useHeaderVisibility();
+  const { ref: dropdownContentRef, height: dropdownHeight } = useCollapsibleHeight<HTMLUListElement>(
+    isMenuOpen,
+  );
 
   return (
     <header
@@ -38,8 +42,8 @@ function CategoryHeader() {
         />
       </button>
 
-      <div className={`category-header__dropdown${isMenuOpen ? " category-header__dropdown--open" : ""}`}>
-        <ul>
+      <div className="category-header__dropdown" style={{ maxHeight: dropdownHeight }}>
+        <ul ref={dropdownContentRef}>
           {categories.map((category) => {
             const isActive = Boolean(category.path) && category.path === location.pathname;
             const rowClassName = `category-header__link${isActive ? " category-header__link--active" : ""}`;

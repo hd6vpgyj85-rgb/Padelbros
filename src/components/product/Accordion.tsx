@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { useCollapsibleHeight } from "../../hooks/useCollapsibleHeight";
 import { PlusIcon } from "../home/icons";
 import "./Accordion.css";
 
@@ -9,6 +10,7 @@ interface AccordionProps {
 
 function Accordion({ title, children }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { ref, height } = useCollapsibleHeight<HTMLDivElement>(isOpen);
 
   return (
     <div className="accordion">
@@ -22,8 +24,10 @@ function Accordion({ title, children }: AccordionProps) {
         <PlusIcon className={`accordion__icon${isOpen ? " accordion__icon--open" : ""}`} />
       </button>
 
-      <div className={`accordion__panel${isOpen ? " accordion__panel--open" : ""}`}>
-        <div className="accordion__content">{children}</div>
+      <div className="accordion__panel" style={{ maxHeight: height }}>
+        <div className="accordion__content" ref={ref}>
+          {children}
+        </div>
       </div>
     </div>
   );

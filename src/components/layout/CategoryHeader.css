@@ -42,18 +42,10 @@
 }
 
 .category-header__dropdown {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-  background-color: var(--color-surface);
-}
-
-.category-header__dropdown--open {
-  grid-template-rows: 1fr;
-}
-
-.category-header__dropdown ul {
   overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+  background-color: var(--color-surface);
 }
 
 .category-header__link {
