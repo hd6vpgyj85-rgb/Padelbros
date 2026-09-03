@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useProducts } from "./ProductsContext";
+import { useAnalytics } from "./AnalyticsContext";
 import type { Product } from "../types/product";
 
 interface CartItem {
@@ -47,6 +48,7 @@ interface CartProviderProps {
 
 export function CartProvider({ children }: CartProviderProps) {
   const { products } = useProducts();
+  const { trackCartAdd } = useAnalytics();
   const [items, setItems] = useState<CartItem[]>(() => readStoredCart());
 
   useEffect(() => {
@@ -58,6 +60,7 @@ export function CartProvider({ children }: CartProviderProps) {
   }, [items]);
 
   const addItem = (productId: string, quantity = 1) => {
+    trackCartAdd(productId);
     setItems((current) => {
       const existing = current.find((item) => item.productId === productId);
       if (existing) {

@@ -7,6 +7,7 @@ import AdminProductsPage from "./AdminProductsPage";
 import AdminProductFormPage from "./AdminProductFormPage";
 import AdminCategoriesPage from "./AdminCategoriesPage";
 import AdminOrdersPage from "./AdminOrdersPage";
+import AdminReviewsPage from "./AdminReviewsPage";
 
 function AdminRoutes() {
   const { isAuthenticated } = useAdminAuth();
@@ -24,6 +25,7 @@ function AdminRoutes() {
         <Route path="productos/:id" element={<AdminProductFormPage />} />
         <Route path="categorias" element={<AdminCategoriesPage />} />
         <Route path="pedidos" element={<AdminOrdersPage />} />
+        <Route path="resenas" element={<AdminReviewsPage />} />
       </Route>
     </Routes>
   );

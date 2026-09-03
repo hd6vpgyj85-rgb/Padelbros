@@ -1,5 +1,6 @@
 import type { PlayerLevel, Product, ProductCategory } from "../types/product";
 import type { ActiveFilter } from "../components/category/ProductFilters";
+import { shuffle } from "./array";
 
 export function getProductsByCategory(products: Product[], category: ProductCategory): Product[] {
   return products.filter((product) => product.category === category);
@@ -72,10 +73,33 @@ export function applyProductFilter(products: Product[], filter: ActiveFilter | n
   return products;
 }
 
-export function getFeaturedProducts(products: Product[], featuredIds: string[]): Product[] {
-  return featuredIds
-    .map((id) => products.find((product) => product.id === id))
-    .filter((product): product is Product => Boolean(product));
+export interface PopularitySignals {
+  views: Record<string, number>;
+  cartAdds: Record<string, number>;
+  purchases: Record<string, number>;
+}
+
+export function getPopularProducts(products: Product[], count: number, signals: PopularitySignals): Product[] {
+  const scored = products
+    .map((product) => ({
+      product,
+      score:
+        (signals.purchases[product.id] ?? 0) * 3 +
+        (signals.cartAdds[product.id] ?? 0) * 2 +
+        (signals.views[product.id] ?? 0),
+    }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  const picked = scored.slice(0, count).map((entry) => entry.product);
+
+  if (picked.length < count) {
+    const pickedIds = new Set(picked.map((product) => product.id));
+    const remaining = shuffle(products.filter((product) => !pickedIds.has(product.id)));
+    picked.push(...remaining.slice(0, count - picked.length));
+  }
+
+  return picked;
 }
 
 export function searchProducts(products: Product[], query: string): Product[] {

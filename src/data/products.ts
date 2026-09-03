@@ -293,9 +293,3 @@ export const defaultProducts: Product[] = [
     vendor: "Padelbros",
   },
 ];
-
-export const featuredIds = [
-  "nox-agustin-tapia-at10-genius-attack",
-  "camiseta-siux-splash-v4",
-  "lok-mike-yanguas",
-];

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Accordion from "../components/product/Accordion";
 import RelatedProducts from "../components/product/RelatedProducts";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductsContext";
+import { useAnalytics } from "../context/AnalyticsContext";
 import { categories } from "../data/categories";
 import {
   CartIcon,
@@ -38,8 +39,13 @@ function ProductDetailPage() {
   const { products } = useProducts();
   const product = products.find((candidate) => candidate.id === id);
   const { addItem } = useCart();
+  const { trackView } = useAnalytics();
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
+
+  useEffect(() => {
+    if (id) trackView(id);
+  }, [id]);
 
   if (!product) return <Navigate to="/" replace />;
 

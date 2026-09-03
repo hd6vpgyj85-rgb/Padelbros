@@ -1,0 +1,134 @@
+.admin-reviews {
+  padding-top: 22px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-reviews__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.admin-reviews__empty {
+  color: var(--color-text-muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.admin-reviews__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-review-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-review-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-review-card__status {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+}
+
+.admin-review-card__status--pendiente {
+  border-color: #e8b339;
+  color: #e8b339;
+}
+
+.admin-review-card__status--aprobada {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-review-card__status--rechazada {
+  border-color: #e5484d;
+  color: #e5484d;
+}
+
+.admin-review-card__date {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+}
+
+.admin-review-card__stars {
+  color: var(--color-accent);
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.admin-review-card__quote {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.admin-review-card__author {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.admin-review-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.admin-review-card__btn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.admin-review-card__btn--approve {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-review-card__btn--reject {
+  border-color: #e5484d;
+  color: #e5484d;
+}
+
+.admin-review-card__btn--delete {
+  margin-left: auto;
+  width: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.admin-review-card__btn--delete svg {
+  width: 16px;
+  height: 16px;
+}

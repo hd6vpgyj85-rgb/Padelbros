@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useOrders } from "../context/OrdersContext";
+import { useReviews } from "../context/ReviewsContext";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
 import "./CheckoutPage.css";
@@ -109,6 +110,7 @@ function buildWhatsAppMessage(form: FormState, lines: { name: string; quantity: 
 function CheckoutPage() {
   const { lines, totalPrice, clearCart } = useCart();
   const { addOrder } = useOrders();
+  const { addReview } = useReviews();
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -171,6 +173,14 @@ function CheckoutPage() {
       })),
       total: totalPrice,
     });
+
+    if (form.calificacion > 0 && form.experiencia.trim()) {
+      addReview({
+        name: `${form.nombre} ${form.apellido}`.trim(),
+        rating: form.calificacion,
+        quote: form.experiencia.trim(),
+      });
+    }
 
     window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
     clearCart();

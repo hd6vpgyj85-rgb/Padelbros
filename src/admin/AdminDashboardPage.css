@@ -66,8 +66,14 @@
   color: var(--color-text-muted);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 480px) {
   .admin-dashboard__stats {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .admin-dashboard__stats {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
