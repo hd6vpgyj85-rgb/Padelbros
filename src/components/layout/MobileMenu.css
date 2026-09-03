@@ -105,6 +105,7 @@
 }
 
 .mobile-menu__link {
+  display: block;
   width: 100%;
   text-align: left;
   background: transparent;

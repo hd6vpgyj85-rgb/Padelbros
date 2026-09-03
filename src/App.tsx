@@ -1,32 +1,23 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PromoBar from "./components/layout/PromoBar";
 import Header from "./components/layout/Header";
 import BottomTabBar from "./components/layout/BottomTabBar";
-import Hero from "./components/home/Hero";
-import Features from "./components/home/Features";
-import TopProducts from "./components/home/TopProducts";
-import LevelsSection from "./components/home/LevelsSection";
-import WhyUs from "./components/home/WhyUs";
-import Testimonials from "./components/home/Testimonials";
-import VisitUs from "./components/home/VisitUs";
-import CtaFooter from "./components/home/CtaFooter";
+import HomePage from "./pages/HomePage";
+import PalasPage from "./pages/PalasPage";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <PromoBar />
       <Header />
       <main>
-        <Hero />
-        <Features />
-        <TopProducts />
-        <LevelsSection />
-        <WhyUs />
-        <Testimonials />
-        <VisitUs />
-        <CtaFooter />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/palas" element={<PalasPage />} />
+        </Routes>
       </main>
       <BottomTabBar />
-    </>
+    </BrowserRouter>
   );
 }
 

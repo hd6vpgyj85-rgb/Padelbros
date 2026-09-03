@@ -44,11 +44,11 @@
 }
 
 .why-us-item--active .why-us-item__description {
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.55), 0 0 22px rgba(198, 255, 74, 0.45);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.55), 0 0 22px rgba(126, 211, 33, 0.45);
 }
 
 .why-us-item--active .why-us-item__number {
-  text-shadow: 0 0 10px rgba(198, 255, 74, 0.7);
+  text-shadow: 0 0 10px rgba(126, 211, 33, 0.7);
 }
 
 @media (min-width: 768px) {

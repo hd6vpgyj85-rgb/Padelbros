@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { HamburgerIcon, SearchIcon } from "../home/icons";
 import MobileMenu from "./MobileMenu";
@@ -10,9 +11,9 @@ function Header() {
   return (
     <header className="header">
       <div className="header__inner container">
-        <a href="/" className="header__logo" aria-label="Padelbros - inicio">
+        <Link to="/" className="header__logo" aria-label="Padelbros - inicio">
           <img src={logo} alt="Padelbros" />
-        </a>
+        </Link>
 
         <div className="header__actions">
           <button className="header__icon-btn" type="button" aria-label="Buscar">

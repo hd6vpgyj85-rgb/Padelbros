@@ -45,7 +45,7 @@
   text-transform: uppercase;
   color: var(--color-accent-neon);
   margin-bottom: 6px;
-  text-shadow: 0 0 12px rgba(212, 255, 31, 0.45);
+  text-shadow: 0 0 12px rgba(151, 229, 32, 0.45);
 }
 
 .visit-us__value {

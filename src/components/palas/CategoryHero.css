@@ -1,0 +1,45 @@
+.category-hero {
+  padding: 40px 0 8px;
+  text-align: center;
+  animation: category-fade-up 0.5s ease both;
+}
+
+.category-hero__title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 44px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.category-hero__subtitle {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+@keyframes category-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .category-hero {
+    padding: 56px 0 12px;
+  }
+
+  .category-hero__title {
+    font-size: 60px;
+  }
+
+  .category-hero__subtitle {
+    font-size: 17px;
+  }
+}

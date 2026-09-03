@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { categories } from "../../data/categories";
 import { useCartCount } from "../../hooks/useCartCount";
@@ -59,9 +60,9 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       }}
     >
       <div className="mobile-menu__topbar container">
-        <a href="/" className="mobile-menu__logo" aria-label="Padelbros - inicio">
+        <Link to="/" className="mobile-menu__logo" aria-label="Padelbros - inicio" onClick={onClose}>
           <img src={logo} alt="Padelbros" />
-        </a>
+        </Link>
 
         <div className="mobile-menu__actions">
           <button className="mobile-menu__icon-btn" type="button" aria-label="Buscar">
@@ -89,9 +90,15 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <ul className="mobile-menu__list">
           {categories.map((category, index) => (
             <li key={category.id} style={{ transitionDelay: `${0.04 * index}s` }}>
-              <button className="mobile-menu__link" type="button" onClick={onClose}>
-                {category.name}
-              </button>
+              {category.path ? (
+                <Link className="mobile-menu__link" to={category.path} onClick={onClose}>
+                  {category.name}
+                </Link>
+              ) : (
+                <button className="mobile-menu__link" type="button" onClick={onClose}>
+                  {category.name}
+                </button>
+              )}
             </li>
           ))}
         </ul>
