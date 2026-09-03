@@ -20,10 +20,10 @@ function TopBar() {
         <button className="top-bar__icon-btn" type="button" aria-label="Mi cuenta">
           <UserIcon />
         </button>
-        <button className="top-bar__icon-btn" type="button" aria-label="Carrito">
+        <Link className="top-bar__icon-btn" to="/carrito" aria-label="Carrito">
           <CartIcon />
           {cartCount > 0 && <span className="top-bar__badge">{cartCount}</span>}
-        </button>
+        </Link>
       </div>
     </div>
   );

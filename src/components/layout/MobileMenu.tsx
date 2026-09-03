@@ -71,10 +71,15 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <button className="mobile-menu__icon-btn" type="button" aria-label="Mi cuenta">
             <UserIcon />
           </button>
-          <button className="mobile-menu__icon-btn mobile-menu__cart" type="button" aria-label="Carrito">
+          <Link
+            className="mobile-menu__icon-btn mobile-menu__cart"
+            to="/carrito"
+            aria-label="Carrito"
+            onClick={onClose}
+          >
             <CartIcon />
             {cartCount > 0 && <span className="mobile-menu__badge">{cartCount}</span>}
-          </button>
+          </Link>
           <button
             className="mobile-menu__icon-btn mobile-menu__close"
             type="button"

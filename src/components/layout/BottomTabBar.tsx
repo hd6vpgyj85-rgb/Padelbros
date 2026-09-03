@@ -16,13 +16,13 @@ function BottomTabBar() {
         <UserIcon />
         <span>Cuenta</span>
       </button>
-      <button className="bottom-tab-bar__item" type="button">
+      <Link className="bottom-tab-bar__item" to="/carrito">
         <span className="bottom-tab-bar__icon-wrap">
           <CartIcon />
           {cartCount > 0 && <span className="bottom-tab-bar__badge">{cartCount}</span>}
         </span>
         <span>Carrito</span>
-      </button>
+      </Link>
     </nav>
   );
 }

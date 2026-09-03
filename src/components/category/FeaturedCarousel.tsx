@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "../home/icons";
+import { Link } from "react-router-dom";
+import { ArrowLeftIcon, ArrowRightIcon, RacketPlaceholderIcon } from "../home/icons";
 import { products } from "../../data/products";
 import { formatPrice } from "../../utils/format";
 import { shuffle } from "../../utils/array";
@@ -89,7 +90,7 @@ function FeaturedCarousel() {
               key={product.id}
             >
               <div className="featured-carousel__media">
-                <PlaceholderRacket />
+                <RacketPlaceholderIcon className="featured-carousel__placeholder" />
               </div>
             </div>
           ))}
@@ -125,29 +126,13 @@ function FeaturedCarousel() {
           <span className="eyebrow">Top venta</span>
           <h3 className="featured-carousel__name">{activeProduct.name}</h3>
           <p className="featured-carousel__price">Desde {formatPrice(activeProduct.price)}</p>
-          <button type="button" className="btn btn--primary featured-carousel__cta">
+          <Link to={`/producto/${activeProduct.id}`} className="btn btn--primary featured-carousel__cta">
             Ver producto
             <ArrowRightIcon />
-          </button>
+          </Link>
         </div>
       )}
     </section>
-  );
-}
-
-function PlaceholderRacket() {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      className="featured-carousel__placeholder"
-    >
-      <rect x="28" y="10" width="44" height="52" rx="18" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="50" y1="62" x2="50" y2="82" stroke="currentColor" strokeWidth="2.5" />
-      <rect x="42" y="82" width="16" height="8" rx="3" stroke="currentColor" strokeWidth="2.5" />
-    </svg>
   );
 }
 

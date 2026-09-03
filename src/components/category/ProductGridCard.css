@@ -1,9 +1,23 @@
 .product-grid-card {
+  display: block;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 14px;
   overflow: hidden;
   animation: grid-card-fade 0.35s ease both;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.product-grid-card:hover {
+  border-color: rgba(126, 211, 33, 0.5);
+}
+
+.product-grid-card:active {
+  transform: scale(0.99);
+}
+
+.product-grid-card--search:hover {
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 @keyframes grid-card-fade {

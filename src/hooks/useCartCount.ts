@@ -1,3 +1,5 @@
+import { useCart } from "../context/CartContext";
+
 export function useCartCount(): number {
-  return 0;
+  return useCart().totalItems;
 }

@@ -14,4 +14,5 @@ export interface Product {
   stock: number;
   vendor?: string;
   sizes?: string[];
+  description?: string;
 }
