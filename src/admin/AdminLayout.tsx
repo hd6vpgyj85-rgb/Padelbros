@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAdminAuth } from "./AdminAuthContext";
-import { BoxIcon, GridIcon, LogoutIcon, TicketIcon } from "./icons";
+import { BoxIcon, ExternalLinkIcon, GridIcon, LogoutIcon, TicketIcon } from "./icons";
 import { CartIcon, LayersIcon, StarBadgeIcon } from "../components/home/icons";
 import "./AdminLayout.css";
 
@@ -20,9 +20,21 @@ function AdminLayout() {
     <div className="admin-layout">
       <header className="admin-header">
         <span className="admin-header__brand">Padelbros Admin</span>
-        <button type="button" className="admin-header__logout" onClick={logout} aria-label="Cerrar sesión">
-          <LogoutIcon />
-        </button>
+        <div className="admin-header__actions">
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="admin-header__view-site"
+            aria-label="Ver página principal"
+            title="Ver página principal"
+          >
+            <ExternalLinkIcon />
+          </a>
+          <button type="button" className="admin-header__logout" onClick={logout} aria-label="Cerrar sesión">
+            <LogoutIcon />
+          </button>
+        </div>
       </header>
 
       <main className="admin-main">

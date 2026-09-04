@@ -27,7 +27,14 @@
   color: var(--color-text);
 }
 
-.admin-header__logout {
+.admin-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-header__logout,
+.admin-header__view-site {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,12 +47,14 @@
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.admin-header__logout svg {
+.admin-header__logout svg,
+.admin-header__view-site svg {
   width: 18px;
   height: 18px;
 }
 
-.admin-header__logout:hover {
+.admin-header__logout:hover,
+.admin-header__view-site:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
 }
