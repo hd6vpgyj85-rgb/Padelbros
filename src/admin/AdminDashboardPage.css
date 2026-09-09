@@ -66,6 +66,66 @@
   color: var(--color-text-muted);
 }
 
+.admin-dashboard__section {
+  margin-top: 28px;
+}
+
+.admin-dashboard__section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.admin-dashboard__links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-doc-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  transition: border-color 0.15s ease;
+}
+
+.admin-doc-link:hover {
+  border-color: var(--color-accent);
+}
+
+.admin-doc-link__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-doc-link__label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.admin-doc-link__desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.admin-doc-link__icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+}
+
 @media (min-width: 480px) {
   .admin-dashboard__stats {
     grid-template-columns: repeat(2, 1fr);
