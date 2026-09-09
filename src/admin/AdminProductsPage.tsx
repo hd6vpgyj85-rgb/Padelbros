@@ -2,10 +2,13 @@ import { Link } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
 import { RacketPlaceholderIcon } from "../components/home/icons";
 import { formatPrice } from "../utils/format";
+import { findDuplicateProducts } from "../utils/duplicateProducts";
 import "./AdminProductsPage.css";
 
 function AdminProductsPage() {
   const { products } = useProducts();
+  const duplicateGroups = findDuplicateProducts(products);
+  const duplicateIds = new Set(duplicateGroups.flatMap((group) => group.products.map((product) => product.id)));
 
   return (
     <div className="admin-products container">
@@ -19,6 +22,30 @@ function AdminProductsPage() {
         </Link>
       </div>
 
+      {duplicateGroups.length > 0 && (
+        <div className="admin-products__duplicate-warning">
+          <p className="admin-products__duplicate-title">
+            {duplicateGroups.length === 1
+              ? "Se encontró un posible producto duplicado"
+              : `Se encontraron ${duplicateGroups.length} posibles productos duplicados`}
+          </p>
+          <ul className="admin-products__duplicate-list">
+            {duplicateGroups.map((group) => (
+              <li key={group.key}>
+                <span className="admin-products__duplicate-name">{group.name}</span>
+                <span className="admin-products__duplicate-count">({group.products.length})</span>
+                {group.products.map((product, index) => (
+                  <span key={product.id}>
+                    {index > 0 && " · "}
+                    <Link to={`/admin/productos/${product.id}`}>Ver</Link>
+                  </span>
+                ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {products.length === 0 ? (
         <p className="admin-products__empty">No hay productos todavía.</p>
       ) : (
@@ -26,7 +53,11 @@ function AdminProductsPage() {
           {products.map((product) => (
             <Link to={`/admin/productos/${product.id}`} key={product.id} className="admin-product-card">
               <div className="admin-product-card__media">
-                <span className="admin-product-card__badge">VISIBLE</span>
+                {duplicateIds.has(product.id) ? (
+                  <span className="admin-product-card__badge admin-product-card__badge--duplicate">DUPLICADO</span>
+                ) : (
+                  <span className="admin-product-card__badge">VISIBLE</span>
+                )}
                 {product.images?.[0] ? (
                   <img src={product.images[0]} alt={product.name} className="admin-product-card__photo" />
                 ) : (
