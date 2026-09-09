@@ -20,6 +20,8 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import AdminApp from "./admin/AdminApp";
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
                       <Route path="/producto/:id" element={<ProductDetailPage />} />
                       <Route path="/carrito" element={<CartPage />} />
                       <Route path="/checkout" element={<CheckoutPage />} />
+                      <Route path="/terminos" element={<TermsPage />} />
+                      <Route path="/privacidad" element={<PrivacyPage />} />
                     </Route>
                     <Route element={<SearchLayout />}>
                       <Route path="/buscar" element={<SearchPage />} />

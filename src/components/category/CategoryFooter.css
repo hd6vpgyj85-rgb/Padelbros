@@ -60,6 +60,7 @@
 }
 
 .category-footer__link {
+  display: block;
   width: 100%;
   text-align: left;
   background: transparent;
@@ -68,6 +69,7 @@
   font-family: Georgia, "Times New Roman", serif;
   font-size: 19px;
   color: var(--color-text);
+  text-decoration: none;
   transition: color 0.15s ease;
 }
 

@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
 import visitPlayer from "../../assets/palas-visit-player.jpg";
-import { storeInfo } from "../../data/store";
+import { storeInfo, getWhatsAppUrl } from "../../data/store";
 import "./CategoryFooter.css";
 
+const whatsappUrl = getWhatsAppUrl("Hola, quiero más información sobre productos de Padelbros.");
+
 const footerLinks = [
-  "Comunícate con nosotros",
-  "Política de garantías",
-  "Política de envíos",
-  "Síguenos para más promociones",
+  { label: "Comunícate con nosotros", href: whatsappUrl, external: true },
+  { label: "Términos y condiciones", to: "/terminos" },
+  { label: "Privacidad y cookies", to: "/privacidad" },
 ];
 
 function CategoryFooter() {
@@ -41,13 +43,26 @@ function CategoryFooter() {
 
       <div className="category-footer__links">
         <ul className="container">
-          {footerLinks.map((label) => (
-            <li key={label}>
-              <button type="button" className="category-footer__link">
-                {label}
-              </button>
-            </li>
-          ))}
+          {footerLinks.map((link) =>
+            link.to ? (
+              <li key={link.label}>
+                <Link to={link.to} className="category-footer__link">
+                  {link.label}
+                </Link>
+              </li>
+            ) : (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className="category-footer__link"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ),
+          )}
         </ul>
       </div>
     </footer>

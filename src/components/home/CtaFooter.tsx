@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { getWhatsAppUrl } from "../../data/store";
 import { ArrowRightIcon, PhoneIcon } from "./icons";
 import "./CtaFooter.css";
@@ -31,6 +32,12 @@ function CtaFooter() {
             <PhoneIcon />
             WhatsApp
           </a>
+        </div>
+
+        <div className="cta-footer__legal">
+          <Link to="/terminos">Términos y condiciones</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/privacidad">Privacidad y cookies</Link>
         </div>
       </div>
     </section>
