@@ -3,17 +3,9 @@ import { useProducts } from "../context/ProductsContext";
 import { useOrders } from "../context/OrdersContext";
 import { useReviews } from "../context/ReviewsContext";
 import { categories } from "../data/categories";
-import { BoxIcon, ExternalLinkIcon } from "./icons";
+import { BoxIcon } from "./icons";
 import { CartIcon, LayersIcon, StarBadgeIcon } from "../components/home/icons";
 import "./AdminDashboardPage.css";
-
-const externalLinks = [
-  {
-    label: "Política de devoluciones",
-    description: "Cuestionario para definir la política de reembolsos que se publica en el sitio",
-    href: "https://claude.ai/code/artifact/75aa5def-5c36-4d6c-bcb5-c944f946d9ed",
-  },
-];
 
 function AdminDashboardPage() {
   const { products } = useProducts();
@@ -45,27 +37,6 @@ function AdminDashboardPage() {
             <span className="admin-stat-card__label">{label}</span>
           </Link>
         ))}
-      </div>
-
-      <div className="admin-dashboard__section">
-        <h2 className="admin-dashboard__section-title">Documentos</h2>
-        <div className="admin-dashboard__links">
-          {externalLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="admin-doc-link"
-            >
-              <div className="admin-doc-link__text">
-                <span className="admin-doc-link__label">{link.label}</span>
-                <span className="admin-doc-link__desc">{link.description}</span>
-              </div>
-              <ExternalLinkIcon className="admin-doc-link__icon" />
-            </a>
-          ))}
-        </div>
       </div>
     </div>
   );

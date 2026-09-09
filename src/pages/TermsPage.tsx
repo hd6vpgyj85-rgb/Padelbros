@@ -40,13 +40,12 @@ function TermsPage() {
           <section className="legal-page__section">
             <h2 className="legal-page__section-title">3. Precios y formas de pago</h2>
             <p>Todos los precios se muestran en pesos mexicanos (MXN) e incluyen IVA.</p>
-            <p>Aceptamos las siguientes formas de pago:</p>
-            <ul>
-              <li>Transferencia bancaria</li>
-              <li>Efectivo en tienda</li>
-              <li>Tarjeta (liga de pago)</li>
-            </ul>
-            <p>Los datos para realizar tu pago se te compartirán por WhatsApp al confirmar tu pedido.</p>
+            <p>
+              El sitio web no procesa pagos en línea: es únicamente para armar tu pedido y
+              enviarlo. Una vez recibido, un asesor te contactará por WhatsApp para tratar
+              directamente contigo la forma de pago (transferencia bancaria, efectivo en tienda o
+              tarjeta) y los datos necesarios para completarlo.
+            </p>
           </section>
 
           <section className="legal-page__section">
@@ -61,14 +60,10 @@ function TermsPage() {
           <section className="legal-page__section">
             <h2 className="legal-page__section-title">5. Cambios, devoluciones y reembolsos</h2>
             <p>
-              Si tu producto presenta un defecto de fábrica, cuentas con 15 días naturales a
-              partir de la fecha de entrega para solicitar un cambio o reembolso, escribiendo por
-              WhatsApp con fotos del producto y tu número de pedido.
-            </p>
-            <p>
-              El producto debe conservar su empaque original y no mostrar señales de uso ajenas
-              al defecto reportado. Una vez recibido y revisado, te confirmaremos si aplica cambio
-              por otro producto o reembolso.
+              Por el momento, Padelbros no acepta cambios, devoluciones ni reembolsos una vez
+              confirmado el pedido. Te recomendamos revisar bien las características, tallas y
+              medidas del producto antes de confirmar tu compra, o resolver tus dudas por
+              WhatsApp con un asesor previo a comprar.
             </p>
           </section>
 

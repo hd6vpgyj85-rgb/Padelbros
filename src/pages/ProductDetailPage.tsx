@@ -135,9 +135,9 @@ function ProductDetailPage() {
           <Accordion title="Envíos y devoluciones">
             <p>
               Realizamos envíos a toda la República Mexicana. El costo se calcula según tu
-              ubicación y se confirma por WhatsApp antes de procesar tu pedido. Si tu producto
-              presenta algún defecto de fábrica, cuentas con 15 días para solicitar cambio o
-              devolución.
+              ubicación y se confirma por WhatsApp antes de procesar tu pedido. El pago se trata
+              directamente por WhatsApp, no dentro del sitio web. Por el momento no se aceptan
+              cambios ni devoluciones una vez confirmado el pedido.
             </p>
           </Accordion>
         </div>
