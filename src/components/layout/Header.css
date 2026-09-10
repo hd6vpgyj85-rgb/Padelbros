@@ -44,6 +44,28 @@
   height: 21px;
 }
 
+.header__icon-btn--desktop {
+  display: none;
+}
+
+.header__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-color: #e0293e;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 @media (min-width: 768px) {
   .header__inner {
     height: 72px;
@@ -51,5 +73,19 @@
 
   .header__logo img {
     height: 34px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header__icon-btn {
+    position: relative;
+  }
+
+  .header__icon-btn--desktop {
+    display: flex;
+  }
+
+  .header__icon-btn--mobile-only {
+    display: none;
   }
 }

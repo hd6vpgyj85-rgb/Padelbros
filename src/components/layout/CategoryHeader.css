@@ -118,3 +118,10 @@
 .category-header__submenu-link:hover {
   color: var(--color-accent);
 }
+
+@media (min-width: 1024px) {
+  .category-header__menu-toggle,
+  .category-header__dropdown {
+    display: none;
+  }
+}

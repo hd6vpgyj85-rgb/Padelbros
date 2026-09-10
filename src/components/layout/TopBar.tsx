@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useCartCount } from "../../hooks/useCartCount";
 import { CartIcon, SearchIcon, UserIcon } from "../home/icons";
+import DesktopNav from "./DesktopNav";
 import "./TopBar.css";
 
 function TopBar() {
@@ -12,6 +13,8 @@ function TopBar() {
       <Link to="/" className="top-bar__logo" aria-label="Padelbros - inicio">
         <img src={logo} alt="Padelbros" />
       </Link>
+
+      <DesktopNav />
 
       <div className="top-bar__actions">
         <Link className="top-bar__icon-btn" to="/buscar" aria-label="Buscar">
