@@ -3,13 +3,36 @@
   animation: page-fade-in 0.4s ease both;
 }
 
+.admin-orders__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
 .admin-orders__title {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 28px;
   text-transform: uppercase;
   color: var(--color-text);
-  margin-bottom: 20px;
+}
+
+.admin-orders__vault-link {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  white-space: nowrap;
+}
+
+.admin-orders__vault-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .admin-orders__empty {
@@ -39,6 +62,35 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 4px;
+}
+
+.admin-order-card__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-order-card__delete {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.admin-order-card__delete svg {
+  width: 14px;
+  height: 14px;
+}
+
+.admin-order-card__delete:hover {
+  color: #e5484d;
+  border-color: #e5484d;
 }
 
 .admin-order-card__date {

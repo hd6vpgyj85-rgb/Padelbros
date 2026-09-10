@@ -8,6 +8,7 @@ import AdminProductsPage from "./AdminProductsPage";
 import AdminProductFormPage from "./AdminProductFormPage";
 import AdminCategoriesPage from "./AdminCategoriesPage";
 import AdminOrdersPage from "./AdminOrdersPage";
+import AdminOrdersArchivePage from "./AdminOrdersArchivePage";
 import AdminReviewsPage from "./AdminReviewsPage";
 import AdminCouponsPage from "./AdminCouponsPage";
 import AdminCouponFormPage from "./AdminCouponFormPage";
@@ -42,6 +43,7 @@ function AdminRoutes() {
         <Route path="productos/:id" element={<AdminProductFormPage />} />
         <Route path="categorias" element={<AdminCategoriesPage />} />
         <Route path="pedidos" element={<AdminOrdersPage />} />
+        <Route path="pedidos/baul" element={<AdminOrdersArchivePage />} />
         <Route path="resenas" element={<AdminReviewsPage />} />
         <Route path="cupones" element={<AdminCouponsPage />} />
         <Route path="cupones/nuevo" element={<AdminCouponFormPage />} />

@@ -34,6 +34,7 @@ export interface Order {
   notes?: string;
   items: OrderItem[];
   total: number;
+  archivedAt?: string;
 }
 
 interface OrderRow {
@@ -46,6 +47,7 @@ interface OrderRow {
   notes: string | null;
   items: OrderItem[];
   total: number;
+  archived_at: string | null;
 }
 
 function rowToOrder(row: OrderRow): Order {
@@ -59,20 +61,24 @@ function rowToOrder(row: OrderRow): Order {
     notes: row.notes ?? undefined,
     items: row.items,
     total: Number(row.total),
+    archivedAt: row.archived_at ?? undefined,
   };
 }
 
 interface OrdersContextValue {
   orders: Order[];
+  archivedOrders: Order[];
   isLoading: boolean;
   addOrder: (order: Omit<Order, "id" | "createdAt" | "status">) => Promise<void>;
   updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
+  archiveOrder: (id: string) => Promise<void>;
+  restoreOrder: (id: string) => Promise<void>;
 }
 
 const OrdersContext = createContext<OrdersContextValue | undefined>(undefined);
 
 export function OrdersProvider({ children }: { children: ReactNode }) {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -88,7 +94,7 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
       if (error) {
         console.error("No se pudieron cargar los pedidos", error);
       } else {
-        setOrders((data as OrderRow[]).map(rowToOrder));
+        setAllOrders((data as OrderRow[]).map(rowToOrder));
       }
       setIsLoading(false);
     };
@@ -125,10 +131,33 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
   const updateOrderStatus = async (id: string, status: OrderStatus) => {
     const { error } = await supabase.from("orders").update({ status }).eq("id", id);
     if (error) throw error;
-    setOrders((current) => current.map((order) => (order.id === id ? { ...order, status } : order)));
+    setAllOrders((current) => current.map((order) => (order.id === id ? { ...order, status } : order)));
   };
 
-  const value: OrdersContextValue = { orders, isLoading, addOrder, updateOrderStatus };
+  const archiveOrder = async (id: string) => {
+    const archivedAt = new Date().toISOString();
+    const { error } = await supabase.from("orders").update({ archived_at: archivedAt }).eq("id", id);
+    if (error) throw error;
+    setAllOrders((current) => current.map((order) => (order.id === id ? { ...order, archivedAt } : order)));
+  };
+
+  const restoreOrder = async (id: string) => {
+    const { error } = await supabase.from("orders").update({ archived_at: null }).eq("id", id);
+    if (error) throw error;
+    setAllOrders((current) =>
+      current.map((order) => (order.id === id ? { ...order, archivedAt: undefined } : order)),
+    );
+  };
+
+  const value: OrdersContextValue = {
+    orders: allOrders.filter((order) => !order.archivedAt),
+    archivedOrders: allOrders.filter((order) => order.archivedAt),
+    isLoading,
+    addOrder,
+    updateOrderStatus,
+    archiveOrder,
+    restoreOrder,
+  };
 
   return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>;
 }

@@ -1,0 +1,157 @@
+.admin-orders-archive {
+  padding-top: 22px;
+  padding-bottom: 32px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.admin-orders-archive__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.admin-orders-archive__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.admin-orders-archive__back {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.admin-orders-archive__back:hover {
+  color: var(--color-accent);
+}
+
+.admin-orders-archive__hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 22px;
+  max-width: 520px;
+}
+
+.admin-orders-archive__empty {
+  color: var(--color-text-muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.admin-orders-archive__group {
+  margin-bottom: 26px;
+}
+
+.admin-orders-archive__group-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.admin-orders-archive__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-order-archive-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-order-archive-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.admin-order-archive-card__status {
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 0 10px;
+}
+
+.admin-order-archive-card__status--completado {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-order-archive-card__status--cancelado {
+  border-color: #e5484d;
+  color: #e5484d;
+}
+
+.admin-order-archive-card__restore {
+  flex: none;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-order-archive-card__restore:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.admin-order-archive-card__customer {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.admin-order-archive-card__contact {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.admin-order-archive-card__items {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-order-archive-card__total {
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.admin-order-archive-card__meta {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
