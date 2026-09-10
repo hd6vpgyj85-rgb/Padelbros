@@ -1,17 +1,69 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
+import { categories } from "../data/categories";
 import { RacketPlaceholderIcon } from "../components/home/icons";
 import { formatPrice } from "../utils/format";
 import { findDuplicateProducts } from "../utils/duplicateProducts";
+import type { Product } from "../types/product";
 import "./AdminProductsPage.css";
 
 const DELETE_ALL_CONFIRM_TEXT = "delete products";
+const LOW_STOCK_THRESHOLD = 3;
+
+type StatusFilter = "todos" | "oferta" | "agotados" | "pocas";
+
+const statusFilters: { value: StatusFilter; label: string }[] = [
+  { value: "todos", label: "Todos" },
+  { value: "oferta", label: "En oferta" },
+  { value: "agotados", label: "Agotados" },
+  { value: "pocas", label: "Pocas unidades" },
+];
+
+function normalize(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function categoryLabel(categoryId: string): string {
+  return categories.find((category) => category.id === categoryId)?.name ?? categoryId;
+}
+
+function matchesSearch(product: Product, query: string): boolean {
+  if (!query) return true;
+  const haystack = normalize(
+    [product.name, product.brand, product.category, categoryLabel(product.category)].join(" "),
+  );
+  return haystack.includes(normalize(query));
+}
+
+function matchesStatus(product: Product, filter: StatusFilter): boolean {
+  switch (filter) {
+    case "oferta":
+      return Boolean(product.onSale);
+    case "agotados":
+      return product.stock === 0;
+    case "pocas":
+      return product.stock > 0 && product.stock <= LOW_STOCK_THRESHOLD;
+    default:
+      return true;
+  }
+}
 
 function AdminProductsPage() {
   const { products, deleteProduct } = useProducts();
   const duplicateGroups = findDuplicateProducts(products);
   const duplicateIds = new Set(duplicateGroups.flatMap((group) => group.products.map((product) => product.id)));
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("todos");
+
+  const filteredProducts = useMemo(
+    () => products.filter((product) => matchesSearch(product, searchQuery) && matchesStatus(product, statusFilter)),
+    [products, searchQuery, statusFilter],
+  );
 
   const [isConfirmingDeleteAll, setIsConfirmingDeleteAll] = useState(false);
   const [deleteAllConfirmText, setDeleteAllConfirmText] = useState("");
@@ -66,6 +118,31 @@ function AdminProductsPage() {
           </Link>
         </div>
       </div>
+
+      {products.length > 0 && (
+        <div className="admin-products__search-bar">
+          <input
+            type="search"
+            className="admin-products__search-input"
+            placeholder="Buscar por nombre, marca o categoría..."
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+
+          <div className="admin-products__filters">
+            {statusFilters.map((filter) => (
+              <button
+                key={filter.value}
+                type="button"
+                className={`admin-products__filter${statusFilter === filter.value ? " admin-products__filter--active" : ""}`}
+                onClick={() => setStatusFilter(filter.value)}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {products.length > 0 && !isConfirmingDeleteAll && (
         <button
@@ -157,9 +234,11 @@ function AdminProductsPage() {
 
       {products.length === 0 ? (
         <p className="admin-products__empty">No hay productos todavía.</p>
+      ) : filteredProducts.length === 0 ? (
+        <p className="admin-products__empty">No hay productos que coincidan con la búsqueda o el filtro.</p>
       ) : (
         <div className="admin-products__grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Link to={`/admin/productos/${product.id}`} key={product.id} className="admin-product-card">
               <div className="admin-product-card__media">
                 {duplicateIds.has(product.id) ? (
