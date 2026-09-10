@@ -155,7 +155,14 @@ function Testimonials() {
   return (
     <section className="testimonials" ref={ref}>
       <div className="container">
-        <span className="eyebrow">La comunidad habla</span>
+        <a
+          className="eyebrow"
+          href="https://share.google/Gu9yHYMUiPMZuHoZH"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          La comunidad habla
+        </a>
         <h2 className="section-title">+500 jugadores nos recomiendan.</h2>
 
         {slideCount > 0 && (
