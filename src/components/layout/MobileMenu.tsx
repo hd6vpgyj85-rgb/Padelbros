@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { categories } from "../../data/categories";
 import { useCartCount } from "../../hooks/useCartCount";
-import { CartIcon, CloseIcon, SearchIcon, UserIcon } from "../home/icons";
+import { CartIcon, ChevronRightIcon, CloseIcon, SearchIcon, UserIcon } from "../home/icons";
 import "./MobileMenu.css";
 
 interface MobileMenuProps {
@@ -15,6 +16,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const cartCount = useCartCount();
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
 
   useEffect(() => {
     let frameId: number;
@@ -26,6 +28,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       });
     } else {
       setIsActive(false);
+      setExpandedCategoryId(null);
     }
 
     return () => cancelAnimationFrame(frameId);
@@ -49,7 +52,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   if (!shouldRender) return null;
 
-  return (
+  return createPortal(
     <div
       className={`mobile-menu${isActive ? " mobile-menu--active" : ""}`}
       role="dialog"
@@ -98,22 +101,61 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       <nav className="mobile-menu__nav container">
         <ul className="mobile-menu__list">
-          {categories.map((category, index) => (
-            <li key={category.id} style={{ transitionDelay: `${0.04 * index}s` }}>
-              {category.path ? (
-                <Link className="mobile-menu__link" to={category.path} onClick={onClose}>
-                  {category.name}
-                </Link>
-              ) : (
-                <button className="mobile-menu__link" type="button" onClick={onClose}>
-                  {category.name}
-                </button>
-              )}
-            </li>
-          ))}
+          {categories.map((category, index) => {
+            const hasBrands = Boolean(category.brands?.length);
+            const isExpanded = expandedCategoryId === category.id;
+
+            return (
+              <li key={category.id} style={{ transitionDelay: `${0.04 * index}s` }}>
+                {hasBrands ? (
+                  <button
+                    className="mobile-menu__link mobile-menu__link--expandable"
+                    type="button"
+                    aria-expanded={isExpanded}
+                    onClick={() => setExpandedCategoryId(isExpanded ? null : category.id)}
+                  >
+                    {category.name}
+                    <ChevronRightIcon
+                      className={`mobile-menu__link-chevron${isExpanded ? " mobile-menu__link-chevron--open" : ""}`}
+                    />
+                  </button>
+                ) : category.path ? (
+                  <Link className="mobile-menu__link" to={category.path} onClick={onClose}>
+                    {category.name}
+                  </Link>
+                ) : (
+                  <button className="mobile-menu__link" type="button" onClick={onClose}>
+                    {category.name}
+                  </button>
+                )}
+
+                {hasBrands && isExpanded && (
+                  <ul className="mobile-menu__submenu">
+                    <li>
+                      <Link to={category.path ?? "#"} className="mobile-menu__submenu-link" onClick={onClose}>
+                        Ver todas las {category.name.toLowerCase()}
+                      </Link>
+                    </li>
+                    {category.brands?.map((brand) => (
+                      <li key={brand}>
+                        <Link
+                          to={`${category.path ?? ""}?marca=${encodeURIComponent(brand)}`}
+                          className="mobile-menu__submenu-link"
+                          onClick={onClose}
+                        >
+                          {brand}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </nav>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

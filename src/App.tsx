@@ -23,6 +23,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import AdminApp from "./admin/AdminApp";
+import WhatsAppButton from "./components/common/WhatsAppButton";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
                       <Route path="*" element={<NotFoundPage />} />
                     </Route>
                   </Routes>
+                  <WhatsAppButton />
                 </BrowserRouter>
               </CartProvider>
             </CouponsProvider>
