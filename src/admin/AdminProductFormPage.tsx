@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../context/ProductsContext";
 import type { ImageFit, PlayerLevel, Product, ProductCategory } from "../types/product";
 import { uploadImage } from "../utils/imageResize";
+import { formatTenisSize, parseTenisSize, usToMexicanSize, type TenisSizeRow } from "../utils/shoeSize";
 import { TrashIcon } from "../components/home/icons";
 import { CameraIcon } from "./icons";
 import "./AdminProductFormPage.css";
@@ -101,6 +102,12 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
       homeImageFit: existingProduct.homeImageFit ?? "cover",
     };
   });
+  const [tenisSizeRows, setTenisSizeRows] = useState<TenisSizeRow[]>(() => {
+    if (existingProduct?.category === "tenis" && existingProduct.sizes?.length) {
+      return existingProduct.sizes.map(parseTenisSize);
+    }
+    return [];
+  });
   const [imageError, setImageError] = useState("");
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,6 +115,29 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
 
   const updateField = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const addTenisSizeRow = () => {
+    setTenisSizeRows((current) => [...current, { us: "", mx: "" }]);
+  };
+
+  const updateTenisSizeRow = (index: number, us: string) => {
+    setTenisSizeRows((current) =>
+      current.map((row, rowIndex) => {
+        if (rowIndex !== index) return row;
+        const parsedUs = Number(us);
+        const mx = us && !Number.isNaN(parsedUs) ? String(usToMexicanSize(parsedUs)) : "";
+        return { us, mx };
+      }),
+    );
+  };
+
+  const updateTenisSizeMx = (index: number, mx: string) => {
+    setTenisSizeRows((current) => current.map((row, rowIndex) => (rowIndex === index ? { ...row, mx } : row)));
+  };
+
+  const removeTenisSizeRow = (index: number) => {
+    setTenisSizeRows((current) => current.filter((_, rowIndex) => rowIndex !== index));
   };
 
   const handleImagesChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -144,9 +174,12 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
       brand: form.brand.trim(),
       stock: Number(form.stock) || 0,
       vendor: form.vendor.trim() || undefined,
-      sizes: form.sizes
-        ? form.sizes.split(",").map((size) => size.trim()).filter(Boolean)
-        : undefined,
+      sizes:
+        form.category === "tenis"
+          ? tenisSizeRows.filter((row) => row.us && row.mx).map(formatTenisSize)
+          : form.sizes
+            ? form.sizes.split(",").map((size) => size.trim()).filter(Boolean)
+            : undefined,
       description: form.description.trim() || undefined,
       images: form.images.length > 0 ? form.images : undefined,
       homeImageFit: form.homeImageFit,
@@ -343,15 +376,58 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
           />
         </label>
 
-        <label className="admin-field">
-          <span>Tallas (separadas por coma, opcional)</span>
-          <input
-            type="text"
-            placeholder="S, M, L, XL"
-            value={form.sizes}
-            onChange={(event) => updateField("sizes", event.target.value)}
-          />
-        </label>
+        {form.category === "tenis" ? (
+          <div className="admin-field">
+            <span>Tallas (opcional)</span>
+            <div className="admin-tenis-sizes">
+              {tenisSizeRows.map((row, index) => (
+                <div className="admin-tenis-sizes__row" key={index}>
+                  <label className="admin-tenis-sizes__field">
+                    <span>US</span>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      value={row.us}
+                      onChange={(event) => updateTenisSizeRow(index, event.target.value)}
+                    />
+                  </label>
+                  <label className="admin-tenis-sizes__field">
+                    <span>MX</span>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      value={row.mx}
+                      onChange={(event) => updateTenisSizeMx(index, event.target.value)}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    className="admin-tenis-sizes__remove"
+                    onClick={() => removeTenisSizeRow(index)}
+                    aria-label="Quitar talla"
+                  >
+                    <TrashIcon />
+                  </button>
+                </div>
+              ))}
+              <button type="button" className="admin-tenis-sizes__add" onClick={addTenisSizeRow}>
+                + Agregar talla
+              </button>
+            </div>
+          </div>
+        ) : (
+          <label className="admin-field">
+            <span>Tallas (separadas por coma, opcional)</span>
+            <input
+              type="text"
+              placeholder="S, M, L, XL"
+              value={form.sizes}
+              onChange={(event) => updateField("sizes", event.target.value)}
+            />
+          </label>
+        )}
 
         <label className="admin-field">
           <span>Descripción (opcional)</span>
