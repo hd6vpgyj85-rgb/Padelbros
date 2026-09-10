@@ -118,7 +118,7 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
   };
 
   const addTenisSizeRow = () => {
-    setTenisSizeRows((current) => [...current, { us: "", mx: "" }]);
+    setTenisSizeRows((current) => [...current, { us: "", mx: "", gender: "hombre" }]);
   };
 
   const updateTenisSizeRow = (index: number, us: string) => {
@@ -126,8 +126,19 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
       current.map((row, rowIndex) => {
         if (rowIndex !== index) return row;
         const parsedUs = Number(us);
-        const mx = us && !Number.isNaN(parsedUs) ? String(usToMexicanSize(parsedUs)) : "";
-        return { us, mx };
+        const mx = us && !Number.isNaN(parsedUs) ? String(usToMexicanSize(parsedUs, row.gender)) : "";
+        return { ...row, us, mx };
+      }),
+    );
+  };
+
+  const updateTenisSizeGender = (index: number, gender: TenisSizeRow["gender"]) => {
+    setTenisSizeRows((current) =>
+      current.map((row, rowIndex) => {
+        if (rowIndex !== index) return row;
+        const parsedUs = Number(row.us);
+        const mx = row.us && !Number.isNaN(parsedUs) ? String(usToMexicanSize(parsedUs, gender)) : row.mx;
+        return { ...row, gender, mx };
       }),
     );
   };
@@ -382,6 +393,16 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
             <div className="admin-tenis-sizes">
               {tenisSizeRows.map((row, index) => (
                 <div className="admin-tenis-sizes__row" key={index}>
+                  <label className="admin-tenis-sizes__field">
+                    <span>Género</span>
+                    <select
+                      value={row.gender}
+                      onChange={(event) => updateTenisSizeGender(index, event.target.value as TenisSizeRow["gender"])}
+                    >
+                      <option value="hombre">Hombre</option>
+                      <option value="mujer">Mujer</option>
+                    </select>
+                  </label>
                   <label className="admin-tenis-sizes__field">
                     <span>US</span>
                     <input

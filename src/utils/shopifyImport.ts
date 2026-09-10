@@ -126,8 +126,9 @@ function detectSizes(rows: ShopifyRow[], category: ProductCategory): string[] {
       const usMatch = raw.match(/([\d.]+)/);
       if (!usMatch) return raw;
       const us = usMatch[1];
-      const mx = String(usToMexicanSize(Number(us)));
-      return formatTenisSize({ us, mx });
+      const gender = "hombre" as const;
+      const mx = String(usToMexicanSize(Number(us), gender));
+      return formatTenisSize({ us, mx, gender });
     });
   }
 
