@@ -1,8 +1,11 @@
 import heroPlayer from "../../assets/hero-player.jpg";
+import { getWhatsAppUrl } from "../../data/store";
 import { ArrowRightIcon } from "./icons";
 import "./Hero.css";
 
 function Hero() {
+  const whatsappUrl = getWhatsAppUrl("Hola, quiero que me ayuden a elegir la pala correcta para mí.");
+
   return (
     <section className="hero">
       <img className="hero__bg" src={heroPlayer} alt="" aria-hidden="true" />
@@ -25,7 +28,12 @@ function Hero() {
             <ArrowRightIcon />
           </a>
 
-          <a className="btn btn--outline hero__secondary-cta" href="#elige-tu-nivel">
+          <a
+            className="btn btn--outline hero__secondary-cta"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Te ayudamos a elegir tu pala
           </a>
         </div>

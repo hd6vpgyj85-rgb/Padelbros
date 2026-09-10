@@ -9,11 +9,18 @@ import "./CategoryHeader.css";
 
 function CategoryHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
   const location = useLocation();
   const isVisible = useHeaderVisibility();
   const { ref: dropdownContentRef, height: dropdownHeight } = useCollapsibleHeight<HTMLUListElement>(
     isMenuOpen,
+    [expandedCategoryId],
   );
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setExpandedCategoryId(null);
+  };
 
   return (
     <header
@@ -47,19 +54,56 @@ function CategoryHeader() {
           {categories.map((category) => {
             const isActive = Boolean(category.path) && category.path === location.pathname;
             const rowClassName = `category-header__link${isActive ? " category-header__link--active" : ""}`;
+            const hasBrands = Boolean(category.brands?.length);
+            const isExpanded = expandedCategoryId === category.id;
 
             return (
               <li key={category.id}>
-                {category.path ? (
-                  <Link to={category.path} className={rowClassName} onClick={() => setIsMenuOpen(false)}>
+                {hasBrands ? (
+                  <button
+                    type="button"
+                    className={rowClassName}
+                    aria-expanded={isExpanded}
+                    onClick={() => setExpandedCategoryId(isExpanded ? null : category.id)}
+                  >
+                    {category.name}
+                    <ChevronRightIcon
+                      className={`category-header__link-chevron${
+                        isExpanded ? " category-header__link-chevron--open" : ""
+                      }`}
+                    />
+                  </button>
+                ) : category.path ? (
+                  <Link to={category.path} className={rowClassName} onClick={closeMenu}>
                     {category.name}
                     <ChevronRightIcon />
                   </Link>
                 ) : (
-                  <button type="button" className={rowClassName} onClick={() => setIsMenuOpen(false)}>
+                  <button type="button" className={rowClassName} onClick={closeMenu}>
                     {category.name}
                     <ChevronRightIcon />
                   </button>
+                )}
+
+                {hasBrands && isExpanded && (
+                  <ul className="category-header__submenu">
+                    <li>
+                      <Link to={category.path ?? "#"} className="category-header__submenu-link" onClick={closeMenu}>
+                        Ver todas las {category.name.toLowerCase()}
+                      </Link>
+                    </li>
+                    {category.brands?.map((brand) => (
+                      <li key={brand}>
+                        <Link
+                          to={`${category.path ?? ""}?marca=${encodeURIComponent(brand)}`}
+                          className="category-header__submenu-link"
+                          onClick={closeMenu}
+                        >
+                          {brand}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </li>
             );

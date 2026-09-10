@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import heroPlayer from "../assets/hero-player.jpg";
 import CategoryPhotoBanner from "../components/category/CategoryPhotoBanner";
 import CategoryHero from "../components/category/CategoryHero";
@@ -18,11 +19,20 @@ import {
 function PalasPage() {
   useDocumentTitle("Palas de padel | Padelbros");
   const { products } = useProducts();
+  const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
   const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), [products]);
   const availableBrands = useMemo(() => getAvailableBrands(palasProducts), [palasProducts]);
   const availableLevels = useMemo(() => getAvailableLevels(palasProducts), [palasProducts]);
+
+  useEffect(() => {
+    const marca = searchParams.get("marca");
+    if (!marca) return;
+    const matchedBrand = availableBrands.find((brand) => brand.toLowerCase() === marca.toLowerCase());
+    setActiveFilter({ type: "brand", value: matchedBrand ?? marca });
+  }, [searchParams, availableBrands]);
+
   const filteredProducts = useMemo(
     () => applyProductFilter(palasProducts, activeFilter),
     [palasProducts, activeFilter],

@@ -60,7 +60,9 @@ export function getAvailablePriceBuckets(products: Product[]): string[] {
 
 export function applyProductFilter(products: Product[], filter: ActiveFilter | null): Product[] {
   if (!filter) return products;
-  if (filter.type === "brand") return products.filter((product) => product.brand === filter.value);
+  if (filter.type === "brand") {
+    return products.filter((product) => product.brand.toLowerCase() === filter.value.toLowerCase());
+  }
   if (filter.type === "level") return products.filter((product) => product.level === filter.value);
   if (filter.type === "size") {
     return products.filter((product) => product.sizes?.includes(filter.value));
@@ -73,23 +75,11 @@ export function applyProductFilter(products: Product[], filter: ActiveFilter | n
   return products;
 }
 
-export interface PopularitySignals {
-  views: Record<string, number>;
-  cartAdds: Record<string, number>;
-  purchases: Record<string, number>;
-}
-
-export function getPopularProducts(products: Product[], count: number, signals: PopularitySignals): Product[] {
+export function getMostClickedProducts(products: Product[], count: number, views: Record<string, number>): Product[] {
   const scored = products
-    .map((product) => ({
-      product,
-      score:
-        (signals.purchases[product.id] ?? 0) * 3 +
-        (signals.cartAdds[product.id] ?? 0) * 2 +
-        (signals.views[product.id] ?? 0),
-    }))
-    .filter((entry) => entry.score > 0)
-    .sort((a, b) => b.score - a.score);
+    .map((product) => ({ product, clicks: views[product.id] ?? 0 }))
+    .filter((entry) => entry.clicks > 0)
+    .sort((a, b) => b.clicks - a.clicks);
 
   const picked = scored.slice(0, count).map((entry) => entry.product);
 
