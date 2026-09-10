@@ -19,7 +19,15 @@
   color: var(--color-text);
 }
 
-.admin-products__new {
+.admin-products__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-products__new,
+.admin-products__import {
   height: 40px;
   padding: 0 18px;
   font-size: 12px;

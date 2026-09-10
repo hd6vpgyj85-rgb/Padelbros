@@ -17,9 +17,14 @@ function AdminProductsPage() {
           <span className="eyebrow">Padelbros</span>
           <h1 className="admin-products__title">Productos</h1>
         </div>
-        <Link to="/admin/productos/nuevo" className="btn btn--primary admin-products__new">
-          Nuevo producto
-        </Link>
+        <div className="admin-products__actions">
+          <Link to="/admin/productos/importar" className="btn btn--outline admin-products__import">
+            Importar de Shopify
+          </Link>
+          <Link to="/admin/productos/nuevo" className="btn btn--primary admin-products__new">
+            Nuevo producto
+          </Link>
+        </div>
       </div>
 
       {duplicateGroups.length > 0 && (

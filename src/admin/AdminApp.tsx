@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdminAuthProvider, useAdminAuth } from "./AdminAuthContext";
 import AdminLoginPage from "./AdminLoginPage";
@@ -10,6 +11,8 @@ import AdminOrdersPage from "./AdminOrdersPage";
 import AdminReviewsPage from "./AdminReviewsPage";
 import AdminCouponsPage from "./AdminCouponsPage";
 import AdminCouponFormPage from "./AdminCouponFormPage";
+
+const AdminImportPage = lazy(() => import("./AdminImportPage"));
 
 function AdminRoutes() {
   const { isAuthenticated, isLoading } = useAdminAuth();
@@ -27,6 +30,14 @@ function AdminRoutes() {
       <Route element={<AdminLayout />}>
         <Route index element={<AdminDashboardPage />} />
         <Route path="productos" element={<AdminProductsPage />} />
+        <Route
+          path="productos/importar"
+          element={
+            <Suspense fallback={null}>
+              <AdminImportPage />
+            </Suspense>
+          }
+        />
         <Route path="productos/nuevo" element={<AdminProductFormPage />} />
         <Route path="productos/:id" element={<AdminProductFormPage />} />
         <Route path="categorias" element={<AdminCategoriesPage />} />

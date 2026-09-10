@@ -67,3 +67,11 @@ export async function uploadImage(file: File, bucket: ImageBucket): Promise<stri
 
   return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
 }
+
+export async function uploadImageFromUrl(url: string, bucket: ImageBucket): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("No se pudo descargar la imagen.");
+  const blob = await response.blob();
+  const file = new File([blob], "import.jpg", { type: blob.type || "image/jpeg" });
+  return uploadImage(file, bucket);
+}
