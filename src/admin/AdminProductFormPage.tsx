@@ -173,8 +173,8 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
     try {
       await deleteProduct(existingProduct.id);
       navigate("/admin/productos");
-    } catch {
-      setSubmitError("No se pudo eliminar el producto. Intenta de nuevo.");
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "No se pudo eliminar el producto. Intenta de nuevo.");
     }
   };
 

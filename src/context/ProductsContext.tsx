@@ -141,8 +141,13 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
   };
 
   const deleteProduct = async (id: string) => {
-    const { error } = await supabase.from("products").delete().eq("id", id);
+    const { error, count } = await supabase.from("products").delete({ count: "exact" }).eq("id", id);
     if (error) throw error;
+    if (!count) {
+      throw new Error(
+        "No se eliminó ningún producto: puede que ya no exista o que falten permisos en la base de datos.",
+      );
+    }
     setProducts((current) => current.filter((product) => product.id !== id));
   };
 

@@ -5,6 +5,7 @@
   z-index: 90;
   width: 56px;
   height: 56px;
+  border: none;
   border-radius: 999px;
   background-color: #25d366;
   color: #fff;
@@ -12,21 +13,26 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease;
 }
 
 .whatsapp-float:hover {
   background-color: #1ebe5a;
-  transform: scale(1.05);
 }
 
 .whatsapp-float:active {
+  cursor: grabbing;
   transform: scale(0.96);
 }
 
 .whatsapp-float svg {
   width: 30px;
   height: 30px;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
