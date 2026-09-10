@@ -9,12 +9,10 @@ import FeaturedCarousel from "../components/category/FeaturedCarousel";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useProducts } from "../context/ProductsContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import {
-  applyProductFilter,
-  getAvailableBrands,
-  getAvailableLevels,
-  getProductsByCategory,
-} from "../utils/catalog";
+import type { PlayerLevel } from "../types/product";
+import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
+
+const LEVELS: PlayerLevel[] = ["principiante", "intermedio", "avanzado"];
 
 function PalasPage() {
   useDocumentTitle("Palas de padel | Padelbros");
@@ -24,7 +22,6 @@ function PalasPage() {
 
   const palasProducts = useMemo(() => getProductsByCategory(products, "palas"), [products]);
   const availableBrands = useMemo(() => getAvailableBrands(palasProducts), [palasProducts]);
-  const availableLevels = useMemo(() => getAvailableLevels(palasProducts), [palasProducts]);
 
   useEffect(() => {
     const marca = searchParams.get("marca");
@@ -49,10 +46,7 @@ function PalasPage() {
       <CategoryHero title="Palas" subtitle="Descubre nuestra colección completa de palas de padel." />
 
       <ProductFilters
-        groups={[
-          { type: "brand", options: availableBrands },
-          { type: "level", options: availableLevels },
-        ]}
+        groups={[{ type: "level", options: LEVELS }]}
         activeFilter={activeFilter}
         onSelect={setActiveFilter}
       />
