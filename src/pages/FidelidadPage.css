@@ -1,0 +1,166 @@
+.fidelidad-page {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.fidelidad-page__content {
+  flex: 1;
+  padding: 32px 20px 48px;
+  animation: page-fade-in 0.4s ease both;
+}
+
+.fidelidad-page__title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  color: var(--color-text);
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.fidelidad-page__error {
+  color: #e5484d;
+  font-size: 13px;
+  margin: -8px 0 16px;
+}
+
+.fidelidad-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 22px 20px;
+  margin-bottom: 24px;
+}
+
+.fidelidad-card__name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.fidelidad-card__count {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+.fidelidad-card__count strong {
+  color: var(--color-accent);
+  font-size: 16px;
+}
+
+.fidelidad-progress__bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.fidelidad-progress__fill {
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.fidelidad-progress__label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+
+.fidelidad-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fidelidad-tier {
+  display: flex;
+  gap: 14px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.fidelidad-tier--locked {
+  opacity: 0.55;
+}
+
+.fidelidad-tier__marker {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 12px;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.fidelidad-tier--achieved .fidelidad-tier__marker {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #0a0a0a;
+  font-size: 16px;
+}
+
+.fidelidad-tier__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fidelidad-tier__req {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.fidelidad-tier__desc {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.fidelidad-tier__btn {
+  align-self: flex-start;
+  height: 38px;
+  padding: 0 18px;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.fidelidad-tier__status {
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.fidelidad-tier__status--pending {
+  color: #e8b339;
+}
+
+.fidelidad-tier__status--claimed {
+  color: var(--color-accent);
+}
+
+@media (min-width: 640px) {
+  .fidelidad-page__content {
+    padding-top: 48px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+}

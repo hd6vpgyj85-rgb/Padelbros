@@ -12,6 +12,8 @@ import AdminOrdersArchivePage from "./AdminOrdersArchivePage";
 import AdminReviewsPage from "./AdminReviewsPage";
 import AdminCouponsPage from "./AdminCouponsPage";
 import AdminCouponFormPage from "./AdminCouponFormPage";
+import AdminCustomersPage from "./AdminCustomersPage";
+import AdminCustomerFormPage from "./AdminCustomerFormPage";
 
 const AdminImportPage = lazy(() => import("./AdminImportPage"));
 
@@ -47,6 +49,9 @@ function AdminRoutes() {
         <Route path="resenas" element={<AdminReviewsPage />} />
         <Route path="cupones" element={<AdminCouponsPage />} />
         <Route path="cupones/nuevo" element={<AdminCouponFormPage />} />
+        <Route path="clientes" element={<AdminCustomersPage />} />
+        <Route path="clientes/nuevo" element={<AdminCustomerFormPage />} />
+        <Route path="clientes/:id" element={<AdminCustomerFormPage />} />
       </Route>
     </Routes>
   );

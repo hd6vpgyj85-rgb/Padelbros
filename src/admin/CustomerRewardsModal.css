@@ -1,0 +1,140 @@
+.customer-rewards-modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
+.customer-rewards-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px 20px 0 0;
+  padding: 26px 20px calc(24px + env(safe-area-inset-bottom));
+}
+
+.customer-rewards-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.customer-rewards-modal__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+.customer-rewards-modal__name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-top: 6px;
+}
+
+.customer-rewards-modal__count {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+.customer-rewards-modal__empty {
+  color: var(--color-text-muted);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.customer-rewards-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.customer-reward-row {
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customer-reward-row__reward {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.customer-reward-row__requirement {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.customer-reward-row__status {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.customer-reward-row__status--pending {
+  color: #e8b339;
+}
+
+.customer-reward-row__status--claimed {
+  color: var(--color-accent);
+}
+
+.customer-reward-row__pending {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.customer-reward-row__btn {
+  flex: none;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: none;
+  background-color: var(--color-accent);
+  color: #0a0a0a;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.customer-reward-row__btn:disabled {
+  opacity: 0.5;
+}
+
+.customer-reward-row__btn--outline {
+  background: transparent;
+  border: 1px solid #e5484d;
+  color: #e5484d;
+}
+
+.customer-rewards-modal__error {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #e5484d;
+}
