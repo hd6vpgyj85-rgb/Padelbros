@@ -1,5 +1,6 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import QRCode from "qrcode";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useOrders } from "../context/OrdersContext";
@@ -9,6 +10,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { getWhatsAppUrl, storeInfo } from "../data/store";
 import { formatPrice } from "../utils/format";
 import { uploadImage } from "../utils/imageResize";
+import { supabase } from "../lib/supabaseClient";
 import "./CheckoutPage.css";
 
 const levelLabels: Record<string, string> = {
@@ -135,7 +137,26 @@ function CheckoutPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<RedeemedCoupon | null>(null);
   const [couponError, setCouponError] = useState("");
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [loyaltyToken, setLoyaltyToken] = useState<string | null>(null);
+  const [loyaltyLinkCopied, setLoyaltyLinkCopied] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
+  const loyaltyCanvasRef = useRef<HTMLCanvasElement>(null);
+  const loyaltyUrl = loyaltyToken ? `${window.location.origin}/fidelidad/${loyaltyToken}` : "";
+
+  useEffect(() => {
+    if (!loyaltyToken || !loyaltyCanvasRef.current) return;
+    QRCode.toCanvas(loyaltyCanvasRef.current, loyaltyUrl, { width: 200, margin: 1 }).catch(() => {});
+  }, [loyaltyToken, loyaltyUrl]);
+
+  const handleCopyLoyaltyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(loyaltyUrl);
+      setLoyaltyLinkCopied(true);
+      window.setTimeout(() => setLoyaltyLinkCopied(false), 1800);
+    } catch {
+      // Sin acceso al portapapeles: el link ya está visible para copiarlo a mano.
+    }
+  };
 
   const discountAmount = appliedCoupon
     ? appliedCoupon.discountType === "percentage"
@@ -253,6 +274,18 @@ function CheckoutPage() {
         });
       }
 
+      try {
+        const { data } = await supabase.rpc("get_or_create_customer_for_checkout", {
+          p_name: `${form.nombre} ${form.apellido}`.trim(),
+          p_phone: form.telefono,
+        });
+        if (data && data.length > 0) {
+          setLoyaltyToken(data[0].token);
+        }
+      } catch {
+        // La tarjeta de fidelidad es un extra: si falla, el pedido sigue siendo válido.
+      }
+
       window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
       clearCart();
       setSubmitted(true);
@@ -282,6 +315,33 @@ function CheckoutPage() {
         <div className="container checkout-page__empty">
           <p className="checkout-page__success-title">¡Pedido enviado!</p>
           <p>Continúa la conversación en WhatsApp para confirmar tu pedido con {storeInfo.address}.</p>
+
+          {loyaltyToken && (
+            <div className="checkout-loyalty">
+              <span className="eyebrow">Programa de fidelidad</span>
+              <p className="checkout-loyalty__title">¡Guarda tu tarjeta de fidelidad!</p>
+              <p className="checkout-loyalty__text">
+                Escanea este código o guarda tu link para ver tus compras acumuladas y tus recompensas. Tus compras
+                se acumulan cuando confirmemos tu pedido.
+              </p>
+
+              <div className="checkout-loyalty__qr-wrap">
+                <canvas ref={loyaltyCanvasRef} />
+              </div>
+
+              <p className="checkout-loyalty__url">{loyaltyUrl}</p>
+
+              <div className="checkout-loyalty__actions">
+                <button type="button" className="btn btn--outline" onClick={handleCopyLoyaltyLink}>
+                  {loyaltyLinkCopied ? "¡Copiado!" : "Copiar link"}
+                </button>
+                <Link to={`/fidelidad/${loyaltyToken}`} className="btn btn--primary">
+                  Ver mi tarjeta
+                </Link>
+              </div>
+            </div>
+          )}
+
           <Link to="/" className="btn btn--primary">
             Volver al inicio
           </Link>
