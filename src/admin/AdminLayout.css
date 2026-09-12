@@ -12,56 +12,106 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   height: 56px;
-  padding: 0 18px;
+  padding: 0 14px;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
 }
 
 .admin-header__brand {
+  flex: none;
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--color-text);
+  white-space: nowrap;
 }
 
 .admin-header__actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex: none;
+}
+
+.admin-header__divider {
+  width: 1px;
+  height: 22px;
+  background-color: var(--color-border);
+  margin: 0 2px;
+  flex: none;
 }
 
 .admin-header__logout,
-.admin-header__view-site {
+.admin-header__view-site,
+.admin-header__link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
   border: 1px solid var(--color-border);
   background-color: transparent;
   color: var(--color-text-muted);
   transition: color 0.15s ease, border-color 0.15s ease;
+  flex: none;
 }
 
 .admin-header__logout svg,
-.admin-header__view-site svg {
-  width: 18px;
-  height: 18px;
+.admin-header__view-site svg,
+.admin-header__link svg {
+  width: 17px;
+  height: 17px;
 }
 
 .admin-header__logout:hover,
-.admin-header__view-site:hover {
+.admin-header__view-site:hover,
+.admin-header__link:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
+.admin-header__link--active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 380px) {
+  .admin-header {
+    padding: 0 10px;
+  }
+
+  .admin-header__brand {
+    font-size: 12px;
+  }
+
+  .admin-header__actions {
+    gap: 4px;
+  }
+
+  .admin-header__logout,
+  .admin-header__view-site,
+  .admin-header__link {
+    width: 30px;
+    height: 30px;
+  }
+
+  .admin-header__logout svg,
+  .admin-header__view-site svg,
+  .admin-header__link svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
 .admin-main {
   flex: 1;
-  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  padding-bottom: calc(76px + env(safe-area-inset-bottom));
 }
 
 .admin-tabbar {
@@ -71,11 +121,10 @@
   bottom: 0;
   z-index: 40;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   background-color: var(--color-surface);
   border-top: 1px solid var(--color-border);
   padding-bottom: env(safe-area-inset-bottom);
-  overflow-x: auto;
 }
 
 .admin-tabbar__item {
@@ -83,9 +132,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 8px 2px 7px;
-  font-size: 8px;
+  gap: 4px;
+  padding: 11px 4px 9px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--color-text-muted);
   transition: color 0.15s ease;
@@ -95,8 +144,8 @@
 }
 
 .admin-tabbar__icon {
-  width: 18px;
-  height: 18px;
+  width: 21px;
+  height: 21px;
 }
 
 .admin-tabbar__item--active {

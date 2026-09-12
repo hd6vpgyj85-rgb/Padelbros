@@ -9,9 +9,12 @@ const tabs = [
   { to: "/admin/productos", label: "Productos", icon: BoxIcon, end: false },
   { to: "/admin/categorias", label: "Categorías", icon: LayersIcon, end: false },
   { to: "/admin/pedidos", label: "Pedidos", icon: CartIcon, end: false },
-  { to: "/admin/clientes", label: "Clientes", icon: PeopleIcon, end: false },
-  { to: "/admin/resenas", label: "Reseñas", icon: StarBadgeIcon, end: false },
-  { to: "/admin/cupones", label: "Cupones", icon: TicketIcon, end: false },
+];
+
+const headerLinks = [
+  { to: "/admin/clientes", label: "Clientes", icon: PeopleIcon },
+  { to: "/admin/resenas", label: "Reseñas", icon: StarBadgeIcon },
+  { to: "/admin/cupones", label: "Cupones", icon: TicketIcon },
 ];
 
 function AdminLayout() {
@@ -20,8 +23,24 @@ function AdminLayout() {
   return (
     <div className="admin-layout">
       <header className="admin-header">
-        <span className="admin-header__brand">Padelbros Admin</span>
+        <span className="admin-header__brand">Padelbros</span>
         <div className="admin-header__actions">
+          {headerLinks.map(({ to, label, icon: Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `admin-header__link${isActive ? " admin-header__link--active" : ""}`
+              }
+              aria-label={label}
+              title={label}
+            >
+              <Icon />
+            </NavLink>
+          ))}
+
+          <span className="admin-header__divider" aria-hidden="true" />
+
           <a
             href="/"
             target="_blank"
