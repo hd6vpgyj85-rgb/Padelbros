@@ -27,6 +27,7 @@ import PrivacyPage from "./pages/PrivacyPage";
 import FidelidadPage from "./pages/FidelidadPage";
 import AdminApp from "./admin/AdminApp";
 import WhatsAppButton from "./components/common/WhatsAppButton";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                 <LoyaltyProvider>
                   <CartProvider>
                     <BrowserRouter>
+                      <ScrollToTop />
                       <Routes>
                         <Route element={<HomeLayout />}>
                           <Route path="/" element={<HomePage />} />

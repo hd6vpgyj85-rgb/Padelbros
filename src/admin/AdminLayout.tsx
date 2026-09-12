@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAdminAuth } from "./AdminAuthContext";
 import { BoxIcon, ExternalLinkIcon, GridIcon, LogoutIcon, TicketIcon } from "./icons";
 import { CartIcon, LayersIcon, PeopleIcon, StarBadgeIcon } from "../components/home/icons";
@@ -23,7 +23,9 @@ function AdminLayout() {
   return (
     <div className="admin-layout">
       <header className="admin-header">
-        <span className="admin-header__brand">Padelbros</span>
+        <Link to="/admin" className="admin-header__brand">
+          Padelbros
+        </Link>
         <div className="admin-header__actions">
           {headerLinks.map(({ to, label, icon: Icon }) => (
             <NavLink
