@@ -84,7 +84,7 @@ function AdminCustomersPage() {
         <input
           type="search"
           className="admin-customers__search"
-          placeholder="Buscar por nombre, teléfono o notas..."
+          placeholder="Buscar por nombre o WhatsApp..."
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
         />
