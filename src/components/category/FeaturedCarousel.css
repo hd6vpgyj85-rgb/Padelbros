@@ -198,19 +198,19 @@
   }
 
   .featured-carousel__track {
-    padding: 0 90px;
-    gap: 18px;
+    padding: 0 60px;
+    gap: 20px;
   }
 
   .featured-carousel__slide {
-    flex: 0 0 150px;
+    flex: 0 0 175px;
   }
 
   .featured-carousel__arrow--prev {
-    left: 22px;
+    left: 12px;
   }
 
   .featured-carousel__arrow--next {
-    right: 22px;
+    right: 12px;
   }
 }

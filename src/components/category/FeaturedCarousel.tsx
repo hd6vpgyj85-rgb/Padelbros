@@ -25,6 +25,10 @@ function FeaturedCarousel() {
     const track = trackRef.current;
     if (!track) return;
 
+    if (window.innerWidth >= 1024 && track.scrollWidth > track.clientWidth) {
+      track.scrollLeft = (track.scrollWidth - track.clientWidth) / 2;
+    }
+
     let frame = 0;
     const handleScroll = () => {
       cancelAnimationFrame(frame);
