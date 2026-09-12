@@ -29,6 +29,14 @@ export function PeopleIcon({ className }: IconProps) {
   );
 }
 
+export function CrownIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.5 17.5L2 8.2l5 3.6L12 4l5 7.8 5-3.6-1.5 9.3H3.5z" />
+    </svg>
+  );
+}
+
 export function StarBadgeIcon({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

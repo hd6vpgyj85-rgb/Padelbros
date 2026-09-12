@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import { useLoyalty } from "../context/LoyaltyContext";
 import { getWhatsAppUrl } from "../data/store";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { RacketPlaceholderIcon } from "../components/home/icons";
+import { CrownIcon, RacketPlaceholderIcon } from "../components/home/icons";
 import CategoryFooter from "../components/category/CategoryFooter";
 import "./FidelidadPage.css";
 
@@ -160,6 +160,7 @@ function FidelidadPage() {
   const progressPercent = nextTier
     ? Math.min(100, Math.round((customer.purchasesCount / nextTier.purchasesRequired) * 100))
     : 100;
+  const achievedCount = tiers.filter((tier) => customer.purchasesCount >= tier.purchasesRequired).length;
 
   return (
     <div className="fidelidad-page">
@@ -167,17 +168,26 @@ function FidelidadPage() {
         <span className="eyebrow">Padelbros</span>
         <h1 className="fidelidad-page__title">Tarjeta de fidelidad</h1>
 
-        <div className="fidelidad-card">
-          <p className="fidelidad-card__name">{customer.name}</p>
-          <p className="fidelidad-card__count">
-            <strong>{customer.purchasesCount}</strong> compras acumuladas
+        <div className="loyalty-card">
+          <div className="loyalty-card__glow" aria-hidden="true" />
+
+          <div className="loyalty-card__top">
+            <span className="loyalty-card__badge">
+              <CrownIcon />
+            </span>
+            <span className="loyalty-card__eyebrow">Tu tarjeta de fidelidad</span>
+          </div>
+
+          <p className="loyalty-card__name">{customer.name}</p>
+          <p className="loyalty-card__meta">
+            {achievedCount > 0 ? `Nivel ${achievedCount}` : "Sin nivel aún"} · {customer.purchasesCount} compras
           </p>
 
-          <div className="fidelidad-progress">
-            <div className="fidelidad-progress__bar">
-              <div className="fidelidad-progress__fill" style={{ width: `${progressPercent}%` }} />
+          <div className="loyalty-card__progress">
+            <div className="loyalty-card__progress-bar">
+              <div className="loyalty-card__progress-fill" style={{ width: `${progressPercent}%` }} />
             </div>
-            <p className="fidelidad-progress__label">
+            <p className="loyalty-card__progress-label">
               {nextTier
                 ? `${customer.purchasesCount} / ${nextTier.purchasesRequired} compras para tu próximo nivel`
                 : "¡Desbloqueaste todos los niveles disponibles!"}
@@ -185,10 +195,45 @@ function FidelidadPage() {
           </div>
         </div>
 
+        {tiers.length > 0 && (
+          <div className="loyalty-track">
+            <div className="loyalty-track__row">
+              {tiers.map((tier, index) => {
+                const achieved = customer.purchasesCount >= tier.purchasesRequired;
+                const lineFilled = index > 0 && customer.purchasesCount >= tiers[index - 1].purchasesRequired;
+
+                return (
+                  <div className="loyalty-track__step" key={tier.id}>
+                    {index > 0 && (
+                      <span
+                        className={`loyalty-track__line${lineFilled ? " loyalty-track__line--filled" : ""}`}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span
+                      className={`loyalty-track__node${achieved ? " loyalty-track__node--done" : ""}`}
+                      aria-hidden="true"
+                    >
+                      {achieved ? "✓" : index + 1}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="loyalty-track__row loyalty-track__row--labels">
+              {tiers.map((tier) => (
+                <span className="loyalty-track__label" key={tier.id}>
+                  {tier.purchasesRequired}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {claimError && <p className="fidelidad-page__error">{claimError}</p>}
 
         <ul className="fidelidad-tiers">
-          {tiers.map((tier) => {
+          {tiers.map((tier, index) => {
             const achieved = customer.purchasesCount >= tier.purchasesRequired;
             const claim = claims.find((item) => item.tierId === tier.id);
             const isBusy = claimingTierId === tier.id;
@@ -199,11 +244,11 @@ function FidelidadPage() {
                 className={`fidelidad-tier${achieved ? " fidelidad-tier--achieved" : " fidelidad-tier--locked"}`}
               >
                 <div className="fidelidad-tier__marker" aria-hidden="true">
-                  {achieved ? "✓" : tier.purchasesRequired}
+                  {achieved ? "✓" : index + 1}
                 </div>
 
                 <div className="fidelidad-tier__body">
-                  <p className="fidelidad-tier__req">{tier.purchasesRequired} compras</p>
+                  <p className="fidelidad-tier__req">Nivel {index + 1} · {tier.purchasesRequired} compras</p>
                   <p className="fidelidad-tier__desc">{tier.rewardDescription}</p>
 
                   {achieved && !claim && (
