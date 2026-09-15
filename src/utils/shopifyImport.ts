@@ -27,7 +27,7 @@ export interface ImportDraft {
   description: string;
   category: ProductCategory;
   brand: string;
-  level: PlayerLevel | "";
+  levels: PlayerLevel[];
   price: number;
   compareAtPrice: number | undefined;
   onSale: boolean;
@@ -100,15 +100,16 @@ function detectBrand(tags: string, title: string): string {
   return match ?? "";
 }
 
-function detectLevel(rows: ShopifyRow[]): PlayerLevel | "" {
+function detectLevels(rows: ShopifyRow[]): PlayerLevel[] {
+  const levels = new Set<PlayerLevel>();
   for (const row of rows) {
     if (row["Option1 Name"] !== "Nivel") continue;
     const value = row["Option1 Value"].toLowerCase();
-    if (value.includes("avanzado")) return "avanzado";
-    if (value.includes("intermedio")) return "intermedio";
-    if (value.includes("principiante") || value.includes("junior")) return "principiante";
+    if (value.includes("avanzado")) levels.add("avanzado");
+    if (value.includes("intermedio")) levels.add("intermedio");
+    if (value.includes("principiante") || value.includes("junior")) levels.add("principiante");
   }
-  return "";
+  return Array.from(levels);
 }
 
 function detectSizes(rows: ShopifyRow[], category: ProductCategory): string[] {
@@ -187,7 +188,7 @@ export function buildImportDrafts(rows: ShopifyRow[]): ImportDraft[] {
       description: stripHtml(main["Body (HTML)"] ?? ""),
       category,
       brand: detectBrand(main.Tags ?? "", main.Title),
-      level: detectLevel(groupRows),
+      levels: detectLevels(groupRows),
       price,
       compareAtPrice,
       onSale: Boolean(compareAtPrice),

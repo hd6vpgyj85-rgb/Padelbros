@@ -28,7 +28,7 @@ interface FormState {
   compareAtPrice: string;
   onSale: boolean;
   category: ProductCategory;
-  level: PlayerLevel | "";
+  levels: PlayerLevel[];
   brand: string;
   stock: string;
   vendor: string;
@@ -45,7 +45,7 @@ function emptyForm(): FormState {
     compareAtPrice: "",
     onSale: false,
     category: "palas",
-    level: "",
+    levels: [],
     brand: "",
     stock: "0",
     vendor: "",
@@ -92,7 +92,7 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
       compareAtPrice: existingProduct.compareAtPrice ? String(existingProduct.compareAtPrice) : "",
       onSale: Boolean(existingProduct.onSale),
       category: existingProduct.category,
-      level: existingProduct.level ?? "",
+      levels: existingProduct.levels ?? [],
       brand: existingProduct.brand,
       stock: String(existingProduct.stock),
       vendor: existingProduct.vendor ?? "",
@@ -115,6 +115,15 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
 
   const updateField = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const toggleLevel = (level: PlayerLevel) => {
+    setForm((current) => ({
+      ...current,
+      levels: current.levels.includes(level)
+        ? current.levels.filter((item) => item !== level)
+        : [...current.levels, level],
+    }));
   };
 
   const addTenisSizeRow = () => {
@@ -181,7 +190,7 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
       compareAtPrice: form.compareAtPrice ? Number(form.compareAtPrice) : undefined,
       onSale: form.onSale,
       category: form.category,
-      level: form.level || undefined,
+      levels: form.levels.length > 0 ? form.levels : undefined,
       brand: form.brand.trim(),
       stock: Number(form.stock) || 0,
       vendor: form.vendor.trim() || undefined,
@@ -342,17 +351,21 @@ function AdminProductForm({ isEditing, existingProduct }: AdminProductFormProps)
             </select>
           </label>
 
-          <label className="admin-field">
-            <span>Nivel</span>
-            <select value={form.level} onChange={(event) => updateField("level", event.target.value as PlayerLevel | "")}>
-              <option value="">Sin nivel</option>
+          <div className="admin-field">
+            <span>Nivel (elige uno o más)</span>
+            <div className="admin-level-checkboxes">
               {levelOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
+                <label className="admin-level-checkbox" key={option.value}>
+                  <input
+                    type="checkbox"
+                    checked={form.levels.includes(option.value)}
+                    onChange={() => toggleLevel(option.value)}
+                  />
+                  <span>{option.label}</span>
+                </label>
               ))}
-            </select>
-          </label>
+            </div>
+          </div>
         </div>
 
         <div className="admin-field-row">

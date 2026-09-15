@@ -161,6 +161,36 @@
   font-size: 12px;
 }
 
+.admin-import-row__field--levels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.admin-import-row__levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.admin-import-row__level {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.admin-import-row__level input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--color-accent);
+}
+
 .admin-import-row__status {
   margin-top: 8px;
   font-size: 12px;

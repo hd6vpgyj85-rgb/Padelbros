@@ -267,6 +267,27 @@
   accent-color: var(--color-accent);
 }
 
+.admin-level-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 10px 0 2px;
+}
+
+.admin-level-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.admin-level-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+}
+
 .admin-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

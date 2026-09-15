@@ -61,18 +61,30 @@ function ProductDetailPage() {
           <ProductGallery
             images={product.images ?? []}
             productName={product.name}
-            badge={isOutOfStock ? <span className="product-detail__badge">Agotado</span> : undefined}
+            badge={
+              <>
+                {isOutOfStock && <span className="product-detail__badge">Agotado</span>}
+                {product.onSale && !isOutOfStock && (
+                  <span className="product-detail__badge product-detail__badge--sale">Oferta</span>
+                )}
+              </>
+            }
           />
         </div>
 
         <div className="product-detail__info">
           <h1 className="product-detail__name">{product.name}</h1>
-          <p className="product-detail__price">{formatPrice(product.price)}</p>
+          <div className="product-detail__price-row">
+            {product.onSale && product.compareAtPrice && (
+              <span className="product-detail__price-old">{formatPrice(product.compareAtPrice)}</span>
+            )}
+            <p className="product-detail__price">{formatPrice(product.price)}</p>
+          </div>
 
-          {product.level && (
+          {product.levels && product.levels.length > 0 && (
             <div className="product-detail__level">
               <span className="product-detail__level-label">Nivel</span>
-              <span>{levelLabels[product.level]}</span>
+              <span>{product.levels.map((level) => levelLabels[level]).join(" / ")}</span>
             </div>
           )}
 
@@ -127,7 +139,9 @@ function ProductDetailPage() {
             <ul>
               <li>Marca: {product.brand}</li>
               <li>Categoría: {categoryName}</li>
-              {product.level && <li>Nivel: {levelLabels[product.level]}</li>}
+              {product.levels && product.levels.length > 0 && (
+                <li>Nivel: {product.levels.map((level) => levelLabels[level]).join(" / ")}</li>
+              )}
               <li>{isOutOfStock ? "Sin stock por el momento" : "Disponible para envío inmediato"}</li>
             </ul>
           </Accordion>

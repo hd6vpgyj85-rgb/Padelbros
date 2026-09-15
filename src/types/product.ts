@@ -10,7 +10,7 @@ export interface Product {
   price: number;
   compareAtPrice?: number;
   onSale?: boolean;
-  level?: PlayerLevel;
+  levels?: PlayerLevel[];
   category: ProductCategory;
   brand: string;
   stock: number;

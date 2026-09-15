@@ -15,8 +15,7 @@ const categoryOptions: { value: ProductCategory; label: string }[] = [
   { value: "ropa", label: "Ropa" },
 ];
 
-const levelOptions: { value: PlayerLevel | ""; label: string }[] = [
-  { value: "", label: "Sin nivel" },
+const levelOptions: { value: PlayerLevel; label: string }[] = [
   { value: "principiante", label: "Principiante" },
   { value: "intermedio", label: "Intermedio" },
   { value: "avanzado", label: "Avanzado" },
@@ -78,6 +77,21 @@ function AdminImportPage() {
     setDrafts((current) => current.map((draft) => (draft.key === key ? { ...draft, [field]: value } : draft)));
   };
 
+  const toggleDraftLevel = (key: string, level: PlayerLevel) => {
+    setDrafts((current) =>
+      current.map((draft) =>
+        draft.key === key
+          ? {
+              ...draft,
+              levels: draft.levels.includes(level)
+                ? draft.levels.filter((item) => item !== level)
+                : [...draft.levels, level],
+            }
+          : draft,
+      ),
+    );
+  };
+
   const handleImport = async () => {
     const toImport = drafts.filter((draft) => selected.has(draft.key));
     if (toImport.length === 0) return;
@@ -102,7 +116,7 @@ function AdminImportPage() {
           compareAtPrice: draft.compareAtPrice,
           onSale: draft.onSale,
           category: draft.category,
-          level: draft.level || undefined,
+          levels: draft.levels.length > 0 ? draft.levels : undefined,
           brand: draft.brand || "Sin marca",
           stock: draft.stock,
           sizes: draft.sizes.length > 0 ? draft.sizes : undefined,
@@ -241,20 +255,22 @@ function AdminImportPage() {
                         />
                       </label>
 
-                      <label className="admin-import-row__field">
+                      <div className="admin-import-row__field admin-import-row__field--levels">
                         <span>Nivel</span>
-                        <select
-                          value={draft.level}
-                          disabled={isImporting}
-                          onChange={(event) => updateDraft(draft.key, "level", event.target.value as PlayerLevel | "")}
-                        >
+                        <div className="admin-import-row__levels">
                           {levelOptions.map((option) => (
-                            <option key={option.label} value={option.value}>
-                              {option.label}
-                            </option>
+                            <label className="admin-import-row__level" key={option.value}>
+                              <input
+                                type="checkbox"
+                                checked={draft.levels.includes(option.value)}
+                                disabled={isImporting}
+                                onChange={() => toggleDraftLevel(draft.key, option.value)}
+                              />
+                              <span>{option.label}</span>
+                            </label>
                           ))}
-                        </select>
-                      </label>
+                        </div>
+                      </div>
                     </div>
 
                     {status === "uploading" && <p className="admin-import-row__status">Importando...</p>}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import heroPlayer from "../../assets/hero-player.jpg";
 import { getWhatsAppUrl } from "../../data/store";
 import { ArrowRightIcon } from "./icons";
@@ -23,10 +24,10 @@ function Hero() {
         </h1>
 
         <div className="hero__actions">
-          <a className="btn btn--primary hero__cta" href="#top-palas">
+          <Link className="btn btn--primary hero__cta" to="/palas">
             Ver palas
             <ArrowRightIcon />
-          </a>
+          </Link>
 
           <a
             className="btn btn--outline hero__secondary-cta"

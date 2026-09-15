@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { levels } from "../../data/levels";
 import { ArrowRightIcon } from "./icons";
 import "./LevelsSection.css";
 
+const LEVEL_SLUGS: Record<string, string> = {
+  "01": "principiante",
+  "02": "intermedio",
+  "03": "avanzado",
+};
+
 function LevelsSection() {
-  const [selectedLevel, setSelectedLevel] = useState(levels[0].number);
+  const navigate = useNavigate();
 
   const handleSelect = (levelNumber: string) => {
-    setSelectedLevel(levelNumber);
-    document.getElementById("top-palas")?.scrollIntoView({ behavior: "smooth" });
+    const slug = LEVEL_SLUGS[levelNumber];
+    navigate(slug ? `/palas?nivel=${slug}` : "/palas");
   };
 
   return (
@@ -18,26 +24,18 @@ function LevelsSection() {
         <h2 className="section-title">Cada jugador merece su pala.</h2>
 
         <ul className="levels__list">
-          {levels.map((level) => {
-            const isSelected = level.number === selectedLevel;
-            return (
-              <li key={level.number}>
-                <button
-                  type="button"
-                  className={`level-card${isSelected ? " level-card--highlight" : ""}`}
-                  aria-pressed={isSelected}
-                  onClick={() => handleSelect(level.number)}
-                >
-                  <span className="level-card__number">{level.number}</span>
-                  <h3 className="level-card__name">{level.name}</h3>
-                  <p className="level-card__description">{level.description}</p>
-                  <span className="level-card__arrow" aria-hidden="true">
-                    <ArrowRightIcon />
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+          {levels.map((level) => (
+            <li key={level.number}>
+              <button type="button" className="level-card" onClick={() => handleSelect(level.number)}>
+                <span className="level-card__number">{level.number}</span>
+                <h3 className="level-card__name">{level.name}</h3>
+                <p className="level-card__description">{level.description}</p>
+                <span className="level-card__arrow" aria-hidden="true">
+                  <ArrowRightIcon />
+                </span>
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

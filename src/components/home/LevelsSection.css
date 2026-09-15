@@ -34,11 +34,6 @@
   transform: scale(0.99);
 }
 
-.level-card--highlight {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-}
-
 .level-card__number {
   display: block;
   font-family: var(--font-display);
@@ -47,10 +42,6 @@
   color: rgba(255, 255, 255, 0.28);
   margin-bottom: 8px;
   transition: color 0.2s ease;
-}
-
-.level-card--highlight .level-card__number {
-  color: rgba(10, 10, 10, 0.35);
 }
 
 .level-card__name {
@@ -62,20 +53,12 @@
   transition: color 0.2s ease;
 }
 
-.level-card--highlight .level-card__name {
-  color: #0a0a0a;
-}
-
 .level-card__description {
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-text-muted);
   max-width: 320px;
   transition: color 0.2s ease;
-}
-
-.level-card--highlight .level-card__description {
-  color: rgba(10, 10, 10, 0.75);
 }
 
 .level-card__arrow {
@@ -93,10 +76,6 @@
 
 .level-card:hover .level-card__arrow {
   transform: translateX(3px);
-}
-
-.level-card--highlight .level-card__arrow {
-  color: #0a0a0a;
 }
 
 .level-card__arrow svg {

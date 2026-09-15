@@ -15,7 +15,7 @@ const categoryPhrase: Record<ProductCategory, string> = {
 };
 
 export function getProductDescription(product: Product): string {
-  const levelText = product.level ? levelPhrase[product.level] : "pensada para acompañar tu juego";
+  const levelText = product.levels?.[0] ? levelPhrase[product.levels[0]] : "pensada para acompañar tu juego";
   const categoryText = categoryPhrase[product.category];
 
   return `${product.name} es ${levelText}. ${categoryText} Un producto ${product.brand} respaldado por Padelbros, con la calidad que tu juego merece.`;

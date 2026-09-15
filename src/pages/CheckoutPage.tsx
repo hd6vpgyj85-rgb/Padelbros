@@ -79,7 +79,7 @@ const requiredFields: Array<keyof FormState> = [
 
 function buildWhatsAppMessage(
   form: FormState,
-  lines: { name: string; quantity: number; price: number; level?: string }[],
+  lines: { name: string; quantity: number; price: number }[],
   subtotal: number,
   appliedCoupon: RedeemedCoupon | null,
   discountAmount: number,
@@ -226,7 +226,6 @@ function CheckoutPage() {
         name: product.name,
         quantity,
         price: product.price,
-        level: product.level,
       })),
       totalPrice,
       appliedCoupon,
@@ -258,7 +257,7 @@ function CheckoutPage() {
         items: lines.map(({ product, quantity }) => ({
           productId: product.id,
           name: product.name,
-          level: product.level,
+          level: product.levels?.length ? product.levels.map((level) => levelLabels[level]).join(" / ") : undefined,
           quantity,
           price: product.price,
         })),
@@ -363,7 +362,7 @@ function CheckoutPage() {
                 <div>
                   <p className="checkout-order-item__name">
                     {product.name}
-                    {product.level ? ` - ${levelLabels[product.level]}` : ""}
+                    {product.levels?.length ? ` - ${product.levels.map((level) => levelLabels[level]).join(" / ")}` : ""}
                   </p>
                   <p className="checkout-order-item__qty">Cantidad: {quantity}</p>
                 </div>

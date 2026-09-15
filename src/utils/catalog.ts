@@ -23,7 +23,7 @@ const LEVEL_ORDER: PlayerLevel[] = ["principiante", "intermedio", "avanzado"];
 export function getAvailableLevels(products: Product[]): PlayerLevel[] {
   const levels = new Set<PlayerLevel>();
   products.forEach((product) => {
-    if (product.stock > 0 && product.level) levels.add(product.level);
+    if (product.stock > 0) product.levels?.forEach((level) => levels.add(level));
   });
   return LEVEL_ORDER.filter((level) => levels.has(level));
 }
@@ -63,7 +63,7 @@ export function applyProductFilter(products: Product[], filter: ActiveFilter | n
   if (filter.type === "brand") {
     return products.filter((product) => product.brand.toLowerCase() === filter.value.toLowerCase());
   }
-  if (filter.type === "level") return products.filter((product) => product.level === filter.value);
+  if (filter.type === "level") return products.filter((product) => product.levels?.includes(filter.value as PlayerLevel));
   if (filter.type === "size") {
     return products.filter((product) => product.sizes?.includes(filter.value));
   }

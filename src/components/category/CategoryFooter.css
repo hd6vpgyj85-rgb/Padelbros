@@ -8,7 +8,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
 }
 
 .category-footer__visit {

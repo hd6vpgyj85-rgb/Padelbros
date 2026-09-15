@@ -51,6 +51,12 @@
   border-radius: 999px;
 }
 
+.related-product-card__badge--sale {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #0a0a0a;
+}
+
 .related-product-card__name {
   display: block;
   margin: 12px 12px 0;
@@ -65,11 +71,25 @@
   overflow: hidden;
 }
 
-.related-product-card__price {
+.related-product-card__price-row {
   margin: 6px 12px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.related-product-card__price {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-accent);
+}
+
+.related-product-card__price-old {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: line-through;
 }
 
 .related-product-card__add {

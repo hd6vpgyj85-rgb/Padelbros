@@ -17,7 +17,7 @@ function CategoryFooter() {
       <img
         className="category-footer__image"
         src={visitPlayer}
-        alt="Jugador de padel en cancha con iluminación morada"
+        alt="Interior de la tienda Padelbros con palas exhibidas en la pared"
       />
 
       <div className="container category-footer__visit">

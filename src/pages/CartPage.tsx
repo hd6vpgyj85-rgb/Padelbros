@@ -53,8 +53,10 @@ function CartPage() {
                       <p className="cart-item__price">{formatPrice(product.price * quantity)}</p>
                     </div>
 
-                    {product.level && (
-                      <p className="cart-item__level">{levelLabels[product.level]}</p>
+                    {product.levels && product.levels.length > 0 && (
+                      <p className="cart-item__level">
+                        {product.levels.map((level) => levelLabels[level]).join(" / ")}
+                      </p>
                     )}
 
                     <div className="cart-item__controls">

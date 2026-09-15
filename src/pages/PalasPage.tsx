@@ -25,9 +25,16 @@ function PalasPage() {
 
   useEffect(() => {
     const marca = searchParams.get("marca");
-    if (!marca) return;
-    const matchedBrand = availableBrands.find((brand) => brand.toLowerCase() === marca.toLowerCase());
-    setActiveFilter({ type: "brand", value: matchedBrand ?? marca });
+    if (marca) {
+      const matchedBrand = availableBrands.find((brand) => brand.toLowerCase() === marca.toLowerCase());
+      setActiveFilter({ type: "brand", value: matchedBrand ?? marca });
+      return;
+    }
+
+    const nivel = searchParams.get("nivel");
+    if (nivel && LEVELS.includes(nivel as PlayerLevel)) {
+      setActiveFilter({ type: "level", value: nivel });
+    }
   }, [searchParams, availableBrands]);
 
   const filteredProducts = useMemo(

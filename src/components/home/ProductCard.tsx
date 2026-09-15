@@ -15,12 +15,13 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const isOnSale = Boolean(product.onSale && product.compareAtPrice);
 
   return (
     <article className="product-card">
       <Link to={`/producto/${product.id}`} className="product-card__link">
         <div className="product-card__media">
-          {product.onSale && <span className="product-card__badge">Promo</span>}
+          {isOnSale && <span className="product-card__badge">Oferta</span>}
           {product.images?.[0] ? (
             <img
               src={product.images[0]}
@@ -35,9 +36,12 @@ function ProductCard({ product }: ProductCardProps) {
 
         <div className="product-card__info">
           <h3 className="product-card__name">{product.name}</h3>
-          <p className="product-card__price">
-            {currencyFormatter.format(product.price)}
-          </p>
+          <div className="product-card__price-row">
+            {isOnSale && (
+              <span className="product-card__price-old">{currencyFormatter.format(product.compareAtPrice!)}</span>
+            )}
+            <p className="product-card__price">{currencyFormatter.format(product.price)}</p>
+          </div>
         </div>
       </Link>
 

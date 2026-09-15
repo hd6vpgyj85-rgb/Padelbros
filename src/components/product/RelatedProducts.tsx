@@ -28,11 +28,16 @@ function RelatedProducts({ excludeId, count = 4, variant = "default" }: RelatedP
     <div className={`related-products${variant === "light" ? " related-products--light" : ""}`}>
       {items.map((product) => {
         const isOutOfStock = product.stock === 0;
+        const isOnSale = Boolean(product.onSale && product.compareAtPrice);
 
         return (
           <article className="related-product-card" key={product.id}>
             <Link to={`/producto/${product.id}`} className="related-product-card__media">
-              {isOutOfStock && <span className="related-product-card__badge">Agotado</span>}
+              {isOutOfStock ? (
+                <span className="related-product-card__badge">Agotado</span>
+              ) : (
+                isOnSale && <span className="related-product-card__badge related-product-card__badge--sale">Oferta</span>
+              )}
               {product.images?.[0] ? (
                 <img src={product.images[0]} alt={product.name} className="related-product-card__photo" />
               ) : (
@@ -44,7 +49,12 @@ function RelatedProducts({ excludeId, count = 4, variant = "default" }: RelatedP
               {product.name}
             </Link>
 
-            <p className="related-product-card__price">{formatPrice(product.price)}</p>
+            <div className="related-product-card__price-row">
+              {isOnSale && (
+                <span className="related-product-card__price-old">{formatPrice(product.compareAtPrice!)}</span>
+              )}
+              <p className="related-product-card__price">{formatPrice(product.price)}</p>
+            </div>
 
             <button
               type="button"

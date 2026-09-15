@@ -12,7 +12,7 @@ function VisitUs() {
         <img
           className={`visit-us__image reveal${isVisible ? " reveal--visible" : ""}`}
           src={visitPlayer}
-          alt="Jugador de padel descansando en la cancha con una Red Bull"
+          alt="Interior de la tienda Padelbros con palas exhibidas en la pared"
         />
 
         <div

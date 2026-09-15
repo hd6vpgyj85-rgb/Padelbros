@@ -11,6 +11,7 @@ interface ProductGridCardProps {
 
 function ProductGridCard({ product, variant = "default" }: ProductGridCardProps) {
   const isOutOfStock = product.stock === 0;
+  const isOnSale = Boolean(product.onSale && product.compareAtPrice);
 
   const className = [
     "product-grid-card",
@@ -23,7 +24,11 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
   return (
     <Link to={`/producto/${product.id}`} className={className}>
       <div className="product-grid-card__media">
-        {isOutOfStock && <span className="product-grid-card__badge">Agotado</span>}
+        {isOutOfStock ? (
+          <span className="product-grid-card__badge">Agotado</span>
+        ) : (
+          isOnSale && <span className="product-grid-card__badge product-grid-card__badge--sale">Oferta</span>
+        )}
         {product.images?.[0] ? (
           <img src={product.images[0]} alt={product.name} className="product-grid-card__photo" />
         ) : (
@@ -33,7 +38,10 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
       <div className="product-grid-card__body">
         {product.vendor && <span className="product-grid-card__vendor">{product.vendor}</span>}
         <h3 className="product-grid-card__name">{product.name}</h3>
-        <p className="product-grid-card__price">{formatPrice(product.price)}</p>
+        <div className="product-grid-card__price-row">
+          {isOnSale && <span className="product-grid-card__price-old">{formatPrice(product.compareAtPrice!)}</span>}
+          <p className="product-grid-card__price">{formatPrice(product.price)}</p>
+        </div>
       </div>
     </Link>
   );

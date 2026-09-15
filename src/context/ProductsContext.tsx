@@ -8,7 +8,7 @@ interface ProductRow {
   price: number;
   compare_at_price: number | null;
   on_sale: boolean;
-  level: Product["level"] | null;
+  levels: Product["levels"] | null;
   category: Product["category"];
   brand: string;
   stock: number;
@@ -26,7 +26,7 @@ function rowToProduct(row: ProductRow): Product {
     price: Number(row.price),
     compareAtPrice: row.compare_at_price ?? undefined,
     onSale: row.on_sale,
-    level: row.level ?? undefined,
+    levels: row.levels ?? undefined,
     category: row.category,
     brand: row.brand,
     stock: row.stock,
@@ -43,7 +43,7 @@ const FIELD_MAP: Record<keyof Omit<Product, "id">, string> = {
   price: "price",
   compareAtPrice: "compare_at_price",
   onSale: "on_sale",
-  level: "level",
+  levels: "levels",
   category: "category",
   brand: "brand",
   stock: "stock",
