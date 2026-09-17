@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
@@ -25,10 +26,14 @@ import NotFoundPage from "./pages/NotFoundPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import FidelidadPage from "./pages/FidelidadPage";
-import AdminApp from "./admin/AdminApp";
+import BallLoader from "./components/common/BallLoader";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import ScrollToTop from "./components/common/ScrollToTop";
 import TabAwayTitle from "./components/common/TabAwayTitle";
+
+// El panel de administración solo lo usa el dueño: se carga aparte para que
+// los clientes no descarguen ese código al entrar a la tienda.
+const AdminApp = lazy(() => import("./admin/AdminApp"));
 
 function App() {
   return (
@@ -64,7 +69,14 @@ function App() {
                           <Route path="/buscar" element={<SearchPage />} />
                         </Route>
                         <Route path="/fidelidad/:token" element={<FidelidadPage />} />
-                        <Route path="/admin/*" element={<AdminApp />} />
+                        <Route
+                          path="/admin/*"
+                          element={
+                            <Suspense fallback={<BallLoader label="Abriendo el panel" />}>
+                              <AdminApp />
+                            </Suspense>
+                          }
+                        />
                         <Route element={<CategoryLayout />}>
                           <Route path="*" element={<NotFoundPage />} />
                         </Route>
