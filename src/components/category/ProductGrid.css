@@ -7,9 +7,22 @@
 
 .product-grid__empty {
   margin-top: 40px;
+  padding-bottom: 20px;
   text-align: center;
   color: var(--color-text-muted);
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: fade-up 0.4s ease both;
+}
+
+.product-grid__empty-ball {
+  width: 40px;
+  height: 40px;
+  color: #3f3f3c;
+  animation: float-ball 3.2s ease-in-out infinite;
 }
 
 @media (min-width: 640px) {

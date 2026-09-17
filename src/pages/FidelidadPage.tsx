@@ -5,6 +5,7 @@ import { useLoyalty } from "../context/LoyaltyContext";
 import { getWhatsAppUrl } from "../data/store";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { CrownIcon, RacketPlaceholderIcon } from "../components/home/icons";
+import BallLoader from "../components/common/BallLoader";
 import CategoryFooter from "../components/category/CategoryFooter";
 import "./FidelidadPage.css";
 
@@ -50,6 +51,7 @@ function FidelidadPage() {
   const [claims, setClaims] = useState<PublicClaim[]>([]);
   const [claimingTierId, setClaimingTierId] = useState<string | null>(null);
   const [claimError, setClaimError] = useState("");
+  const [barWidth, setBarWidth] = useState(0);
 
   useEffect(() => {
     if (!token) {
@@ -110,6 +112,17 @@ function FidelidadPage() {
     };
   }, [token]);
 
+  // La barra arranca en cero y se llena sola: se siente como un progreso ganado.
+  useEffect(() => {
+    if (!customer) return;
+    const next = tiers.find((tier) => tier.purchasesRequired > customer.purchasesCount);
+    const percent = next
+      ? Math.min(100, Math.round((customer.purchasesCount / next.purchasesRequired) * 100))
+      : 100;
+    const timeout = window.setTimeout(() => setBarWidth(percent), 220);
+    return () => window.clearTimeout(timeout);
+  }, [customer, tiers]);
+
   const handleClaim = async (tier: { id: string; rewardDescription: string }) => {
     if (!token || !customer) return;
     setClaimingTierId(tier.id);
@@ -134,7 +147,7 @@ function FidelidadPage() {
   };
 
   if (status === "loading") {
-    return null;
+    return <BallLoader label="Abriendo tu tarjeta" />;
   }
 
   if (status === "not-found" || !customer) {
@@ -157,9 +170,6 @@ function FidelidadPage() {
   }
 
   const nextTier = tiers.find((tier) => tier.purchasesRequired > customer.purchasesCount);
-  const progressPercent = nextTier
-    ? Math.min(100, Math.round((customer.purchasesCount / nextTier.purchasesRequired) * 100))
-    : 100;
   const achievedCount = tiers.filter((tier) => customer.purchasesCount >= tier.purchasesRequired).length;
 
   return (
@@ -185,7 +195,7 @@ function FidelidadPage() {
 
           <div className="loyalty-card__progress">
             <div className="loyalty-card__progress-bar">
-              <div className="loyalty-card__progress-fill" style={{ width: `${progressPercent}%` }} />
+              <div className="loyalty-card__progress-fill" style={{ width: `${barWidth}%` }} />
             </div>
             <p className="loyalty-card__progress-label">
               {nextTier
@@ -212,6 +222,7 @@ function FidelidadPage() {
                     )}
                     <span
                       className={`loyalty-track__node${achieved ? " loyalty-track__node--done" : ""}`}
+                      style={{ animationDelay: `${0.25 + index * 0.12}s` }}
                       aria-hidden="true"
                     >
                       {achieved ? "✓" : index + 1}
@@ -242,6 +253,7 @@ function FidelidadPage() {
               <li
                 key={tier.id}
                 className={`fidelidad-tier${achieved ? " fidelidad-tier--achieved" : " fidelidad-tier--locked"}`}
+                style={{ animationDelay: `${0.35 + index * 0.09}s` }}
               >
                 <div className="fidelidad-tier__marker" aria-hidden="true">
                   {achieved ? "✓" : index + 1}

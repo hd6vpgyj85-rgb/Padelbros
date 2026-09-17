@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { Product } from "../../types/product";
 import { RacketPlaceholderIcon } from "../home/icons";
@@ -7,11 +8,17 @@ import "./ProductGridCard.css";
 interface ProductGridCardProps {
   product: Product;
   variant?: "default" | "search";
+  index?: number;
 }
 
-function ProductGridCard({ product, variant = "default" }: ProductGridCardProps) {
+function ProductGridCard({ product, variant = "default", index = 0 }: ProductGridCardProps) {
+  const [isPhotoLoaded, setIsPhotoLoaded] = useState(false);
   const isOutOfStock = product.stock === 0;
   const isOnSale = Boolean(product.onSale && product.compareAtPrice);
+  const discountPercent =
+    isOnSale && product.compareAtPrice
+      ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
+      : 0;
 
   const className = [
     "product-grid-card",
@@ -22,7 +29,11 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
     .join(" ");
 
   return (
-    <Link to={`/producto/${product.id}`} className={className}>
+    <Link
+      to={`/producto/${product.id}`}
+      className={className}
+      style={{ "--card-index": Math.min(index, 11) } as React.CSSProperties}
+    >
       <div className="product-grid-card__media">
         {isOutOfStock ? (
           <span className="product-grid-card__badge">Agotado</span>
@@ -30,7 +41,13 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
           isOnSale && <span className="product-grid-card__badge product-grid-card__badge--sale">Oferta</span>
         )}
         {product.images?.[0] ? (
-          <img src={product.images[0]} alt={product.name} className="product-grid-card__photo" />
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            loading="lazy"
+            onLoad={() => setIsPhotoLoaded(true)}
+            className={`product-grid-card__photo img-fade${isPhotoLoaded ? " img-fade--loaded" : ""}`}
+          />
         ) : (
           <RacketPlaceholderIcon className="product-grid-card__placeholder" />
         )}
@@ -41,6 +58,7 @@ function ProductGridCard({ product, variant = "default" }: ProductGridCardProps)
         <div className="product-grid-card__price-row">
           {isOnSale && <span className="product-grid-card__price-old">{formatPrice(product.compareAtPrice!)}</span>}
           <p className="product-grid-card__price">{formatPrice(product.price)}</p>
+          {discountPercent > 0 && <span className="product-grid-card__discount">-{discountPercent}%</span>}
         </div>
       </div>
     </Link>

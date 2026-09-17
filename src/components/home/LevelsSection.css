@@ -17,34 +17,65 @@
 
 .level-card {
   position: relative;
+  overflow: hidden;
   width: 100%;
+  height: 100%;
   text-align: left;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 18px;
   padding: 26px 24px 60px;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Un resplandor verde nace de la esquina al pasar el cursor. */
+.level-card::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(126, 211, 33, 0.18) 0%, rgba(126, 211, 33, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
 .level-card:hover {
   border-color: rgba(126, 211, 33, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
+}
+
+.level-card:hover::before {
+  opacity: 1;
 }
 
 .level-card:active {
-  transform: scale(0.99);
+  transform: translateY(-1px) scale(0.99);
 }
 
 .level-card__number {
+  position: relative;
   display: block;
   font-family: var(--font-display);
   font-weight: 900;
   font-size: 34px;
   color: rgba(255, 255, 255, 0.28);
   margin-bottom: 8px;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.level-card:hover .level-card__number {
+  color: var(--color-accent);
+  transform: translateX(2px);
 }
 
 .level-card__name {
+  position: relative;
   font-size: 20px;
   font-weight: 800;
   text-transform: uppercase;
@@ -54,6 +85,7 @@
 }
 
 .level-card__description {
+  position: relative;
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-text-muted);

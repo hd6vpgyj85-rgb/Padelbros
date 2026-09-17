@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { features } from "../../data/features";
+import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { HandshakeIcon, PeopleIcon, PinIcon, StarBadgeIcon } from "./icons";
 import "./Features.css";
 
@@ -12,15 +13,20 @@ const iconMap = {
 
 function Features() {
   const [selectedId, setSelectedId] = useState(features[0].id);
+  const { ref, isVisible } = useScrollReveal<HTMLElement>(0.1);
 
   return (
-    <section className="features">
+    <section className="features" ref={ref}>
       <ul className="features__list container">
-        {features.map((feature) => {
+        {features.map((feature, index) => {
           const Icon = iconMap[feature.icon];
           const isSelected = feature.id === selectedId;
           return (
-            <li key={feature.id}>
+            <li
+              key={feature.id}
+              className={`reveal${isVisible ? " reveal--visible" : ""}`}
+              style={{ transitionDelay: `${index * 0.09}s` }}
+            >
               <button
                 type="button"
                 className={`feature-card${isSelected ? " feature-card--highlight" : ""}`}

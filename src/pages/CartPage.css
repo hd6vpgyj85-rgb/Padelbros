@@ -30,15 +30,28 @@
 
 .cart-page__empty {
   margin-top: 32px;
-  padding: 40px 20px;
+  padding: 44px 20px;
   text-align: center;
-  border: 1px solid var(--color-border);
+  border: 1px dashed var(--color-border);
   border-radius: 16px;
   color: var(--color-text-muted);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 18px;
+  animation: fade-up 0.45s ease both;
+}
+
+.cart-page__empty p {
+  max-width: 320px;
+  line-height: 1.55;
+}
+
+.cart-page__empty-ball {
+  width: 42px;
+  height: 42px;
+  color: #3f3f3c;
+  animation: float-ball 3.2s ease-in-out infinite;
 }
 
 .cart-page__list {

@@ -6,6 +6,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: border-color 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  border-color: rgba(126, 211, 33, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(126, 211, 33, 0.12);
 }
 
 .product-card__link {
@@ -26,12 +33,23 @@
   width: 46%;
   height: 46%;
   color: #3a3a38;
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.product-card:hover .product-card__placeholder {
+  transform: scale(1.06) rotate(-4deg);
+  color: #4a4a46;
 }
 
 .product-card__photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.product-card:hover .product-card__photo {
+  transform: scale(1.06);
 }
 
 .product-card__badge {
@@ -47,6 +65,7 @@
   padding: 4px 9px;
   border-radius: 999px;
   z-index: 1;
+  animation: pop-in 0.4s ease both, pulse-glow 2.6s ease-in-out 1.2s infinite;
 }
 
 .product-card__info {
@@ -104,10 +123,34 @@
 
 .product-card__add:hover {
   background-color: var(--color-accent-dark);
+  transform: scale(1.08) rotate(90deg);
 }
 
 .product-card__add:active {
   transform: scale(0.92);
+}
+
+/* Confirmación breve: el botón se hincha y muestra una palomita. */
+.product-card__add--added {
+  background-color: #fff;
+  animation: add-pop 0.45s ease;
+}
+
+.product-card__add--added:hover {
+  background-color: #fff;
+  transform: none;
+}
+
+@keyframes add-pop {
+  0% {
+    transform: scale(0.85);
+  }
+  55% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .product-card__add svg {

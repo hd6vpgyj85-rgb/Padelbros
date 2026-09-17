@@ -29,6 +29,28 @@ export function PeopleIcon({ className }: IconProps) {
   );
 }
 
+export function BallIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path
+        d="M3.2 5.4C7.6 8.3 7.6 15.7 3.2 18.6"
+        stroke="#0a0a0a"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+      <path
+        d="M20.8 5.4C16.4 8.3 16.4 15.7 20.8 18.6"
+        stroke="#0a0a0a"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+    </svg>
+  );
+}
+
 export function CrownIcon({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -28,6 +28,7 @@ import FidelidadPage from "./pages/FidelidadPage";
 import AdminApp from "./admin/AdminApp";
 import WhatsAppButton from "./components/common/WhatsAppButton";
 import ScrollToTop from "./components/common/ScrollToTop";
+import TabAwayTitle from "./components/common/TabAwayTitle";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                   <CartProvider>
                     <BrowserRouter>
                       <ScrollToTop />
+                      <TabAwayTitle />
                       <Routes>
                         <Route element={<HomeLayout />}>
                           <Route path="/" element={<HomePage />} />

@@ -32,6 +32,40 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background-color: var(--color-accent);
+  color: #0a0a0a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2f2f2f;
+  border: 2px solid var(--color-bg);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-accent-dark);
+}
+
+* {
+  scrollbar-color: #2f2f2f var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 #root {
   width: 100%;
 }
@@ -104,6 +138,8 @@ p {
 }
 
 .btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -116,11 +152,41 @@ p {
   font-weight: 700;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.2s ease,
+    box-shadow 0.25s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .btn:active {
   transform: scale(0.97);
+}
+
+/* Destello que cruza el botón al pasar el cursor, como el brillo de una pala nueva. */
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  animation: btn-shine 0.65s ease;
+}
+
+@keyframes btn-shine {
+  from {
+    left: -60%;
+    opacity: 1;
+  }
+  to {
+    left: 120%;
+    opacity: 0;
+  }
 }
 
 .btn--primary {
@@ -130,6 +196,12 @@ p {
 
 .btn--primary:hover {
   background-color: var(--color-accent-dark);
+  box-shadow: 0 6px 20px rgba(126, 211, 33, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn--primary:active {
+  transform: scale(0.97);
 }
 
 .btn--outline {
@@ -141,6 +213,7 @@ p {
 .btn--outline:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+  box-shadow: 0 6px 20px rgba(126, 211, 33, 0.15);
 }
 
 .site-header {
@@ -181,14 +254,142 @@ p {
   transform: translateY(0);
 }
 
+/* ── Animaciones compartidas ────────────────────────────────── */
+
+/* Rebote de pelota de padel: sube rápido, cae con gravedad. */
+@keyframes ball-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(0.92) scaleX(1.06);
+  }
+  10% {
+    transform: translateY(-4px) scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: translateY(-34px) scaleY(1.04) scaleX(0.96);
+  }
+  90% {
+    transform: translateY(-4px) scaleY(1) scaleX(1);
+  }
+}
+
+/* La sombra se achica cuando la pelota está arriba. */
+@keyframes ball-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleX(0.5);
+    opacity: 0.12;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Rebote del contador del carrito cuando cambia la cantidad. */
+@keyframes badge-pop {
+  0% {
+    transform: scale(0.4);
+  }
+  60% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -280px 0;
+  }
+  to {
+    background-position: 280px 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(126, 211, 33, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(126, 211, 33, 0);
+  }
+}
+
+/* Pelota flotando en estados vacíos. */
+@keyframes float-ball {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(6deg);
+  }
+}
+
+/* Barrido de luz sobre superficies (tarjetas de fidelidad, skeletons). */
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) rotate(8deg);
+  }
+  to {
+    transform: translateX(320%) rotate(8deg);
+  }
+}
+
+/* Las fotos entran con un fundido en vez de aparecer de golpe. */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.img-fade--loaded {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .reveal {
     opacity: 1;
     transform: none;
-    transition: none;
   }
 
-  .site-header {
-    transition: none;
+  .img-fade {
+    opacity: 1;
   }
 }

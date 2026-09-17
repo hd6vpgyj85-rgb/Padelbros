@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import Accordion from "../components/product/Accordion";
 import ProductGallery from "../components/product/ProductGallery";
 import RelatedProducts from "../components/product/RelatedProducts";
+import BallLoader from "../components/common/BallLoader";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
 import { useProducts } from "../context/ProductsContext";
@@ -42,7 +43,7 @@ function ProductDetailPage() {
     if (id) trackView(id);
   }, [id]);
 
-  if (isLoading) return null;
+  if (isLoading) return <BallLoader label="Preparando tu pala" />;
   if (!product) return <Navigate to="/" replace />;
 
   const isOutOfStock = product.stock === 0;
@@ -113,7 +114,7 @@ function ProductDetailPage() {
 
             <button
               type="button"
-              className="product-detail__add-btn"
+              className={`product-detail__add-btn${justAdded ? " product-detail__add-btn--added" : ""}`}
               onClick={handleAddToCart}
               disabled={isOutOfStock}
             >

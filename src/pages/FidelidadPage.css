@@ -33,6 +33,20 @@
   padding: 24px 22px;
   margin-bottom: 22px;
   box-shadow: 0 0 0 1px rgba(126, 211, 33, 0.12), 0 16px 40px rgba(0, 0, 0, 0.4);
+  animation: pop-in 0.5s ease both;
+}
+
+/* Barrido de luz sobre la tarjeta, como una credencial plastificada. */
+.loyalty-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 55%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  animation: sheen 3.6s ease-in-out 0.8s infinite;
+  pointer-events: none;
 }
 
 .loyalty-card__glow {
@@ -113,7 +127,9 @@
   height: 100%;
   background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent-neon));
   border-radius: 999px;
-  transition: width 0.4s ease;
+  box-shadow: 0 0 12px rgba(151, 229, 32, 0.5);
+  /* Se llena con calma al abrir la tarjeta. */
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .loyalty-card__progress-label {
@@ -170,6 +186,8 @@
   background-color: var(--color-surface);
   border: 2px solid var(--color-border);
   color: var(--color-text-muted);
+  /* Cada nivel aparece uno tras otro, como quien va marcando la ruta. */
+  animation: pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .loyalty-track__node--done {
@@ -177,6 +195,11 @@
   border-color: var(--color-accent);
   color: #0a0a0a;
   font-size: 15px;
+  box-shadow: 0 0 14px rgba(126, 211, 33, 0.45);
+}
+
+.loyalty-track__line {
+  transition: background-color 0.5s ease;
 }
 
 .loyalty-track__row--labels {
@@ -203,6 +226,13 @@
   border: 1px solid var(--color-border);
   border-radius: 14px;
   padding: 14px 16px;
+  animation: fade-up 0.5s ease both;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.fidelidad-tier--achieved:hover {
+  border-color: rgba(126, 211, 33, 0.45);
+  transform: translateX(3px);
 }
 
 .fidelidad-tier--locked {
@@ -230,6 +260,7 @@
   border-color: var(--color-accent);
   color: #0a0a0a;
   font-size: 16px;
+  box-shadow: 0 0 14px rgba(126, 211, 33, 0.4);
 }
 
 .fidelidad-tier__body {

@@ -3,7 +3,7 @@ import Accordion from "../components/product/Accordion";
 import RelatedProducts from "../components/product/RelatedProducts";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useCart } from "../context/CartContext";
-import { MinusIcon, PlusIcon, RacketPlaceholderIcon, TrashIcon } from "../components/home/icons";
+import { BallIcon, MinusIcon, PlusIcon, RacketPlaceholderIcon, TrashIcon } from "../components/home/icons";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { formatPrice } from "../utils/format";
 import "./CartPage.css";
@@ -27,7 +27,8 @@ function CartPage() {
 
         {lines.length === 0 ? (
           <div className="cart-page__empty">
-            <p>Tu carrito está vacío por el momento.</p>
+            <BallIcon className="cart-page__empty-ball" />
+            <p>Tu carrito está vacío. Vamos a llenarlo antes del próximo partido.</p>
             <Link to="/palas" className="btn btn--primary">
               Ver productos
             </Link>

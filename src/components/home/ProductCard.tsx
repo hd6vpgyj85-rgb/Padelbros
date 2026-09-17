@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import type { Product } from "../../types/product";
@@ -15,7 +16,19 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const [isPhotoLoaded, setIsPhotoLoaded] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+  const timeoutRef = useRef<number | undefined>(undefined);
   const isOnSale = Boolean(product.onSale && product.compareAtPrice);
+
+  useEffect(() => () => window.clearTimeout(timeoutRef.current), []);
+
+  const handleAdd = () => {
+    addItem(product.id, 1);
+    setJustAdded(true);
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = window.setTimeout(() => setJustAdded(false), 1400);
+  };
 
   return (
     <article className="product-card">
@@ -26,7 +39,9 @@ function ProductCard({ product }: ProductCardProps) {
             <img
               src={product.images[0]}
               alt={product.name}
-              className="product-card__photo"
+              loading="lazy"
+              onLoad={() => setIsPhotoLoaded(true)}
+              className={`product-card__photo img-fade${isPhotoLoaded ? " img-fade--loaded" : ""}`}
               style={{ objectFit: product.homeImageFit ?? "cover" }}
             />
           ) : (
@@ -46,15 +61,27 @@ function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       <button
-        className="product-card__add"
+        className={`product-card__add${justAdded ? " product-card__add--added" : ""}`}
         type="button"
-        aria-label={`Agregar ${product.name} al carrito`}
-        onClick={() => addItem(product.id, 1)}
+        aria-label={justAdded ? `${product.name} agregado al carrito` : `Agregar ${product.name} al carrito`}
+        onClick={handleAdd}
       >
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        </svg>
+        {justAdded ? (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline
+              points="5 12.5 10 17.5 19 7"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        )}
       </button>
     </article>
   );

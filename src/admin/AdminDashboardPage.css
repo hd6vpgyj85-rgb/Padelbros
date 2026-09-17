@@ -26,7 +26,8 @@
   border: 1px solid var(--color-border);
   border-radius: 16px;
   padding: 20px;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fade-up 0.45s ease both;
 }
 
 .admin-stat-card:active {
@@ -35,6 +36,8 @@
 
 .admin-stat-card:hover {
   border-color: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.4);
 }
 
 .admin-stat-card__icon {
@@ -46,6 +49,12 @@
   border-radius: 10px;
   background-color: var(--color-surface-alt);
   color: var(--color-accent);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.admin-stat-card:hover .admin-stat-card__icon {
+  transform: scale(1.08) rotate(-5deg);
+  background-color: rgba(126, 211, 33, 0.12);
 }
 
 .admin-stat-card__icon svg {

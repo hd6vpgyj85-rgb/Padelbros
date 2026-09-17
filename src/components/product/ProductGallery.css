@@ -24,6 +24,8 @@
   background-color: #f5f5f3;
   border: none;
   padding: 0;
+  cursor: zoom-in;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +42,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-gallery__slide:hover .product-gallery__photo {
+  transform: scale(1.04);
 }
 
 .product-gallery__placeholder {

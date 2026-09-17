@@ -31,7 +31,11 @@ function Header() {
           </Link>
           <Link className="header__icon-btn header__icon-btn--desktop" to="/carrito" aria-label="Carrito">
             <CartIcon />
-            {cartCount > 0 && <span className="header__badge">{cartCount}</span>}
+            {cartCount > 0 && (
+              <span className="header__badge" key={cartCount}>
+                {cartCount}
+              </span>
+            )}
           </Link>
           <button
             className="header__icon-btn header__icon-btn--mobile-only"
