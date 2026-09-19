@@ -42,7 +42,9 @@ function Testimonials() {
     const track = trackRef.current;
     if (!track) return;
     const slide = track.children[index] as HTMLElement | undefined;
-    slide?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    if (!slide) return;
+    const left = slide.offsetLeft - (track.clientWidth - slide.clientWidth) / 2;
+    track.scrollTo({ left, behavior: "smooth" });
   };
 
   const pauseAutoplay = () => {
