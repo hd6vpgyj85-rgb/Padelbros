@@ -8,7 +8,7 @@ export interface Feature {
 export const features: Feature[] = [
   {
     id: "especialistas",
-    title: "Especialistas en padel",
+    title: "Especialistas en pádel",
     description: "Te atendemos jugadores que conocen el juego.",
     icon: "people",
   },

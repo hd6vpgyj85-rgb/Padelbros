@@ -9,7 +9,7 @@ import CtaFooter from "../components/home/CtaFooter";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 function HomePage() {
-  useDocumentTitle("Padelbros | La tienda de padel en Cd. Juárez");
+  useDocumentTitle("Padelbros | La tienda de pádel en Cd. Juárez");
 
   return (
     <>

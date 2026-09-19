@@ -16,7 +16,7 @@ function WarrantyPage() {
         <p className="legal-page__intro">
           En Padelbros todos nuestros productos son 100% originales. Para brindarte total
           tranquilidad en tu compra, te explicamos cómo funciona la garantía para palas y
-          artículos de padel.
+          artículos de pádel.
         </p>
 
         <div className="legal-page__sections">

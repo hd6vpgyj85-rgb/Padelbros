@@ -70,7 +70,7 @@ function FeaturedCarousel() {
       <div className="container featured-carousel__header">
         <span className="pill-badge">
           <span className="pill-badge__dot" aria-hidden="true" />
-          Especialistas en padel
+          Especialistas en pádel
         </span>
         <h2 className="section-title">Productos destacados</h2>
       </div>

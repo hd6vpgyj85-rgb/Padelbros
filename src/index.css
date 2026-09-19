@@ -256,7 +256,7 @@ p {
 
 /* ── Animaciones compartidas ────────────────────────────────── */
 
-/* Rebote de pelota de padel: sube rápido, cae con gravedad. */
+/* Rebote de pelota de pádel: sube rápido, cae con gravedad. */
 @keyframes ball-bounce {
   0%,
   100% {

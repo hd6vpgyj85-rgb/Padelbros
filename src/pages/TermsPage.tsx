@@ -23,7 +23,7 @@ function TermsPage() {
           <section className="legal-page__section">
             <h2 className="legal-page__section-title">1. Sobre Padelbros</h2>
             <p>
-              Padelbros es una tienda de artículos de padel ubicada en {storeInfo.address}. La
+              Padelbros es una tienda de artículos de pádel ubicada en {storeInfo.address}. La
               atención a clientes y la confirmación de pedidos se realiza por WhatsApp.
             </p>
           </section>

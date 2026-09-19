@@ -15,11 +15,11 @@ function Hero() {
       <div className="hero__content container">
         <span className="hero__badge">
           <span className="hero__badge-dot" aria-hidden="true" />
-          Especialistas en padel
+          Especialistas en pádel
         </span>
 
         <h1 className="hero__title">
-          La tienda de padel en{" "}
+          La tienda de pádel en{" "}
           <span className="hero__title-accent">Cd Juárez.</span>
         </h1>
 

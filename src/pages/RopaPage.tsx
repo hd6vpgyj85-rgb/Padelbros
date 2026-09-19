@@ -11,7 +11,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { applyProductFilter, getAvailableSizes, getProductsByCategory } from "../utils/catalog";
 
 function RopaPage() {
-  useDocumentTitle("Ropa de padel | Padelbros");
+  useDocumentTitle("Ropa de pádel | Padelbros");
   const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
@@ -26,7 +26,7 @@ function RopaPage() {
     <>
       <CategoryPhotoBanner
         image={heroPlayer}
-        categoryName="Ropa de Padel"
+        categoryName="Ropa de Pádel"
         tagline="Viste con las mejores marcas."
       />
 

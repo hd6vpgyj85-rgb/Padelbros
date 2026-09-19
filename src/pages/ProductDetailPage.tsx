@@ -162,7 +162,7 @@ function ProductDetailPage() {
       </div>
 
       <section className="product-detail__related container">
-        <span className="eyebrow">Especialistas en padel</span>
+        <span className="eyebrow">Especialistas en pádel</span>
         <h2 className="section-title">Productos que también te pueden gustar</h2>
         <p className="product-detail__related-subtitle">
           Selección de productos de todas nuestras colecciones para ti.

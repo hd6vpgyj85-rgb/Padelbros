@@ -15,7 +15,7 @@ import { applyProductFilter, getAvailableBrands, getProductsByCategory } from ".
 const LEVELS: PlayerLevel[] = ["principiante", "intermedio", "avanzado"];
 
 function PalasPage() {
-  useDocumentTitle("Palas de padel | Padelbros");
+  useDocumentTitle("Palas de pádel | Padelbros");
   const { products } = useProducts();
   const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
@@ -50,7 +50,7 @@ function PalasPage() {
         tagline="Encuentra la pala ideal para tu juego."
       />
 
-      <CategoryHero title="Palas" subtitle="Descubre nuestra colección completa de palas de padel." />
+      <CategoryHero title="Palas" subtitle="Descubre nuestra colección completa de palas de pádel." />
 
       <ProductFilters
         groups={[{ type: "level", options: LEVELS }]}

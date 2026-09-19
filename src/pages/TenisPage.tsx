@@ -11,7 +11,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
 
 function TenisPage() {
-  useDocumentTitle("Tenis de padel | Padelbros");
+  useDocumentTitle("Tenis de pádel | Padelbros");
   const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 

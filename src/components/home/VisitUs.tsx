@@ -24,7 +24,7 @@ function VisitUs() {
 
           <p className="visit-us__text">
             Más que una tienda. Un espacio para jugadores. Recibe asesoría
-            experta y conecta con la comunidad de padel de Juárez.
+            experta y conecta con la comunidad de pádel de Juárez.
           </p>
 
           <div className="visit-us__details">

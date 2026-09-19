@@ -11,7 +11,7 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { applyProductFilter, getAvailableBrands, getProductsByCategory } from "../utils/catalog";
 
 function MochilasPage() {
-  useDocumentTitle("Mochilas y paleteros de padel | Padelbros");
+  useDocumentTitle("Mochilas y paleteros de pádel | Padelbros");
   const { products } = useProducts();
   const [activeFilter, setActiveFilter] = useState<ActiveFilter | null>(null);
 
