@@ -21,7 +21,7 @@ function TopProducts() {
   return (
     <section className="top-products" id="top-palas" ref={ref}>
       <div className="container">
-        <span className={`eyebrow reveal${isVisible ? " reveal--visible" : ""}`}>Top Palas</span>
+        <span className={`eyebrow reveal${isVisible ? " reveal--visible" : ""}`}>Lo más vendido</span>
         <h2
           className={`section-title reveal${isVisible ? " reveal--visible" : ""}`}
           style={{ transitionDelay: "0.08s" }}

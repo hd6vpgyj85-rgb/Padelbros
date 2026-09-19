@@ -25,6 +25,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import WarrantyPage from "./pages/WarrantyPage";
 import FidelidadPage from "./pages/FidelidadPage";
 import BallLoader from "./components/common/BallLoader";
 import WhatsAppButton from "./components/common/WhatsAppButton";
@@ -64,6 +65,7 @@ function App() {
                           <Route path="/checkout" element={<CheckoutPage />} />
                           <Route path="/terminos" element={<TermsPage />} />
                           <Route path="/privacidad" element={<PrivacyPage />} />
+                          <Route path="/garantia" element={<WarrantyPage />} />
                         </Route>
                         <Route element={<SearchLayout />}>
                           <Route path="/buscar" element={<SearchPage />} />

@@ -139,6 +139,7 @@ function CheckoutPage() {
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   const [loyaltyToken, setLoyaltyToken] = useState<string | null>(null);
   const [loyaltyLinkCopied, setLoyaltyLinkCopied] = useState(false);
+  const [whatsappMessage, setWhatsappMessage] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
   const loyaltyCanvasRef = useRef<HTMLCanvasElement>(null);
   const loyaltyUrl = loyaltyToken ? `${window.location.origin}/fidelidad/${loyaltyToken}` : "";
@@ -285,7 +286,7 @@ function CheckoutPage() {
         // La tarjeta de fidelidad es un extra: si falla, el pedido sigue siendo válido.
       }
 
-      window.open(getWhatsAppUrl(message), "_blank", "noopener,noreferrer");
+      setWhatsappMessage(message);
       clearCart();
       setSubmitted(true);
     } catch {
@@ -313,7 +314,16 @@ function CheckoutPage() {
       <div className="checkout-page">
         <div className="container checkout-page__empty">
           <p className="checkout-page__success-title">¡Pedido enviado!</p>
-          <p>Continúa la conversación en WhatsApp para confirmar tu pedido con {storeInfo.address}.</p>
+          <p>Confirma tu pedido por WhatsApp para que un asesor de {storeInfo.address} te contacte.</p>
+
+          <a
+            href={getWhatsAppUrl(whatsappMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--primary"
+          >
+            Confirmar por WhatsApp
+          </a>
 
           {loyaltyToken && (
             <div className="checkout-loyalty">

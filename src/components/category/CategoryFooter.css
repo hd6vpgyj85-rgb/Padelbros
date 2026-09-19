@@ -13,6 +13,10 @@
 
 .category-footer__visit {
   padding: 32px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .category-footer__title {
@@ -35,6 +39,7 @@
   font-weight: 500;
   color: var(--color-text);
   line-height: 1.5;
+  text-align: left;
 }
 
 .category-footer__hours-line {

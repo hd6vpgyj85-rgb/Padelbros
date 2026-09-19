@@ -120,6 +120,15 @@
   min-height: 38px;
 }
 
+.product-grid-card__sizes {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .product-grid-card__price-row {
   margin-top: 8px;
   display: flex;

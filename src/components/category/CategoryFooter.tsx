@@ -9,6 +9,7 @@ const footerLinks = [
   { label: "Comunícate con nosotros", href: whatsappUrl, external: true },
   { label: "Términos y condiciones", to: "/terminos" },
   { label: "Privacidad y cookies", to: "/privacidad" },
+  { label: "Política de garantías", to: "/garantia" },
 ];
 
 function CategoryFooter() {

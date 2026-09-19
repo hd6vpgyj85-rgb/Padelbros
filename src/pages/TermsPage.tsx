@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CategoryFooter from "../components/category/CategoryFooter";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { storeInfo, getWhatsAppUrl } from "../data/store";
@@ -64,6 +65,10 @@ function TermsPage() {
               confirmado el pedido. Te recomendamos revisar bien las características, tallas y
               medidas del producto antes de confirmar tu compra, o resolver tus dudas por
               WhatsApp con un asesor previo a comprar.
+            </p>
+            <p>
+              Para dudas sobre cobertura de fallas de fábrica, consulta nuestra sección de{" "}
+              <Link to="/garantia">Política de Garantías</Link>.
             </p>
           </section>
 

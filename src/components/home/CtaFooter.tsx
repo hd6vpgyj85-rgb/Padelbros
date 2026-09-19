@@ -38,6 +38,8 @@ function CtaFooter() {
           <Link to="/terminos">Términos y condiciones</Link>
           <span aria-hidden="true">·</span>
           <Link to="/privacidad">Privacidad y cookies</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/garantia">Política de garantías</Link>
         </div>
       </div>
     </section>

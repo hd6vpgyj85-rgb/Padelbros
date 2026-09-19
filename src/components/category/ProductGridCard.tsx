@@ -55,6 +55,9 @@ function ProductGridCard({ product, variant = "default", index = 0 }: ProductGri
       <div className="product-grid-card__body">
         {product.vendor && <span className="product-grid-card__vendor">{product.vendor}</span>}
         <h3 className="product-grid-card__name">{product.name}</h3>
+        {product.sizes && product.sizes.length > 0 && (
+          <p className="product-grid-card__sizes">Tallas: {product.sizes.join(", ")}</p>
+        )}
         <div className="product-grid-card__price-row">
           {isOnSale && <span className="product-grid-card__price-old">{formatPrice(product.compareAtPrice!)}</span>}
           <p className="product-grid-card__price">{formatPrice(product.price)}</p>
