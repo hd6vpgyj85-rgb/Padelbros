@@ -80,6 +80,9 @@ function ProductDetailPage() {
               <span className="product-detail__price-old">{formatPrice(product.compareAtPrice)}</span>
             )}
             <p className="product-detail__price">{formatPrice(product.price)}</p>
+            {product.sizes && product.sizes.length > 0 && (
+              <span className="product-detail__sizes">Tallas: {product.sizes.join(", ")}</span>
+            )}
           </div>
 
           {product.levels && product.levels.length > 0 && (

@@ -57,6 +57,12 @@
   text-decoration: line-through;
 }
 
+.product-detail__sizes {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
 .product-detail__level {
   margin-top: 16px;
   display: flex;
