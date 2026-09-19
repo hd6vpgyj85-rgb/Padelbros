@@ -27,16 +27,16 @@ function Testimonials() {
     () => approvedReviews.filter((review) => !review.image).slice(0, MAX_TEXT_REVIEWS),
     [approvedReviews],
   );
-  const imageReview = useMemo(() => approvedReviews.find((review) => review.image), [approvedReviews]);
+  const imageReviews = useMemo(() => approvedReviews.filter((review) => review.image), [approvedReviews]);
 
-  const slideCount = (textReviews.length > 0 ? 1 : 0) + (imageReview ? 1 : 0);
+  const slideCount = (textReviews.length > 0 ? 1 : 0) + imageReviews.length;
 
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const activeSlideRef = useRef(0);
   const isPausedRef = useRef(false);
   const resumeTimeoutRef = useRef<number | undefined>(undefined);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const scrollToSlide = (index: number) => {
     const track = trackRef.current;
@@ -197,34 +197,34 @@ function Testimonials() {
                 </div>
               )}
 
-              {imageReview && (
-                <div className="testimonials__slide">
+              {imageReviews.map((review, index) => (
+                <div className="testimonials__slide" key={review.id}>
                   <article className="testimonial-photo-card">
                     <button
                       type="button"
                       className="testimonial-photo-card__media"
-                      onClick={() => setLightboxOpen(true)}
+                      onClick={() => setLightboxIndex(index)}
                       aria-label="Ampliar foto de la reseña"
                     >
-                      <img src={imageReview.image} alt={`Reseña de ${imageReview.name}`} />
+                      <img src={review.image} alt={`Reseña de ${review.name}`} />
                     </button>
                     <div className="testimonial-photo-card__body">
                       <div className="testimonial-card__stars" aria-hidden="true">
-                        {Array.from({ length: imageReview.rating }).map((_, i) => (
+                        {Array.from({ length: review.rating }).map((_, i) => (
                           <StarIcon key={i} />
                         ))}
                       </div>
-                      <p className="testimonial-card__quote">“{imageReview.quote}”</p>
+                      <p className="testimonial-card__quote">“{review.quote}”</p>
                       <p className="testimonial-card__author">
-                        {imageReview.name}
-                        {imageReview.level && (
-                          <span className="testimonial-card__level">{levelLabels[imageReview.level]}</span>
+                        {review.name}
+                        {review.level && (
+                          <span className="testimonial-card__level">{levelLabels[review.level]}</span>
                         )}
                       </p>
                     </div>
                   </article>
                 </div>
-              )}
+              ))}
             </div>
 
             {slideCount > 1 && (
@@ -318,11 +318,11 @@ function Testimonials() {
         </div>
       </div>
 
-      {lightboxOpen && imageReview?.image && (
+      {lightboxIndex !== null && imageReviews[lightboxIndex] && (
         <ImageLightbox
-          images={[imageReview.image]}
-          alt={`Reseña de ${imageReview.name}`}
-          onClose={() => setLightboxOpen(false)}
+          images={[imageReviews[lightboxIndex].image!]}
+          alt={`Reseña de ${imageReviews[lightboxIndex].name}`}
+          onClose={() => setLightboxIndex(null)}
         />
       )}
     </section>
