@@ -5,7 +5,7 @@ import { useLoyalty } from "../context/LoyaltyContext";
 import { getWhatsAppUrl } from "../data/store";
 import { setStoredCustomerToken } from "../utils/customerSession";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { CrownIcon, RacketPlaceholderIcon } from "../components/home/icons";
+import { ArrowLeftIcon, CrownIcon, RacketPlaceholderIcon } from "../components/home/icons";
 import BallLoader from "../components/common/BallLoader";
 import CategoryFooter from "../components/category/CategoryFooter";
 import "./FidelidadPage.css";
@@ -241,7 +241,8 @@ function FidelidadPage() {
     <div className="fidelidad-page">
       <div className="container fidelidad-page__content">
         <Link to="/" className="fidelidad-page__back">
-          ← Volver al inicio
+          <ArrowLeftIcon />
+          Volver al inicio
         </Link>
         <span className="eyebrow">Padelbros</span>
         <h1 className="fidelidad-page__title">Tarjeta de fidelidad</h1>

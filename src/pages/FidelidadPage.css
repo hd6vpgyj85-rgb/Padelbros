@@ -19,16 +19,34 @@
 }
 
 .fidelidad-page__back {
-  display: inline-block;
-  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 8px 16px 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-muted);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.fidelidad-page__back svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
 }
 
 .fidelidad-page__back:hover {
   color: var(--color-accent);
+  border-color: rgba(126, 211, 33, 0.45);
+  transform: translateX(-2px);
+}
+
+.fidelidad-page__back:hover svg {
+  transform: translateX(-2px);
 }
 
 .fidelidad-page__error {
