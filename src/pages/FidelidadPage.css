@@ -311,3 +311,66 @@
     margin: 0 auto;
   }
 }
+
+.nfc-purchase {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--color-bg);
+}
+
+.nfc-purchase__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 340px;
+  width: 100%;
+  animation: pop-in 0.4s ease both;
+}
+
+.nfc-purchase__check,
+.nfc-purchase__cross {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.nfc-purchase__check {
+  background-color: var(--color-accent);
+  color: #0a0a0a;
+  box-shadow: 0 0 40px rgba(126, 211, 33, 0.45);
+}
+
+.nfc-purchase__cross {
+  background-color: #e5484d;
+  color: #fff;
+}
+
+.nfc-purchase__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.nfc-purchase__name {
+  margin-top: 10px;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.nfc-purchase__count {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}

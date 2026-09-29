@@ -14,7 +14,6 @@ import AdminCouponsPage from "./AdminCouponsPage";
 import AdminCouponFormPage from "./AdminCouponFormPage";
 import AdminCustomersPage from "./AdminCustomersPage";
 import AdminCustomerFormPage from "./AdminCustomerFormPage";
-import AdminNfcPurchasePage from "./AdminNfcPurchasePage";
 
 const AdminImportPage = lazy(() => import("./AdminImportPage"));
 
@@ -31,7 +30,6 @@ function AdminRoutes() {
 
   return (
     <Routes>
-      <Route path="nfc/:token" element={<AdminNfcPurchasePage />} />
       <Route element={<AdminLayout />}>
         <Route index element={<AdminDashboardPage />} />
         <Route path="productos" element={<AdminProductsPage />} />

@@ -23,7 +23,12 @@ interface PublicClaim {
   couponCode?: string;
 }
 
-type Status = "loading" | "found" | "not-found";
+type Status = "loading" | "found" | "not-found" | "purchase-added" | "purchase-error";
+
+interface PurchaseResult {
+  name: string;
+  purchasesCount: number;
+}
 
 function buildClaimMessage(customerName: string, purchasesCount: number, rewardDescription: string): string {
   return [
@@ -52,6 +57,8 @@ function FidelidadPage() {
   const [claimingTierId, setClaimingTierId] = useState<string | null>(null);
   const [claimError, setClaimError] = useState("");
   const [barWidth, setBarWidth] = useState(0);
+  const [purchaseResult, setPurchaseResult] = useState<PurchaseResult | null>(null);
+  const [purchaseError, setPurchaseError] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -62,6 +69,27 @@ function FidelidadPage() {
     let cancelled = false;
 
     const fetchCard = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (cancelled) return;
+
+      // Sesión de admin activa: en vez de mostrar la tarjeta, esto es un tap de
+      // NFC/QR en tienda para sumar una compra directamente.
+      if (sessionData.session) {
+        const { data, error } = await supabase.rpc("add_loyalty_purchase_by_token", { p_token: token });
+        if (cancelled) return;
+
+        if (error || !data || data.length === 0) {
+          setPurchaseError(error?.message || "No se pudo registrar la compra.");
+          setStatus("purchase-error");
+          return;
+        }
+
+        const row = data[0] as { name: string; purchases_count: number };
+        setPurchaseResult({ name: row.name, purchasesCount: row.purchases_count });
+        setStatus("purchase-added");
+        return;
+      }
+
       const { data: customerRows, error: customerError } = await supabase.rpc("get_customer_by_token", {
         p_token: token,
       });
@@ -148,6 +176,35 @@ function FidelidadPage() {
 
   if (status === "loading") {
     return <BallLoader label="Abriendo tu tarjeta" />;
+  }
+
+  if (status === "purchase-added" && purchaseResult) {
+    return (
+      <div className="nfc-purchase">
+        <div className="nfc-purchase__card nfc-purchase__card--success">
+          <div className="nfc-purchase__check" aria-hidden="true">
+            ✓
+          </div>
+          <p className="nfc-purchase__title">+1 compra registrada</p>
+          <p className="nfc-purchase__name">{purchaseResult.name}</p>
+          <p className="nfc-purchase__count">{purchaseResult.purchasesCount} compras acumuladas</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "purchase-error") {
+    return (
+      <div className="nfc-purchase">
+        <div className="nfc-purchase__card nfc-purchase__card--error">
+          <div className="nfc-purchase__cross" aria-hidden="true">
+            ✕
+          </div>
+          <p className="nfc-purchase__title">No se pudo registrar</p>
+          <p className="nfc-purchase__name">{purchaseError}</p>
+        </div>
+      </div>
+    );
   }
 
   if (status === "not-found" || !customer) {
