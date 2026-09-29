@@ -18,6 +18,19 @@
   margin-bottom: 20px;
 }
 
+.fidelidad-page__back {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
+}
+
+.fidelidad-page__back:hover {
+  color: var(--color-accent);
+}
+
 .fidelidad-page__error {
   color: #e5484d;
   font-size: 13px;

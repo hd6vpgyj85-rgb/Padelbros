@@ -190,6 +190,9 @@ function FidelidadPage() {
           <p className="nfc-purchase__title">+1 compra registrada</p>
           <p className="nfc-purchase__name">{purchaseResult.name}</p>
           <p className="nfc-purchase__count">{purchaseResult.purchasesCount} compras acumuladas</p>
+          <Link to="/" className="btn btn--primary nfc-purchase__btn">
+            Volver al inicio
+          </Link>
         </div>
       </div>
     );
@@ -204,6 +207,9 @@ function FidelidadPage() {
           </div>
           <p className="nfc-purchase__title">No se pudo registrar</p>
           <p className="nfc-purchase__name">{purchaseError}</p>
+          <Link to="/" className="btn btn--outline nfc-purchase__btn">
+            Volver al inicio
+          </Link>
         </div>
       </div>
     );
@@ -234,6 +240,9 @@ function FidelidadPage() {
   return (
     <div className="fidelidad-page">
       <div className="container fidelidad-page__content">
+        <Link to="/" className="fidelidad-page__back">
+          ← Volver al inicio
+        </Link>
         <span className="eyebrow">Padelbros</span>
         <h1 className="fidelidad-page__title">Tarjeta de fidelidad</h1>
 
