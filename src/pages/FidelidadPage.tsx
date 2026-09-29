@@ -240,10 +240,12 @@ function FidelidadPage() {
   return (
     <div className="fidelidad-page">
       <div className="container fidelidad-page__content">
-        <Link to="/" className="fidelidad-page__back">
-          <ArrowLeftIcon />
-          Volver al inicio
-        </Link>
+        <div className="fidelidad-page__nav">
+          <Link to="/" className="fidelidad-page__back">
+            <ArrowLeftIcon />
+            Volver al inicio
+          </Link>
+        </div>
         <span className="eyebrow">Padelbros</span>
         <h1 className="fidelidad-page__title">Tarjeta de fidelidad</h1>
 
