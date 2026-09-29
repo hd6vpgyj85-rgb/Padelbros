@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { useLoyalty } from "../context/LoyaltyContext";
 import { getWhatsAppUrl } from "../data/store";
+import { setStoredCustomerToken } from "../utils/customerSession";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { CrownIcon, RacketPlaceholderIcon } from "../components/home/icons";
 import BallLoader from "../components/common/BallLoader";
@@ -103,6 +104,7 @@ function FidelidadPage() {
 
       const row = customerRows[0] as { id: string; name: string; purchases_count: number };
       setCustomer({ id: row.id, name: row.name, purchasesCount: row.purchases_count });
+      setStoredCustomerToken(token);
 
       const { data: claimRows, error: claimsError } = await supabase.rpc("get_loyalty_claims_by_token", {
         p_token: token,

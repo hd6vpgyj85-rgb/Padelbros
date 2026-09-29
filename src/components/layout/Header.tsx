@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
 import { useCartCount } from "../../hooks/useCartCount";
+import { useProfileLink } from "../../hooks/useProfileLink";
 import { CartIcon, HamburgerIcon, SearchIcon, UserIcon } from "../home/icons";
 import DesktopNav from "./DesktopNav";
 import MobileMenu from "./MobileMenu";
@@ -12,6 +13,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isVisible = useHeaderVisibility();
   const cartCount = useCartCount();
+  const profileLink = useProfileLink();
 
   return (
     <header className={`header site-header${isVisible ? "" : " site-header--hidden"}`}>
@@ -26,7 +28,7 @@ function Header() {
           <Link className="header__icon-btn" to="/buscar" aria-label="Buscar">
             <SearchIcon />
           </Link>
-          <Link className="header__icon-btn header__icon-btn--desktop" to="/admin" aria-label="Panel de administración">
+          <Link className="header__icon-btn header__icon-btn--desktop" to={profileLink} aria-label="Mi cuenta">
             <UserIcon />
           </Link>
           <Link className="header__icon-btn header__icon-btn--desktop" to="/carrito" aria-label="Carrito">

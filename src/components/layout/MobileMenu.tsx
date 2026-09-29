@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { categories } from "../../data/categories";
 import { useCartCount } from "../../hooks/useCartCount";
+import { useProfileLink } from "../../hooks/useProfileLink";
 import { CartIcon, ChevronRightIcon, CloseIcon, SearchIcon, UserIcon } from "../home/icons";
 import "./MobileMenu.css";
 
@@ -14,6 +15,7 @@ interface MobileMenuProps {
 
 function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const cartCount = useCartCount();
+  const profileLink = useProfileLink();
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
@@ -73,8 +75,8 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </Link>
           <Link
             className="mobile-menu__icon-btn"
-            to="/admin"
-            aria-label="Panel de administración"
+            to={profileLink}
+            aria-label="Mi cuenta"
             onClick={onClose}
           >
             <UserIcon />
